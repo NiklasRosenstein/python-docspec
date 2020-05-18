@@ -4,6 +4,9 @@ author: "Niklas Rosenstein <rosensteinniklas@gmail.com>"
 license: "MIT"
 description: "Package description here."
 requirements:
-  - python ^3.4
+  - python ^3.5
   - nr.databind.core ~0.0.13
   - nr.databind.json ~0.0.9
+entrypoints:
+  console_scripts:
+    - docspec = docspec.__main__:main

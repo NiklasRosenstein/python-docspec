@@ -34,6 +34,8 @@ module docspec
 # ...
 ```
 
+The Docspec Python module requires Python 3.5 or newer.
+
 ## Json Object Definition
 
 ### Location
