@@ -1,0 +1,9 @@
+name: "docspec-python"
+modulename: "docspec_python"
+version: "0.0.1"
+author: "Niklas Rosenstein <rosensteinniklas@gmail.com>"
+license: "MIT"
+description: "A parser based on LibCST producing docspec data from Python source code."
+requirements:
+  - python ^3.5
+  - docspec ~0.0.1
