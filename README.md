@@ -1,6 +1,6 @@
 # docspec
 
-Docspec is a JSON object specification for representing API documentation for
+Docspec is a JSON object specification for representing API documentation of
 programming languages. While in it's current form it is targeting Python APIs,
 it was designed so that it can be extended to cover a more generalized set of
 languages in the future.
@@ -16,9 +16,7 @@ Example to filter module members by whether they have a docstring:
 ```py
 import docspec, sys
 for module in docspec.load_modules(sys.stdin):
-  for member in list(module.members):
-    if not member.docstring:
-      module.members.remove(member)
+  module.members = [member for member in module.members if member.docstring]
   docspec.dump_module(sys.stdout)
 ```
 
