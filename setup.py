@@ -19,7 +19,7 @@ setuptools.setup(
   version = version,
   author = 'Niklas Rosenstein',
   author_email = 'rosensteinniklas@gmail.com',
-  description = 'Package description here.',
+  description = 'Docspec is a JSON object specification for representing API documentation of programming languages.',
   long_description = long_description,
   long_description_content_type = 'text/markdown',
   url = None,
