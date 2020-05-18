@@ -1,0 +1,4 @@
+.venv
+*.py[cod]
+*.egg-info
+*.egg
