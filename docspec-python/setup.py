@@ -32,7 +32,11 @@ setuptools.setup(
   tests_require = [],
   python_requires = None, # TODO: '>=3.5,<4.0.0',
   data_files = [],
-  entry_points = {},
+  entry_points = {
+    'console_scripts': [
+      'docspec-python = docspec_python.__main__:main',
+    ]
+  },
   cmdclass = {},
   keywords = [],
   classifiers = [],

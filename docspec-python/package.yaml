@@ -7,3 +7,6 @@ description: "A parser based on LibCST producing docspec data from Python source
 requirements:
   - python ^3.5
   - docspec ~0.0.1
+entrypoints:
+  console_scripts:
+    - docspec-python = docspec_python.__main__:main

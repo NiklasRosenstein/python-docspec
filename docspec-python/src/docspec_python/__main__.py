@@ -19,32 +19,23 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 # IN THE SOFTWARE.
 
-__author__ = 'Niklas Rosenstein <rosensteinniklas@gmail.com>'
-__version__ = '0.0.1'
-__all__ = ['parse_python', 'Parser']
-
-from .parser import Parser
-from docspec import Module
-from typing import Any, TextIO, Union
+from docspec_python import parse_python
+import argparse
+import docspec
+import sys
 
 
-def parse_python(
-    f: Union[str, TextIO],
-    filename: str = None,
-    module_name: str = None,
-    **options: Any,
-) -> Module:
-  """
-  Parses Python code of a file or file-like object and returns a #Module
-  object with the contents of the file The *options* are forwarded to the
-  #Parser constructor.
-  """
+def main():
+  parser = argparse.ArgumentParser()
+  parser.add_argument('file', nargs='?')
+  parser.add_argument('--print-function', action='store_true')
+  parser.add_argument('--treat-singleline-comment-blocks-as-docstrings', action='store_true')
+  args = parser.parse_args()
 
-  if isinstance(f, str):
-    with open(f) as fp:
-      return parse_python(fp)
+  options = {k: v for k, v in vars(args).items() if k != 'file'}
+  module = parse_python(args.file or sys.stdin, **options)
+  docspec.dump_module(module, sys.stdout)
 
-  filename = filename or getattr(f, 'name', None)
-  parser = Parser(**options)
-  ast = parser.parse_to_ast(f.read(), filename)
-  return parser.parse(ast, filename, module_name)
+
+if __name__ == '__main__':
+  main()
