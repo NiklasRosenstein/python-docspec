@@ -51,7 +51,7 @@ class Location(Struct):
 
 
 class Decoration(Struct):
-  name = Field(str),
+  name = Field(str)
   args = Field([str], nullable=True)
 
 
@@ -89,6 +89,7 @@ class Function(_Base):
 class Class(_Base):
   metaclass = Field(str, nullable=True)
   bases = Field([str], nullable=True)
+  decorations = Field([Decoration], nullable=True)
   members = Field([UnionType({
     'data': Data,
     'function': Function,
