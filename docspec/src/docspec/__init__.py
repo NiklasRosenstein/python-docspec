@@ -35,13 +35,14 @@ __all__ = [
 ]
 
 
-from nr.databind.core import Field, ObjectMapper, Struct, UnionType
+from nr.databind.core import Field, ObjectMapper, ProxyType, Struct, UnionType
 from nr.databind.json import JsonModule
 from typing import Dict, Iterable, Optional, TextIO, Union
 import enum
 import io
 import json
 
+_ClassProxy = ProxyType()
 _mapper = ObjectMapper(JsonModule())
 
 
@@ -86,6 +87,7 @@ class Function(_Base):
   decorations = Field([Decoration], nullable=True)
 
 
+@_ClassProxy.implementation
 class Class(_Base):
   metaclass = Field(str, nullable=True)
   bases = Field([str], nullable=True)
@@ -93,6 +95,7 @@ class Class(_Base):
   members = Field([UnionType({
     'data': Data,
     'function': Function,
+    'class': _ClassProxy
   })])
 
 

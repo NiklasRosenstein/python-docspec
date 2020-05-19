@@ -49,7 +49,7 @@ _Fields_
 * `docstring` (Optional[str])
 * `metaclass` (Optional[str]) &ndash; A string representing the metaclass.
 * `bases` (Optional[array]) &ndash; An array of `str` representing the base classes.
-* `members` (array) &ndash; An array of `Data` or `Function` objects.
+* `members` (array) &ndash; An array of `Data`, `Function` or `Class` objects.
 * `decorations` (Optional[array]) &ndash; An array of `Decoration` objects.
 
 ### Data
