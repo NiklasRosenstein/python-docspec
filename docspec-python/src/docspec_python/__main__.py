@@ -28,11 +28,20 @@ import sys
 def main():
   parser = argparse.ArgumentParser()
   parser.add_argument('file', nargs='?')
-  parser.add_argument('--print-function', action='store_true')
+  parser.add_argument('-t', '--tty', action='store_true', help='Enable reading from stdin if it is a TTY.')
+  parser.add_argument('-2', '--python2', action='store_true', help='Parse as Python 2 source (parse print as a statement).')
   parser.add_argument('--treat-singleline-comment-blocks-as-docstrings', action='store_true')
   args = parser.parse_args()
 
-  options = {k: v for k, v in vars(args).items() if k != 'file'}
+  if not args.file and sys.stdin.isatty() and not args.tty:
+    parser.print_usage()
+    sys.exit(1)
+
+  options = {
+    'print_function': not args.python2,
+    'treat_singleline_comment_blocks_as_docstrings': args.treat_singleline_comment_blocks_as_docstrings,
+  }
+
   module = parse_python(args.file or sys.stdin, **options)
   docspec.dump_module(module, sys.stdout)
 
