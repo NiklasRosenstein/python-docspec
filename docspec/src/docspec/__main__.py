@@ -33,9 +33,14 @@ def _dump_tree(obj: docspec._Base, depth: int = 0):
 def main():
   parser = argparse.ArgumentParser()
   parser.add_argument('file', nargs='?')
-  parser.add_argument('--multiple', action='store_true')
-  parser.add_argument('--dump-tree', action='store_true')
+  parser.add_argument('-t', '--tty', action='store_true', help='Read from stdin even if it is a TTY.')
+  parser.add_argument('--multiple', action='store_true', help='Load a module per line from the input.')
+  parser.add_argument('--dump-tree', action='store_true', help='Dump a simplified tree representation of the parsed module(s) to stdout.')
   args = parser.parse_args()
+
+  if not args.file and sys.stdin.isatty() and not args.tty:
+    parser.print_usage()
+    sys.exit(1)
 
   if args.multiple:
     modules = list(docspec.load_modules(args.file or sys.stdin))
