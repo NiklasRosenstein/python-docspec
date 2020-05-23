@@ -10,7 +10,6 @@ __Contents__
 * `docspec`: Python library to (de-) serialize Docspec JSON data and CLI.
 * `docspec-python`: Python library to parse Python source code into Docspec
   compatible JSON data using `lib2to3`.
-* `docspec-docs`: Documentation of the Docspec JSON format.
 
 ---
 
