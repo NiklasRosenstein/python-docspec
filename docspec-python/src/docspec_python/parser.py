@@ -87,6 +87,8 @@ class Parser:
     if module_name is None:
       module_name = os.path.basename(filename)
       module_name = os.path.splitext(module_name)[0]
+      if module_name == '__init__':
+        module_name = os.path.basename(os.path.dirname(filename))
 
     docstring = self.get_docstring_from_first_node(ast, module_level=True)
     module = Module(module_name, self.location_from(ast), docstring, members=[])
