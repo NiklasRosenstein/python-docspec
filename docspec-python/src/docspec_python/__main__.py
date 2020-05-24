@@ -28,6 +28,7 @@ import sys
 def main():
   parser = argparse.ArgumentParser()
   parser.add_argument('file', nargs='?')
+  parser.add_argument('-n', '--name', help='The name of the module that is being parsed. If not specified, it is derived from the filename.')
   parser.add_argument('-t', '--tty', action='store_true', help='Enable reading from stdin if it is a TTY.')
   parser.add_argument('-2', '--python2', action='store_true', help='Parse as Python 2 source (parse print as a statement).')
   parser.add_argument('--treat-singleline-comment-blocks-as-docstrings', action='store_true')
@@ -38,6 +39,7 @@ def main():
     sys.exit(1)
 
   options = {
+    'module_name': args.name,
     'print_function': not args.python2,
     'treat_singleline_comment_blocks_as_docstrings': args.treat_singleline_comment_blocks_as_docstrings,
   }
