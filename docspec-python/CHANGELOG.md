@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.0.4
+
+* Use `nr.sumtype` for new `DiscoveryResult` class which is now returned by `discover()` function
+
 ## v0.0.3
 
 * Rename `parse_python()` to `parse_python_module()`

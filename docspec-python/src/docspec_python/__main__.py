@@ -57,10 +57,10 @@ def main():
       for item in discovered_items:
         if args.exclude and item[1] in args.exclude:
           continue
-        if item[0] == 'module':
-          args.module.append(item[1])
-        elif item[0] == 'package':
-          args.package.append(item[1])
+        if item.is_module():
+          args.module.append(item.name)
+        elif item.is_package():
+          args.package.append(item.name)
         else:
           raise RuntimeError(item)
 

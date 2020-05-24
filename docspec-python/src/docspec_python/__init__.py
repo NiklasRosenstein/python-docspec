@@ -112,7 +112,13 @@ def iter_package_files(
   yield from _recursive(package_name, path)
 
 
-def discover(directory: str) -> Iterable[Tuple[str, str]]:
+@nr.sumtype.add_constructor_tests
+class DiscoveryResult(nr.sumtype.Sumtype):
+  Module = nr.sumtype.Constructor('name,filename')
+  Package = nr.sumtype.Constructor('name,directory')
+
+
+def discover(directory: str) -> Iterable[DiscoveryResult]:
   """
   Discovers Python modules and packages in the specified *directory*. The returned generated
   returns tuples where the first element of the tuple is the type (either `'module'` or
@@ -127,8 +133,8 @@ def discover(directory: str) -> Iterable[Tuple[str, str]]:
 
   for name in os.listdir(directory):
     if name.endswith('.py'):
-      yield 'module', name[:-3], os.path.join(directory, name)
+      yield DiscoveryResult.Module(name[:-3], os.path.join(directory, name))
     else:
       full_path = os.path.join(directory, name, '__init__.py')
       if os.path.isfile(full_path):
-        yield 'package', name, os.path.join(directory, name)
+        yield DiscoveryResult.Package(name, os.path.join(directory, name))
