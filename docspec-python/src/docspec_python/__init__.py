@@ -105,7 +105,7 @@ def iter_package_files(
     else:
       raise RuntimeError('path "{}" does not exist'.format(path))
 
-  path = find_module(package_name)
+  path = find_module(package_name, search_path)
   if os.path.basename(path).startswith('__init__.'):
     path = os.path.dirname(path)
 
