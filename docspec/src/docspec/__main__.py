@@ -49,7 +49,7 @@ def main():
   parser = argparse.ArgumentParser()
   parser.add_argument('file', nargs='?')
   parser.add_argument('-t', '--tty', action='store_true', help='Read from stdin even if it is a TTY.')
-  parser.add_argument('--multiple', action='store_true', help='Load a module per line from the input.')
+  parser.add_argument('-m', '--multiple', action='store_true', help='Load a module per line from the input.')
   parser.add_argument('--dump-tree', action='store_true', help='Dump a simplified tree representation of the parsed module(s) to stdout. Supports colored output if the "termcolor" module is installed.')
   args = parser.parse_args()
 
