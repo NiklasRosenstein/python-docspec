@@ -232,7 +232,7 @@ class Parser:
       default = self.nodes_to_string([node])
       node = scanner.advance()
 
-    return Argument(name, argtype, annotation, default)
+    return Argument(name, argtype, None, annotation, default)
 
   def parse_parameters(self, parameters):
     assert parameters.type == syms.parameters, parameters.type
@@ -249,7 +249,7 @@ class Parser:
       else:
         assert len(parameters.children) in (2, 3), parameters.children
         if len(parameters.children) == 3:
-          result.append(Argument(parameters.children[1].value, Argument.Type.Positional, None, None))
+          result.append(Argument(parameters.children[1].value, Argument.Type.Positional, None, None, None))
       return result
 
     argtype = Argument.Type.Positional
@@ -259,12 +259,9 @@ class Parser:
       node = index.current
       if node.type == token.STAR:
         node = index.advance()
-        if node.type == token.COMMA:
-          #result.append(Argument('', None, None, Argument.KW_SEPARATOR))
-          index.advance()
-        else:
+        if node.type != token.COMMA:
           result.append(self.parse_argument(node, Argument.Type.PositionalRemainder, index))
-          index.advance()
+        index.advance()
         argtype = Argument.Type.KeywordOnly
         continue
       elif node.type == token.DOUBLESTAR:
