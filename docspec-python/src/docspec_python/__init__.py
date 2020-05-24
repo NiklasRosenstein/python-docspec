@@ -20,7 +20,7 @@
 # IN THE SOFTWARE.
 
 __author__ = 'Niklas Rosenstein <rosensteinniklas@gmail.com>'
-__version__ = '0.0.2'
+__version__ = '0.0.3'
 __all__ = ['parse_python_module', 'Parser', 'find_module', 'iter_package_files']
 
 from .parser import Parser, ParserOptions
