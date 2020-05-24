@@ -20,7 +20,7 @@
 # IN THE SOFTWARE.
 
 from docspec import *
-from docspec_python import parse_python
+from docspec_python import parse_python_module
 from functools import wraps
 from io import StringIO
 from json import dumps
@@ -42,7 +42,7 @@ def docspec_test(**options):
     @wraps(func)
     def wrapper(*args, **kwargs):
       options.setdefault('module_name', func.__name__.lstrip('test_'))
-      parsed_module = parse_python(StringIO(dedent(func.__doc__)), **options)
+      parsed_module = parse_python_module(StringIO(dedent(func.__doc__)), **options)
       unset_location(parsed_module)
       reference_module = Module(options['module_name'], None, None, func(*args, **kwargs))
       assert dumps(dump_module(reference_module), indent=2) == dumps(dump_module(parsed_module), indent=2)
