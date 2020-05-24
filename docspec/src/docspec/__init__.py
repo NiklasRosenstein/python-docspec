@@ -47,13 +47,13 @@ _mapper = ObjectMapper(JsonModule())
 
 
 class Location(Struct):
-  filename = Field(str)
+  filename = Field(str, nullable=True)
   lineno = Field(int)
 
 
 class Decoration(Struct):
   name = Field(str)
-  args = Field([str], nullable=True)
+  args = Field(str, nullable=True)
 
 
 class Argument(Struct):
