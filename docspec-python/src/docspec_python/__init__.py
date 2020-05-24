@@ -42,7 +42,7 @@ def parse_python(
 
   if isinstance(f, str):
     with open(f) as fp:
-      return parse_python(fp)
+      return parse_python(fp, filename, module_name, **options)
 
   filename = filename or getattr(f, 'name', None)
   parser = Parser(**options)
