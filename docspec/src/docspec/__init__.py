@@ -65,6 +65,7 @@ class Argument(Struct):
     KeywordRemainder = 4
   name = Field(str)
   type = Field(Type)
+  decorations = Field([Decoration], nullable=True)
   datatype = Field(str, nullable=True)
   default_value = Field(str, nullable=True)
 

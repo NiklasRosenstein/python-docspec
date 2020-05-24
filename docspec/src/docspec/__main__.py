@@ -19,13 +19,28 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 # IN THE SOFTWARE.
 
-import docspec
 import argparse
+import docspec
 import sys
+
+try:
+  from termcolor import colored
+except ImportError as exc:
+  def colored(s, *args, **kwargs):
+    return str(s)
+
+_COLOR_MAP = {
+  docspec.Module: 'magenta',
+  docspec.Class: 'cyan',
+  docspec.Function: 'yellow',
+  docspec.Data: 'blue',
+}
 
 
 def _dump_tree(obj: docspec._Base, depth: int = 0):
-  print('| ' * depth + type(obj).__name__.lower(), obj.name)
+  color = _COLOR_MAP.get(type(obj))
+  type_name = colored(type(obj).__name__.lower(), color)
+  print('| ' * depth + type_name, obj.name)
   for member in getattr(obj, 'members', []):
     _dump_tree(member, depth+1)
 
@@ -35,7 +50,7 @@ def main():
   parser.add_argument('file', nargs='?')
   parser.add_argument('-t', '--tty', action='store_true', help='Read from stdin even if it is a TTY.')
   parser.add_argument('--multiple', action='store_true', help='Load a module per line from the input.')
-  parser.add_argument('--dump-tree', action='store_true', help='Dump a simplified tree representation of the parsed module(s) to stdout.')
+  parser.add_argument('--dump-tree', action='store_true', help='Dump a simplified tree representation of the parsed module(s) to stdout. Supports colored output if the "termcolor" module is installed.')
   args = parser.parse_args()
 
   if not args.file and sys.stdin.isatty() and not args.tty:
