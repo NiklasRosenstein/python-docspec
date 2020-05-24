@@ -19,33 +19,52 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 # IN THE SOFTWARE.
 
-from docspec_python import parse_python
+from docspec_python import parse_python_module, find_module, iter_package_files
 import argparse
 import docspec
 import sys
 
 
 def main():
-  parser = argparse.ArgumentParser()
-  parser.add_argument('file', nargs='?')
-  parser.add_argument('-n', '--name', help='The name of the module that is being parsed. If not specified, it is derived from the filename.')
-  parser.add_argument('-t', '--tty', action='store_true', help='Enable reading from stdin if it is a TTY.')
-  parser.add_argument('-2', '--python2', action='store_true', help='Parse as Python 2 source (parse print as a statement).')
-  parser.add_argument('--treat-singleline-comment-blocks-as-docstrings', action='store_true')
+  parser = argparse.ArgumentParser(
+    formatter_class=lambda prog: argparse.HelpFormatter(prog, max_help_position=34, width=100),
+  )
+  group = parser.add_argument_group('input options')
+  group.add_argument('file', nargs='*', help='python source file to parse (pass "-" for stdin).')
+  group.add_argument('-m', '--module', action='append', metavar='MODULE', help='parse the specified module.')
+  group.add_argument('-p', '--package', action='append', metavar='MODULE', help='parse the specified module and submodules.')
+  group.add_argument('-I', '--search-path', metavar='PATH', action='append', help='override the module search path.')
+  group = parser.add_argument_group('parsing options')
+  group.add_argument('-2', '--python2', action='store_true', help='parse as python 2 source.')
+  group.add_argument('--treat-singleline-comment-blocks-as-docstrings', action='store_true',
+    help='parse blocks of single-line comments as docstrings for modules, classes and functions.')
+  group = parser.add_argument_group('output options')
+  group.add_argument('-l', '--list', action='store_true', help='list modules from the input.')
   args = parser.parse_args()
 
-  if not args.file and sys.stdin.isatty() and not args.tty:
-    parser.print_usage()
-    sys.exit(1)
+  modules_to_parse = []
+
+  for filename in args.file:
+    name, filename = filename.rpartition(':')[::2]
+    modules_to_parse.append((name or None, filename))
+  for module_name in args.module or []:
+    modules_to_parse.append((module_name, find_module(module_name, args.search_path)))
+  for package_name in args.package or []:
+    modules_to_parse.extend(iter_package_files(package_name, args.search_path))
+
+  if args.list:
+    for module_name, filename in sorted(modules_to_parse, key=lambda x: x[0]):
+      print('| ' * module_name.count('.') + module_name.rpartition('.')[-1])
+    return
 
   options = {
-    'module_name': args.name,
     'print_function': not args.python2,
     'treat_singleline_comment_blocks_as_docstrings': args.treat_singleline_comment_blocks_as_docstrings,
   }
 
-  module = parse_python(args.file or sys.stdin, **options)
-  docspec.dump_module(module, sys.stdout)
+  for module_name, filename in modules_to_parse:
+    module = parse_python_module(filename, module_name=module_name, **options)
+    docspec.dump_module(module, sys.stdout)
 
 
 if __name__ == '__main__':
