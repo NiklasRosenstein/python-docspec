@@ -23,12 +23,13 @@ __author__ = 'Niklas Rosenstein <rosensteinniklas@gmail.com>'
 __version__ = '0.0.5'
 __all__ = [
   'Location',
-  'Module',
-  'Class',
+  'Decoration',
+  'Argument',
+  'ApiObject',
   'Data',
   'Function',
-  'Argument',
-  'Decoration',
+  'Class',
+  'Module',
   'load_module',
   'load_modules',
   'dump_module'
@@ -70,18 +71,18 @@ class Argument(Struct):
   default_value = Field(str, nullable=True)
 
 
-class _Base(Struct):
+class ApiObject(Struct):
   name = Field(str, prominent=True)
   location = Field(Location, nullable=True)
   docstring = Field(str, nullable=True)
 
 
-class Data(_Base):
+class Data(ApiObject):
   datatype = Field(str, nullable=True)
   value = Field(str, nullable=True)
 
 
-class Function(_Base):
+class Function(ApiObject):
   modifiers = Field([str], nullable=True)
   args = Field([Argument])
   return_type = Field(str, nullable=True)
@@ -89,7 +90,7 @@ class Function(_Base):
 
 
 @_ClassProxy.implementation
-class Class(_Base):
+class Class(ApiObject):
   metaclass = Field(str, nullable=True)
   bases = Field([str], nullable=True)
   decorations = Field([Decoration], nullable=True)
@@ -100,7 +101,7 @@ class Class(_Base):
   })])
 
 
-class Module(_Base):
+class Module(ApiObject):
   members = Field([UnionType({
     'data': Data,
     'class': Class,

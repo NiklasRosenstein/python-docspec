@@ -37,7 +37,7 @@ _COLOR_MAP = {
 }
 
 
-def _dump_tree(obj: docspec._Base, depth: int = 0):
+def _dump_tree(obj: docspec.ApiObject, depth: int = 0):
   color = _COLOR_MAP.get(type(obj))
   type_name = colored(type(obj).__name__.lower(), color)
   print('| ' * depth + type_name, obj.name)
