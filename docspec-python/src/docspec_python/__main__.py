@@ -46,11 +46,15 @@ def main():
 
   for filename in args.file:
     name, filename = filename.rpartition(':')[::2]
-    modules_to_parse.append((name or None, filename))
+    modules_to_parse.append((name or None, sys.stdin if filename == '-' else filename))
   for module_name in args.module or []:
     modules_to_parse.append((module_name, find_module(module_name, args.search_path)))
   for package_name in args.package or []:
     modules_to_parse.extend(iter_package_files(package_name, args.search_path))
+
+  if not modules_to_parse:
+    parser.print_usage()
+    sys.exit(1)
 
   if args.list:
     for module_name, filename in sorted(modules_to_parse, key=lambda x: x[0]):
