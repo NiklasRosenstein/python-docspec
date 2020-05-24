@@ -12,7 +12,7 @@ with io.open('src/docspec_python/__init__.py', encoding='utf8') as fp:
 with io.open('README.md', encoding='utf8') as fp:
   long_description = fp.read()
 
-requirements = ['docspec >=0.0.3,<0.1.0']
+requirements = ['docspec >=0.0.4,<0.1.0']
 
 setuptools.setup(
   name = 'docspec-python',
