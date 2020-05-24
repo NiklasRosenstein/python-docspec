@@ -13,7 +13,7 @@ docspec.dump_module(parse_python(sys.stdin, print_function=False), sys.stdout)
 ```
 
 ```
-$ docspec-python src/docspec/__init__.py | docspec --dump-tree | head
+$ docspec-python -p docspec | docspec --dump-tree --multiple | head
 module __init__
 | data __author__
 | data __version__
