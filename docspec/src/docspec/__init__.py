@@ -165,8 +165,7 @@ def dump_module(
     dumper = json.dump
 ) -> Optional[Dict]:
   """
-  Dumps a module to the specified target or returns it as plain structured
-  data.
+  Dumps a module to the specified target or returns it as plain structured data.
   """
 
   if isinstance(target, str):
@@ -177,5 +176,6 @@ def dump_module(
   data = _mapper.serialize(module, Module)
   if target:
     dumper(data, target)
+    target.write('\n')
   else:
     return data
