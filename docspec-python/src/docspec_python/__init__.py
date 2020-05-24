@@ -21,14 +21,55 @@
 
 __author__ = 'Niklas Rosenstein <rosensteinniklas@gmail.com>'
 __version__ = '0.0.3'
-__all__ = ['parse_python_module', 'Parser', 'find_module', 'iter_package_files']
+__all__ = [
+  'Parser',
+  'ParserOptions',
+  'load_python_modules',
+  'parse_python_module',
+  'find_module',
+  'iter_package_files',
+  'DiscoveryResult',
+  'discover'
+]
 
 from .parser import Parser, ParserOptions
 from docspec import Module
-from typing import Any, Iterable, List, TextIO, Tuple, Union
+from typing import Any, Iterable, List, Optional, TextIO, Tuple, Union
 import os
 import pkgutil
+import nr.sumtype
 import sys
+
+
+def load_python_modules(
+  modules: List[str] = None,
+  packages: List[str] = None,
+  files: List[Tuple[Optional[str], Union[TextIO, str]]] = None,
+  search_path: List[str] = None,
+  options: ParserOptions = None
+) -> Iterable[Module]:
+  """
+  Utility function for loading multiple #Module#s from a list of Python module and package
+  names. It combines #find_module(), #iter_package_files() and #parse_python_module() in a
+  convenient way.
+
+  :param modules: A list of module names to load and parse.
+  :param packages: A list of package names to load and parse.
+  :param files: A list of (module_name, filename) to parse. The filename may also be a
+    file-like object. The module name may be None.
+  :param search_path: The Python module search path. Falls back to #sys.path if omitted.
+  :param options: Options for the Python module parser.
+  :return: Iterable of #Module.
+  """
+
+  files = list(files) if files else []
+  for module_name in modules or []:
+    files.append((module_name, find_module(module_name, search_path)))
+  for package_name in packages or []:
+    files.extend(iter_package_files(package_name, search_path))
+
+  for module_name, filename in files:
+    yield parse_python_module(filename, module_name=module_name, options=options)
 
 
 def parse_python_module(

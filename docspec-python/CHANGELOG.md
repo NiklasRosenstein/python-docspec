@@ -3,6 +3,7 @@
 ## v0.0.4
 
 * Use `nr.sumtype` for new `DiscoveryResult` class which is now returned by `discover()` function
+* Add `load_python_modules()` convenience function
 
 ## v0.0.3
 

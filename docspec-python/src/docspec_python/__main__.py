@@ -19,7 +19,7 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 # IN THE SOFTWARE.
 
-from docspec_python import discover, find_module, iter_package_files, ParserOptions, parse_python_module
+from docspec_python import discover, load_python_modules, ParserOptions
 import argparse
 import docspec
 import sys
@@ -44,7 +44,6 @@ def main():
   group.add_argument('-l', '--list', action='store_true', help='list modules from the input.')
   args = parser.parse_args()
 
-  modules_to_parse = []
   args.module = args.module or []
   args.package = args.package or []
 
@@ -64,30 +63,26 @@ def main():
         else:
           raise RuntimeError(item)
 
-  for filename in args.file:
-    name, filename = filename.rpartition(':')[::2]
-    modules_to_parse.append((name or None, sys.stdin if filename == '-' else filename))
-  for module_name in args.module or []:
-    modules_to_parse.append((module_name, find_module(module_name, args.search_path)))
-  for package_name in args.package or []:
-    modules_to_parse.extend(iter_package_files(package_name, args.search_path))
+  for index in range(len(args.file)):
+    module_name, filename = args.file[index].rpartition(':')[::2]
+    args.file[index] = (module_name or None, sys.stdin if filename == '-' else filename)
 
-  if not modules_to_parse:
+  if not args.file and not args.module and not args.package:
     parser.print_usage()
     sys.exit(1)
-
-  if args.list:
-    for module_name, filename in sorted(modules_to_parse, key=lambda x: x[0]):
-      print('| ' * module_name.count('.') + module_name.rpartition('.')[-1])
-    return
 
   options = ParserOptions(
     print_function=not args.python2,
     treat_singleline_comment_blocks_as_docstrings=args.treat_singleline_comment_blocks_as_docstrings,
   )
+  modules = load_python_modules(args.module, args.package, args.file, args.search_path, options)
 
-  for module_name, filename in modules_to_parse:
-    module = parse_python_module(filename, module_name=module_name, options=options)
+  if args.list:
+    for module_name, filename in sorted(modules, key=lambda x: x[0]):
+      print('| ' * module_name.count('.') + module_name.rpartition('.')[-1])
+    return
+
+  for module in modules:
     docspec.dump_module(module, sys.stdout)
 
 
