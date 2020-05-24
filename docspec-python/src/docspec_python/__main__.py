@@ -19,7 +19,7 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 # IN THE SOFTWARE.
 
-from docspec_python import parse_python_module, find_module, iter_package_files, ParserOptions
+from docspec_python import discover, find_module, iter_package_files, ParserOptions, parse_python_module
 import argparse
 import docspec
 import sys
@@ -33,7 +33,9 @@ def main():
   group.add_argument('file', nargs='*', help='python source file to parse (pass "-" for stdin).')
   group.add_argument('-m', '--module', action='append', metavar='MODULE', help='parse the specified module.')
   group.add_argument('-p', '--package', action='append', metavar='MODULE', help='parse the specified module and submodules.')
-  group.add_argument('-I', '--search-path', metavar='PATH', action='append', help='override the module search path.')
+  group.add_argument('-I', '--search-path', metavar='PATH', action='append', help='override the module search path. defaults to sys.path.')
+  group.add_argument('-D', '--discover', action='store_true', help='discover available packages in the search path.')
+  group.add_argument('-E', '--exclude', action='append', help='exclude modules/packages when using --discover.')
   group = parser.add_argument_group('parsing options')
   group.add_argument('-2', '--python2', action='store_true', help='parse as python 2 source.')
   group.add_argument('--treat-singleline-comment-blocks-as-docstrings', action='store_true',
@@ -43,6 +45,24 @@ def main():
   args = parser.parse_args()
 
   modules_to_parse = []
+  args.module = args.module or []
+  args.package = args.package or []
+
+  if args.discover:
+    for path in (args.search_path or sys.path):
+      try:
+        discovered_items = list(discover(path))
+      except FileNotFoundError:
+        continue
+      for item in discovered_items:
+        if args.exclude and item[1] in args.exclude:
+          continue
+        if item[0] == 'module':
+          args.module.append(item[1])
+        elif item[0] == 'package':
+          args.package.append(item[1])
+        else:
+          raise RuntimeError(item)
 
   for filename in args.file:
     name, filename = filename.rpartition(':')[::2]

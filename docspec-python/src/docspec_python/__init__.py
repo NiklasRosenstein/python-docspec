@@ -110,3 +110,25 @@ def iter_package_files(
     path = os.path.dirname(path)
 
   yield from _recursive(package_name, path)
+
+
+def discover(directory: str) -> Iterable[Tuple[str, str]]:
+  """
+  Discovers Python modules and packages in the specified *directory*. The returned generated
+  returns tuples where the first element of the tuple is the type (either `'module'` or
+  `'package'`), the second is the name and the third is the path. In case of a package,
+  the path points to the directory.
+
+  :raises OSError: Propagated from #os.listdir().
+  """
+
+  # TODO (@NiklasRosenstein): Introspect the contents of __init__.py files to determine
+  #   if we're looking at a namespace package. If we do, continue recursively.
+
+  for name in os.listdir(directory):
+    if name.endswith('.py'):
+      yield 'module', name[:-3], os.path.join(directory, name)
+    else:
+      full_path = os.path.join(directory, name, '__init__.py')
+      if os.path.isfile(full_path):
+        yield 'package', name, os.path.join(directory, name)
