@@ -58,7 +58,7 @@ def main():
     sys.exit(1)
 
   if args.multiple:
-    modules = list(docspec.load_modules(args.file or sys.stdin))
+    modules = docspec.load_modules(args.file or sys.stdin)
   else:
     modules = [docspec.load_module(args.file or sys.stdin)]
 
