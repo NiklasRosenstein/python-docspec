@@ -120,7 +120,7 @@ class Parser:
       decorations = []
       if node.children[0].type == syms.decorator:
         decorator_nodes = [node.children[0]]
-      elif node.children[0].type == syms.decorations:
+      elif node.children[0].type == syms.decorators:
         decorator_nodes = node.children[0].children
       else:
         assert False, node.children[0].type
@@ -247,6 +247,7 @@ class Parser:
         scanner = ListScanner(parameters.children, parameters.children.index(tname))
         result.append(self.parse_argument(tname, Argument.Type.Positional, scanner))
       else:
+        # This must be either ["(", ")"] or ["(", "argname", ")"].
         assert len(parameters.children) in (2, 3), parameters.children
         if len(parameters.children) == 3:
           result.append(Argument(parameters.children[1].value, Argument.Type.Positional, None, None, None))
