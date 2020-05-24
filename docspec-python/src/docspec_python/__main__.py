@@ -19,7 +19,7 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 # IN THE SOFTWARE.
 
-from docspec_python import parse_python_module, find_module, iter_package_files
+from docspec_python import parse_python_module, find_module, iter_package_files, ParserOptions
 import argparse
 import docspec
 import sys
@@ -61,13 +61,13 @@ def main():
       print('| ' * module_name.count('.') + module_name.rpartition('.')[-1])
     return
 
-  options = {
-    'print_function': not args.python2,
-    'treat_singleline_comment_blocks_as_docstrings': args.treat_singleline_comment_blocks_as_docstrings,
-  }
+  options = ParserOptions(
+    print_function=not args.python2,
+    treat_singleline_comment_blocks_as_docstrings=args.treat_singleline_comment_blocks_as_docstrings,
+  )
 
   for module_name, filename in modules_to_parse:
-    module = parse_python_module(filename, module_name=module_name, **options)
+    module = parse_python_module(filename, module_name=module_name, options=options)
     docspec.dump_module(module, sys.stdout)
 
 

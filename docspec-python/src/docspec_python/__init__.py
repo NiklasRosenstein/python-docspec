@@ -23,7 +23,7 @@ __author__ = 'Niklas Rosenstein <rosensteinniklas@gmail.com>'
 __version__ = '0.0.2'
 __all__ = ['parse_python_module', 'Parser', 'find_module', 'iter_package_files']
 
-from .parser import Parser
+from .parser import Parser, ParserOptions
 from docspec import Module
 from typing import Any, Iterable, List, TextIO, Tuple, Union
 import os
@@ -35,7 +35,7 @@ def parse_python_module(
     f: Union[str, TextIO],
     filename: str = None,
     module_name: str = None,
-    **options: Any,
+    options: ParserOptions = None
 ) -> Module:
   """
   Parses Python code of a file or file-like object and returns a #Module
@@ -45,10 +45,10 @@ def parse_python_module(
 
   if isinstance(f, str):
     with open(f) as fp:
-      return parse_python_module(fp, filename, module_name, **options)
+      return parse_python_module(fp, filename, module_name, options)
 
   filename = filename or getattr(f, 'name', None)
-  parser = Parser(**options)
+  parser = Parser(options)
   ast = parser.parse_to_ast(f.read(), filename)
   return parser.parse(ast, filename, module_name)
 

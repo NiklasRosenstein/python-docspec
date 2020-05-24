@@ -24,11 +24,6 @@ import os
 import re
 import textwrap
 
-from lib2to3.refactor import RefactoringTool
-from lib2to3.pgen2 import token
-from lib2to3.pgen2.parse import ParseError
-from lib2to3.pygram import python_symbols as syms
-from lib2to3.pytree import Leaf, Node
 from docspec import (
   Argument,
   Class,
@@ -37,6 +32,12 @@ from docspec import (
   Function,
   Location,
   Module)
+from lib2to3.refactor import RefactoringTool
+from lib2to3.pgen2 import token
+from lib2to3.pgen2.parse import ParseError
+from lib2to3.pygram import python_symbols as syms
+from lib2to3.pytree import Leaf, Node
+from nr.databind.core import Field, Struct
 
 _REVERSE_SYMS = {v: k for k, v in vars(syms).items() if isinstance(v, int)}
 _REVERSE_TOKEN = {v: k for k, v in vars(token).items() if isinstance(v, int)}
@@ -56,22 +57,22 @@ def find(predicate, iterable):
   return None
 
 
+class ParserOptions(Struct):
+  print_function = Field(bool, default=True)
+  treat_singleline_comment_blocks_as_docstrings = Field(bool, default=False)
+
+
 class Parser:
 
-  def __init__(
-      self,
-      print_function: bool = True,
-      treat_singleline_comment_blocks_as_docstrings: bool = False,
-  ) -> None:
-    self.print_function = print_function
-    self.treat_singleline_comment_blocks_as_docstrings = treat_singleline_comment_blocks_as_docstrings
+  def __init__(self, options: ParserOptions = None) -> None:
+    self.options = options or ParserOptions()
 
   def parse_to_ast(self, code, filename):
     """
     Parses the string *code* to an AST with #lib2to3.
     """
 
-    options = {'print_function': self.print_function}
+    options = {'print_function': self.options.print_function}
 
     try:
       # NOTE (@NiklasRosenstein): Adding newline at the end, a ParseError
@@ -383,7 +384,7 @@ class Parser:
         return self.prepare_docstring(node.children[0].value)
     if not node and not module_level:
       return None
-    if self.treat_singleline_comment_blocks_as_docstrings:
+    if self.options.treat_singleline_comment_blocks_as_docstrings:
       docstring, doc_type = self.get_hashtag_docstring_from_prefix(node or parent)
       if doc_type == 'block':
         return docstring
