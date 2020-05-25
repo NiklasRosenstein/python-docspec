@@ -32,13 +32,17 @@ __all__ = [
   'Module',
   'load_module',
   'load_modules',
-  'dump_module'
+  'dump_module',
+  'filter_visit',
+  'visit',
+  'ReverseMap',
+  'get_member',
 ]
 
 
 from nr.databind.core import Field, ObjectMapper, ProxyType, Struct, UnionType
 from nr.databind.json import JsonModule
-from typing import Dict, Iterable, Optional, TextIO, Union
+from typing import Any, Callable, Dict, Iterable, List, Optional, TextIO, Union
 import enum
 import io
 import json
@@ -180,3 +184,94 @@ def dump_module(
     target.write('\n')
   else:
     return data
+
+
+def filter_visit(
+  objects: List[ApiObject],
+  predicate: Callable[[ApiObject], bool],
+  order: str = 'pre',
+) -> None:
+  """
+  Visits all *objects* recursively, applying the *predicate* in the specified *order*. If
+  the predicate returrns #False, the object will be removed from it's containing list.
+
+  If an object is removed in pre-order, it's members will not be visited.
+
+  :param objects: A list of objects to visit recursively. This list will be modified if
+    the *predicate* returns #False for an object.
+  :param predicate: The function to apply over all visited objects.
+  :param order: The order in which the objects are visited. The default order is `'pre'`
+    in which case the *predicate* is called before visiting the object's members. The
+    order may also be `'post'`.
+  """
+
+  if order not in ('pre', 'post'):
+    raise ValueError('invalid order: {!r}'.format(order))
+
+  offset = 0
+  for index in range(len(objects)):
+    if order == 'pre':
+      if not predicate(objects[index - offset]):
+        del objects[index - offset]
+        offset += 1
+        continue
+    filter_visit(getattr(objects[index - offset], 'members', []), predicate, order)
+    if order == 'post':
+      if not predicate(objects[index - offset]):
+        del objects[index - offset]
+        offset += 1
+
+
+def visit(
+  objects: List[ApiObject],
+  func: Callable[[ApiObject], Any],
+  order: str = 'pre',
+) -> None:
+  """
+  Visits all *objects*, applying *func* in the specified *order*.
+  """
+
+  filter_visit(objects, (lambda obj: func(obj) or True), order)
+
+
+class ReverseMap:
+  """
+  Reverse map for finding the parent of an #ApiObject.
+  """
+
+  def __init__(self, modules: List[Module]) -> None:
+    self._modules = modules
+    self._reverse_map = {}
+    for module in modules:
+      self._init(module, None)
+
+  def _init(self, obj: ApiObject, parent: Optional[ApiObject]) -> None:
+    self._reverse_map[id(obj)] = parent
+    for member in getattr(obj, 'members', []):
+      self._init(member, obj)
+
+  def get_parent(self, obj: ApiObject) -> Optional[ApiObject]:
+    try:
+      return self._reverse_map[id(obj)]
+    except KeyError:
+      raise KeyError(obj)
+
+  def path(self, obj: ApiObject) -> List[ApiObject]:
+    result = []
+    while obj:
+      result.append(obj)
+      obj = self.get_parent(obj)
+    result.reverse()
+    return result
+
+
+def get_member(obj: ApiObject, name: str) -> Optional[ApiObject]:
+  """
+  Generic function to retrieve a member from an API object. This will always return #None for
+  objects that don't support members (eg. #Function and #Data).
+  """
+
+  for member in getattr(obj, 'member', []):
+    if member.name == name:
+      return member
+  return None
