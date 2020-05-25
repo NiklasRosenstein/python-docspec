@@ -341,7 +341,7 @@ class Parser:
         member = self.parse_declaration(class_, child)
         if metaclass is None and isinstance(member, Data) and \
             member.name == '__metaclass__':
-          metaclass = member.expr
+          metaclass = member.value
         elif member:
           class_.members.append(member)
 
