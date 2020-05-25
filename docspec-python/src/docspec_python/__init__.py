@@ -33,7 +33,7 @@ __all__ = [
 ]
 
 from .parser import Parser, ParserOptions
-from docspec import Module
+from docspec import Argument, Module
 from typing import Any, Iterable, List, Optional, TextIO, Tuple, Union
 import os
 import pkgutil
@@ -179,3 +179,34 @@ def discover(directory: str) -> Iterable[DiscoveryResult]:
       full_path = os.path.join(directory, name, '__init__.py')
       if os.path.isfile(full_path):
         yield DiscoveryResult.Package(name, os.path.join(directory, name))
+
+
+def format_arglist(args: List[Argument]) -> str:
+  """
+  Formats a Python argument list.
+  """
+
+  result = []
+
+  for arg in args:
+    parts = []
+    if arg.type == Argument.Type.KeywordOnly and '*' not in result:
+      result.append('*')
+    parts = [arg.name]
+    if arg.datatype:
+      parts.append(': ' + arg.datatype)
+    if arg.default_value:
+      if arg.datatype:
+        parts.append(' ')
+      parts.append('=')
+    if arg.default_value:
+      if arg.datatype:
+        parts.append(' ')
+      parts.append(arg.default_value)
+    if arg.type == Argument.Type.PositionalRemainder:
+      parts.insert(0, '*')
+    elif arg.type == Argument.Type.KeywordRemainder:
+      parts.insert(0, '**')
+    result.append(''.join(parts))
+
+  return ', '.join(result)
