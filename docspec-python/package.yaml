@@ -6,7 +6,7 @@ license: "MIT"
 description: "A parser based on LibCST producing docspec data from Python source code."
 requirements:
   - python ^3.5
-  - docspec ~0.0.4
+  - docspec ~0.1.0
   - nr.sumtype ~0.0.3
 entrypoints:
   console_scripts:
