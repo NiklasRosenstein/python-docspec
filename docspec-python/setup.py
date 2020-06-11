@@ -26,7 +26,7 @@ setuptools.setup(
   version = version,
   author = 'Niklas Rosenstein',
   author_email = 'rosensteinniklas@gmail.com',
-  description = 'A parser based on LibCST producing docspec data from Python source code.',
+  description = 'A parser based on lib2to3 producing docspec data from Python source code.',
   long_description = long_description,
   long_description_content_type = 'text/markdown',
   url = None,
