@@ -40,7 +40,7 @@ __all__ = [
 ]
 
 
-from nr.databind.core import Field, ObjectMapper, ProxyType, Struct, UnionType
+from nr.databind.core import Field, ObjectMapper, ProxyType, Struct, UnionType, decorations
 from nr.databind.json import JsonModule
 from typing import Any, Callable, Dict, Iterable, List, Optional, TextIO, Union
 import enum
@@ -51,16 +51,19 @@ _ClassProxy = ProxyType()
 _mapper = ObjectMapper(JsonModule())
 
 
+@decorations.SkipDefaults()
 class Location(Struct):
-  filename = Field(str, nullable=True)
+  filename = Field(str, default=None)
   lineno = Field(int)
 
 
+@decorations.SkipDefaults()
 class Decoration(Struct):
   name = Field(str)
-  args = Field(str, nullable=True)
+  args = Field(str, default=None)
 
 
+@decorations.SkipDefaults()
 class Argument(Struct):
   class Type(enum.Enum):
     PositionalOnly = 0
@@ -70,34 +73,36 @@ class Argument(Struct):
     KeywordRemainder = 4
   name = Field(str)
   type = Field(Type)
-  decorations = Field([Decoration], nullable=True)
-  datatype = Field(str, nullable=True)
-  default_value = Field(str, nullable=True)
+  decorations = Field([Decoration], default=None)
+  datatype = Field(str, default=None)
+  default_value = Field(str, default=None)
 
 
+@decorations.SkipDefaults()
+@decorations.KeywordsOnlyConstructor()
 class ApiObject(Struct):
   name = Field(str, prominent=True)
-  location = Field(Location, nullable=True)
-  docstring = Field(str, nullable=True)
+  location = Field(Location, default=None)
+  docstring = Field(str, default=None)
 
 
 class Data(ApiObject):
-  datatype = Field(str, nullable=True)
-  value = Field(str, nullable=True)
+  datatype = Field(str, default=None)
+  value = Field(str, default=None)
 
 
 class Function(ApiObject):
-  modifiers = Field([str], nullable=True)
+  modifiers = Field([str], default=None)
   args = Field([Argument])
-  return_type = Field(str, nullable=True)
-  decorations = Field([Decoration], nullable=True)
+  return_type = Field(str, default=None)
+  decorations = Field([Decoration], default=None)
 
 
 @_ClassProxy.implementation
 class Class(ApiObject):
-  metaclass = Field(str, nullable=True)
-  bases = Field([str], nullable=True)
-  decorations = Field([Decoration], nullable=True)
+  metaclass = Field(str, default=None)
+  bases = Field([str], default=None)
+  decorations = Field([Decoration], default=None)
   members = Field([UnionType({
     'data': Data,
     'function': Function,

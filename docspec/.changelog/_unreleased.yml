@@ -1,0 +1,12 @@
+- type: change
+  component: general
+  description: '`ApiObject` constructors now accept keyword arguments only'
+  fixes: []
+- type: change
+  component: general
+  description: All `nullable` fields now have `default=None`
+  fixes: []
+- type: change
+  component: general
+  description: Many serializable classes are now decorated with `SkipDefaults()`
+  fixes: []

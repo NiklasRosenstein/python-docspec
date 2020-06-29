@@ -1,0 +1,5 @@
+- type: change
+  component: general
+  description: Update calls to `ApiObject` subclasses to pass keyword arguments only
+    (as is required in `docspec >=0.2.0`)
+  fixes: []

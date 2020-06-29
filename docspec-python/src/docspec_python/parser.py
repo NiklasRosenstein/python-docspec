@@ -92,7 +92,12 @@ class Parser:
         module_name = os.path.basename(os.path.dirname(filename))
 
     docstring = self.get_docstring_from_first_node(ast, module_level=True)
-    module = Module(module_name, self.location_from(ast), docstring, members=[])
+    module = Module(
+      name=module_name,
+      location=self.location_from(ast),
+      docstring=docstring,
+      members=[],
+    )
 
     for node in ast.children:
       member = self.parse_declaration(module, node)
@@ -169,11 +174,12 @@ class Parser:
       for name in names:
         name = self.nodes_to_string([name])
         data = Data(
-          name,
-          self.location_from(stmt),
-          docstring,
-          annotation,
-          expr)
+          name=name,
+          location=self.location_from(stmt),
+          docstring=docstring,
+          datatype=annotation,
+          value=expr,
+        )
       return data
     return None
 
@@ -181,7 +187,7 @@ class Parser:
     assert node.children[0].value == '@'
     name = self.name_to_string(node.children[1])
     call_expr = self.nodes_to_string(node.children[2:]).strip()
-    return Decoration(name, call_expr or None)
+    return Decoration(name=name, args=call_expr or None)
 
   def parse_funcdef(self, parent, node, is_async, decorations):
     parameters = find(lambda x: x.type == syms.parameters, node.children)
@@ -195,13 +201,13 @@ class Parser:
     decorations = decorations or []
 
     return Function(
-      name,
-      self.location_from(node),
-      docstring,
-      ['async'] if is_async else None,
-      args,
-      return_,
-      decorations)
+      name=name,
+      location=self.location_from(node),
+      docstring=docstring,
+      modifiers=['async'] if is_async else None,
+      args=args,
+      return_type=return_,
+      decorations=decorations)
 
   def parse_argument(self, node, argtype, scanner):
     # type: (Union[Leaf, Node], str, ListScanner) -> Argument
@@ -328,9 +334,9 @@ class Parser:
     suite = find(lambda x: x.type == syms.suite, node.children)
     docstring = self.get_docstring_from_first_node(suite)
     class_ = Class(
-      name,
-      self.location_from(node),
-      docstring,
+      name=name,
+      location=self.location_from(node),
+      docstring=docstring,
       metaclass=metaclass,
       bases=bases,
       decorations=decorations,
