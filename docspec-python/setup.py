@@ -12,6 +12,7 @@ with io.open('src/docspec_python/__init__.py', encoding='utf8') as fp:
   version = re.search(r"__version__\s*=\s*'(.*)'", fp.read()).group(1)
 
 readme_file = 'README.md'
+
 if os.path.isfile(readme_file):
   with io.open(readme_file, encoding='utf8') as fp:
     long_description = fp.read()
@@ -19,7 +20,7 @@ else:
   print("warning: file \"{}\" does not exist.".format(readme_file), file=sys.stderr)
   long_description = None
 
-requirements = ['docspec >=0.1.0,<0.2.0', 'nr.sumtype >=0.0.3,<0.1.0']
+requirements = ['docspec >=0.2.0,<0.3.0', 'nr.sumtype >=0.0.3,<0.1.0']
 
 setuptools.setup(
   name = 'docspec-python',
