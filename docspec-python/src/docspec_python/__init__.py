@@ -136,7 +136,9 @@ def iter_package_files(
         if item == '__init__.py':
           continue
         item_abs = os.path.join(path, item)
-        name = module_name + '.' + item.rstrip('.py')
+        name = module_name + '.' + item
+        if name.endswith('.py'):
+          name = name[:-3]
         if os.path.isdir(item_abs) and os.path.isfile(os.path.join(item_abs, '__init__.py')):
           for x in _recursive(name, item_abs):
             yield x

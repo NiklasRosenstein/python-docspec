@@ -1,5 +1,12 @@
+release_date: null
+changes:
 - type: change
   component: general
   description: Update calls to `ApiObject` subclasses to pass keyword arguments only
     (as is required in `docspec >=0.2.0`)
+  fixes: []
+- type: fix
+  component: general
+  description: Fix derivation of Python module name from name of file on disk (before
+    it would accidentally strip trailing p's or y's from the name).
   fixes: []
