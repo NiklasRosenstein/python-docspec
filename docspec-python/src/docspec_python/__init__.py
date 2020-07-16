@@ -37,21 +37,8 @@ from docspec import Argument, Module
 from typing import Any, ContextManager, Iterable, List, Optional, TextIO, Tuple, Union
 import contextlib
 import os
-import pkgutil
 import nr.sumtype
 import sys
-
-
-@contextlib.contextmanager
-def _override_sys_path(path: Optional[List[str]]) -> ContextManager:
-  if path is None:
-    yield; return
-  old_path = sys.path
-  sys.path = path
-  try:
-    yield
-  finally:
-    sys.path = old_path
 
 
 def load_python_modules(
@@ -59,7 +46,8 @@ def load_python_modules(
   packages: List[str] = None,
   files: List[Tuple[Optional[str], Union[TextIO, str]]] = None,
   search_path: List[str] = None,
-  options: ParserOptions = None
+  options: ParserOptions = None,
+  raise_: bool = True,
 ) -> Iterable[Module]:
   """
   Utility function for loading multiple #Module#s from a list of Python module and package
@@ -77,11 +65,18 @@ def load_python_modules(
 
   files = list(files) if files else []
 
-  with _override_sys_path(search_path):
-    for module_name in modules or []:
-      files.append((module_name, find_module(module_name)))
-    for package_name in packages or []:
-      files.extend(iter_package_files(package_name))
+  for module_name in modules or []:
+    try:
+      files.append((module_name, find_module(module_name, search_path)))
+    except ImportError:
+      if raise_:
+        raise
+  for package_name in packages or []:
+    try:
+      files.extend(iter_package_files(package_name, search_path))
+    except ImportError:
+      if raise_:
+        raise
 
   for module_name, filename in files:
     yield parse_python_module(filename, module_name=module_name, options=options)
@@ -118,11 +113,25 @@ def find_module(module_name: str, search_path: List[str] = None) -> str:
   :raise ImportError: If the module cannot be found.
   """
 
-  with _override_sys_path(search_path):
-    loader = pkgutil.find_loader(module_name)
-    if loader is None:
-      raise ImportError(module_name)
-    return loader.get_filename()
+  # NOTE(NiklasRosenstein): We cannot use #pkgutil.find_loader(), #importlib.find_lodaer()
+  #   or #importlib.util.find_spec() as they weill prefer returning the module that is already
+  #   loaded in #sys.module even if that instance would not be in the specified search_path.
+
+  if search_path is None:
+    search_path = sys.path
+
+  filenames = [
+    os.path.join(os.path.join(*module_name.split('.')), '__init__.py'),
+    os.path.join(*module_name.split('.')) + '.py',
+  ]
+
+  for path in search_path:
+    for choice in filenames:
+      abs_path = os.path.normpath(os.path.join(path, choice))
+      if os.path.isfile(abs_path):
+        return abs_path
+
+  raise ImportError(module_name)
 
 
 def iter_package_files(
@@ -157,10 +166,9 @@ def iter_package_files(
     else:
       raise RuntimeError('path "{}" does not exist'.format(path))
 
-  with _override_sys_path(search_path):
-    path = find_module(package_name, search_path)
-    if os.path.basename(path).startswith('__init__.'):
-      path = os.path.dirname(path)
+  path = find_module(package_name, search_path)
+  if os.path.basename(path).startswith('__init__.'):
+    path = os.path.dirname(path)
 
     yield from _recursive(package_name, path)
 

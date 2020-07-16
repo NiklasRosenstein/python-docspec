@@ -1,0 +1,9 @@
+release_date: null
+changes:
+- type: improvement
+  component: general
+  description: no longer use `pkgutil.find_loader()` to find Python modules as it
+    prefers modules that are already in `sys.modules` even if that instance of the
+    module would not occurr in the specified `search_path`. `docspec_python.find_module()`
+    now re-implements the search mechanism
+  fixes: []
