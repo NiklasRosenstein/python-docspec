@@ -154,7 +154,7 @@ class Parser:
         elif not isinstance(child, Node) and child.value == ':':
           stack.append(current)
           current = ('annotation', [])
-        elif isinstance(child, Node) and child.type == syms.annassign:
+        elif isinstance(child, Node) and child.type == getattr(syms, 'annassign', None):  # >= 3.6
           _parse(stack, current, child)
         else:
           current[1].append(child)
