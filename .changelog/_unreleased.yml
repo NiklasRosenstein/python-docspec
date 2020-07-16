@@ -7,3 +7,7 @@ changes:
     module would not occurr in the specified `search_path`. `docspec_python.find_module()`
     now re-implements the search mechanism
   fixes: []
+- type: tests
+  component: general
+  description: add tests for Python module loader logic
+  fixes: []
