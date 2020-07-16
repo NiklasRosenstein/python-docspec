@@ -26,6 +26,8 @@ from io import StringIO
 from json import dumps
 from textwrap import dedent
 from typing import List, Optional
+import pytest
+import sys
 
 
 def unset_location(obj):
@@ -45,7 +47,8 @@ def docspec_test(module_name=None, parser_options=None):
       parsed_module = parse_python_module(
         StringIO(dedent(func.__doc__)),
         module_name=module_name or func.__name__.lstrip('test_'),
-        options=parser_options
+        options=parser_options,
+        filename=func.__name__,
       )
       unset_location(parsed_module)
       reference_module = Module(name=parsed_module.name, location=None, docstring=None, members=func(*args, **kwargs))
@@ -194,6 +197,7 @@ def test_funcdef_5_single_stmt():
   ]
 
 
+@pytest.mark.skipif(sys.version_info < (3, 6), reason="requires python3.6 or higher")
 @docspec_test()
 def test_funcdef_6_starred_args():
   """

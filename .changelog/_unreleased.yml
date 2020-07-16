@@ -11,3 +11,7 @@ changes:
   component: general
   description: add tests for Python module loader logic
   fixes: []
+- type: fix
+  component: general
+  description: fix support for Python 3.5
+  fixes: []
