@@ -48,7 +48,7 @@ def docspec_test(module_name=None, parser_options=None):
         options=parser_options
       )
       unset_location(parsed_module)
-      reference_module = Module(parsed_module.name, None, None, func(*args, **kwargs))
+      reference_module = Module(name=parsed_module.name, location=None, docstring=None, members=func(*args, **kwargs))
       assert dumps(dump_module(reference_module), indent=2) == dumps(dump_module(parsed_module), indent=2)
     return wrapper
   return decorator
