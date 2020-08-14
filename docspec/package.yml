@@ -1,0 +1,13 @@
+package:
+  name: "docspec"
+  version: "0.2.0"
+  author: "Niklas Rosenstein <rosensteinniklas@gmail.com>"
+  license: "MIT"
+  description: "Docspec is a JSON object specification for representing API documentation of programming languages."
+  requirements:
+    - python ^3.5
+    - nr.databind.core ~0.0.19
+    - nr.databind.json ~0.0.9
+  entrypoints:
+    console_scripts:
+      - docspec = docspec.__main__:main
