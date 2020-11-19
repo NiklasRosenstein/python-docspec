@@ -7,9 +7,9 @@ A parser based on `lib2to3` procuding [docspec][] data from Python source code.
 Example:
 
 ```
-from docspec_python import parse_python
+from docspec_python import parse_python_module
 import docspec, sys
-docspec.dump_module(parse_python(sys.stdin, print_function=False), sys.stdout)
+docspec.dump_module(parse_python_module(sys.stdin, print_function=False), sys.stdout)
 ```
 
 ```
