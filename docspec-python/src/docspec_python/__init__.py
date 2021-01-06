@@ -36,6 +36,7 @@ from .parser import Parser, ParserOptions
 from docspec import Argument, Module
 from typing import Any, ContextManager, Iterable, List, Optional, TextIO, Tuple, Union
 import contextlib
+import io
 import os
 import nr.sumtype
 import sys
@@ -95,7 +96,7 @@ def parse_python_module(
   """
 
   if isinstance(f, str):
-    with open(f) as fp:
+    with io.open(f, encoding='utf-8') as fp:
       return parse_python_module(fp, filename, module_name, options)
 
   filename = filename or getattr(f, 'name', None)
