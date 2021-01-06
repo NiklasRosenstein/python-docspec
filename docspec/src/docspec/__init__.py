@@ -159,7 +159,7 @@ def load_modules(
   filename = filename or getattr(source, 'name', None)
 
   if isinstance(source, str):
-    with io.open(source, 'utf-8') as fp:
+    with io.open(source, encoding='utf-8') as fp:
       yield from load_modules(fp, source, loader)
     return
   elif hasattr(source, 'read'):
