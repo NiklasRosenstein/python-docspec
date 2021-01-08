@@ -26,7 +26,7 @@ import sys
 try:
   from termcolor import colored
 except ImportError as exc:
-  def colored(s, *args, **kwargs):
+  def colored(s, *args, **kwargs):  # type: ignore
     return str(s)
 
 _COLOR_MAP = {

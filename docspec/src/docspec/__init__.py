@@ -40,9 +40,9 @@ __all__ = [
 ]
 
 
-from nr.databind.core import Field, ObjectMapper, ProxyType, Struct, UnionType, decorations
-from nr.databind.json import JsonModule
-from typing import Any, Callable, Dict, Iterable, List, Optional, TextIO, Union
+from nr.databind.core import Field, ObjectMapper, ProxyType, Struct, UnionType, decorations  # type: ignore
+from nr.databind.json import JsonModule  # type: ignore
+from typing import Any, Callable, Dict, Iterable, List, Optional, TextIO, Union, cast
 import enum
 import io
 import json
@@ -163,7 +163,7 @@ def load_modules(
       yield from load_modules(fp, source, loader)
     return
   elif hasattr(source, 'read'):
-    source = (loader(io.StringIO(line)) for line in source)
+    source = (loader(io.StringIO(line)) for line in cast(TextIO, source))
 
   for data in source:
     yield _mapper.deserialize(data, Module, filename=filename)
@@ -187,6 +187,7 @@ def dump_module(
   if target:
     dumper(data, target)
     target.write('\n')
+    return None
   else:
     return data
 
@@ -246,7 +247,7 @@ class ReverseMap:
 
   def __init__(self, modules: List[Module]) -> None:
     self._modules = modules
-    self._reverse_map = {}
+    self._reverse_map: Dict[int, Optional[ApiObject]] = {}
     for module in modules:
       self._init(module, None)
 
@@ -263,9 +264,10 @@ class ReverseMap:
 
   def path(self, obj: ApiObject) -> List[ApiObject]:
     result = []
-    while obj:
-      result.append(obj)
-      obj = self.get_parent(obj)
+    current: Optional[ApiObject] = obj
+    while current:
+      result.append(current)
+      current = self.get_parent(current)
     result.reverse()
     return result
 
