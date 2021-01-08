@@ -81,7 +81,7 @@ class Parser:
       #   and 3.7).
       return RefactoringTool([], options).refactor_string(code + '\n', filename)
     except ParseError as exc:
-      raise ParseError(exc.msg, exc.type, exc.value, exc.context + (filename,))
+      raise ParseError(exc.msg, exc.type, exc.value, tuple(exc.context) + (filename,))
 
   def parse(self, ast, filename, module_name=None):
     self.filename = filename  # pylint: disable=attribute-defined-outside-init
@@ -210,7 +210,7 @@ class Parser:
       return_type=return_,
       decorations=decorations)
 
-  def parse_argument(self, node: t.Union[Leaf, Node], argtype: str, scanner: ListScanner) -> Argument:
+  def parse_argument(self, node: t.Union[Leaf, Node], argtype: Argument.Type, scanner: ListScanner) -> Argument:
     """
     Parses an argument from the AST. *node* must be the current node at
     the current position of the *scanner*. The scanner is used to extract
@@ -398,7 +398,9 @@ class Parser:
 
   def get_statement_docstring(self, node):
     prefix = self.get_most_recent_prefix(node)
-    ws = re.match(r'\s*', prefix[::-1]).group(0)
+    match = re.match(r'\s*', prefix[::-1])
+    assert match is not None
+    ws = match.group(0)
     if ws.count('\n') == 1:
       docstring, doc_type = self.get_hashtag_docstring_from_prefix(node)
       if doc_type == 'statement':
