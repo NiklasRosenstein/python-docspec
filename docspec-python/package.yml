@@ -11,3 +11,4 @@ requirements:
 entrypoints:
   console_scripts:
     - docspec-python = docspec_python.__main__:main
+typed: true

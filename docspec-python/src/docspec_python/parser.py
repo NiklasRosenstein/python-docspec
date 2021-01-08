@@ -23,6 +23,7 @@
 import os
 import re
 import textwrap
+import typing as t
 
 from docspec import (
   Argument,
@@ -32,12 +33,12 @@ from docspec import (
   Function,
   Location,
   Module)
-from lib2to3.refactor import RefactoringTool
+from lib2to3.refactor import RefactoringTool  # type: ignore
 from lib2to3.pgen2 import token
 from lib2to3.pgen2.parse import ParseError
 from lib2to3.pygram import python_symbols as syms
 from lib2to3.pytree import Leaf, Node
-from nr.databind.core import Field, Struct
+from nr.databind.core import Field, Struct  # type: ignore
 
 _REVERSE_SYMS = {v: k for k, v in vars(syms).items() if isinstance(v, int)}
 _REVERSE_TOKEN = {v: k for k, v in vars(token).items() if isinstance(v, int)}
@@ -209,8 +210,7 @@ class Parser:
       return_type=return_,
       decorations=decorations)
 
-  def parse_argument(self, node, argtype, scanner):
-    # type: (Union[Leaf, Node], str, ListScanner) -> Argument
+  def parse_argument(self, node: t.Union[Leaf, Node], argtype: str, scanner: ListScanner) -> Argument:
     """
     Parses an argument from the AST. *node* must be the current node at
     the current position of the *scanner*. The scanner is used to extract
@@ -412,8 +412,7 @@ class Parser:
         return self.prepare_docstring(string_literal.value)
     return None
 
-  def get_hashtag_docstring_from_prefix(self, node):
-    # type: (Node) -> (Optional[str], Optional[str])
+  def get_hashtag_docstring_from_prefix(self, node: Node) -> t.Tuple[t.Optional[str], t.Optional[str]]:
     """
     Given a node in the AST, this method retrieves the docstring from the
     closest prefix of this node (ie. any block of single-line comments that
@@ -427,7 +426,7 @@ class Parser:
     """
 
     prefix = self.get_most_recent_prefix(node)
-    lines = []
+    lines: t.List[str] = []
     doc_type = None
     for line in reversed(prefix.split('\n')):
       line = line.strip()
@@ -465,14 +464,12 @@ class Parser:
     Converts a list of AST nodes to a string.
     """
 
-    def generator(nodes, skip_prefix=True):
-      # type: (List[Node], Bool) -> Iterable[Tuple[str, str]]
+    def generator(nodes: t.List[t.Union[Node, Leaf]], skip_prefix: bool = True) -> t.Iterable[str]:
       for i, node in enumerate(nodes):
         if not skip_prefix or i != 0:
           yield node.prefix
         if isinstance(node, Node):
-          for _ in generator(node.children, True):
-            yield _
+          yield from generator(node.children, True)
         else:
           yield node.value
 

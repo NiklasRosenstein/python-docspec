@@ -13,3 +13,4 @@ entrypoints:
   - docspec = docspec.__main__:main
 test-driver:
   type: pytest
+typed: true

@@ -38,7 +38,7 @@ from typing import Any, ContextManager, Iterable, List, Optional, TextIO, Tuple,
 import contextlib
 import io
 import os
-import nr.sumtype
+import nr.sumtype  # type: ignore
 import sys
 
 
@@ -66,6 +66,7 @@ def load_python_modules(
 
   files = list(files) if files else []
 
+  module_name: Optional[str]
   for module_name in modules or []:
     try:
       files.append((module_name, find_module(module_name, search_path)))
