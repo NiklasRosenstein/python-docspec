@@ -137,7 +137,7 @@ def load_module(
   filename = filename or getattr(source, 'name', None)
 
   if isinstance(source, str):
-    with open(source) as fp:
+    with io.open(source, encoding='utf-8') as fp:
       return load_module(fp, source, loader)
   elif hasattr(source, 'read'):
     source = loader(source)
@@ -159,7 +159,7 @@ def load_modules(
   filename = filename or getattr(source, 'name', None)
 
   if isinstance(source, str):
-    with open(source) as fp:
+    with io.open(source, encoding='utf-8') as fp:
       yield from load_modules(fp, source, loader)
     return
   elif hasattr(source, 'read'):
@@ -179,7 +179,7 @@ def dump_module(
   """
 
   if isinstance(target, str):
-    with open(target, 'w') as fp:
+    with io.open(target, 'w', encoding='utf-8') as fp:
       dump_module(module, fp, dumper)
     return None
 
