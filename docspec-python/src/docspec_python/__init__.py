@@ -49,6 +49,7 @@ def load_python_modules(
   search_path: List[str] = None,
   options: ParserOptions = None,
   raise_: bool = True,
+  encoding: Optional[str] = None,
 ) -> Iterable[Module]:
   """
   Utility function for loading multiple #Module#s from a list of Python module and package
@@ -81,14 +82,15 @@ def load_python_modules(
         raise
 
   for module_name, filename in files:
-    yield parse_python_module(filename, module_name=module_name, options=options)
+    yield parse_python_module(filename, module_name=module_name, options=options, encoding=encoding)
 
 
 def parse_python_module(
     f: Union[str, TextIO],
     filename: str = None,
     module_name: str = None,
-    options: ParserOptions = None
+    options: ParserOptions = None,
+    encoding: Optional[str] = None,
 ) -> Module:
   """
   Parses Python code of a file or file-like object and returns a #Module
@@ -97,7 +99,9 @@ def parse_python_module(
   """
 
   if isinstance(f, str):
-    with io.open(f, encoding='utf-8') as fp:
+    # TODO(NiklasRosenstein): If the file header contains a # coding: <name> comment, we should
+    #   use that instead of the specified or system default encoding.
+    with io.open(f, encoding=encoding) as fp:
       return parse_python_module(fp, filename, module_name, options)
 
   filename = filename or getattr(f, 'name', None)
@@ -149,7 +153,6 @@ def iter_package_files(
     # pylint: disable=stop-iteration-return
     if os.path.isfile(path):
       yield module_name, path
-      return
     elif os.path.isdir(path):
       yield next(_recursive(module_name, os.path.join(path, '__init__.py')))
       for item in os.listdir(path):
@@ -164,7 +167,6 @@ def iter_package_files(
             yield x
         elif os.path.isfile(item_abs) and item_abs.endswith('.py'):
           yield next(_recursive(name, item_abs))
-      return
     else:
       raise RuntimeError('path "{}" does not exist'.format(path))
 

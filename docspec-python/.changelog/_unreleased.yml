@@ -4,3 +4,7 @@ changes:
   component: general
   description: Fix `NameError` in function type annotation
   fixes: []
+- type: feature
+  component: general
+  description: add `encoding` parameter to `load_python_modules()` and `parse_python_module()`
+  fixes: []
