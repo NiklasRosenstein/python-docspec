@@ -34,7 +34,7 @@ requirements = [
 
 setuptools.setup(
   name = 'docspec-python',
-  version = '0.0.7',
+  version = '0.1.0',
   author = 'Niklas Rosenstein',
   author_email = 'rosensteinniklas@gmail.com',
   description = 'A parser based on lib2to3 producing docspec data from Python source code.',
