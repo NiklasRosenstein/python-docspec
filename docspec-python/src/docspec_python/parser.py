@@ -210,7 +210,7 @@ class Parser:
       return_type=return_,
       decorations=decorations)
 
-  def parse_argument(self, node: t.Union[Leaf, Node], argtype: Argument.Type, scanner: ListScanner) -> Argument:
+  def parse_argument(self, node: t.Union[Leaf, Node], argtype: Argument.Type, scanner: 'ListScanner') -> Argument:
     """
     Parses an argument from the AST. *node* must be the current node at
     the current position of the *scanner*. The scanner is used to extract
@@ -239,7 +239,7 @@ class Parser:
     if node and node.type == token.EQUAL:
       node = scanner.advance()
       default = self.nodes_to_string([node])
-      node = scanner.advance()
+      scanner.advance()
 
     return Argument(name, argtype, None, annotation, default)
 
@@ -385,9 +385,8 @@ class Parser:
     """
 
     node = find(lambda x: isinstance(x, Node), parent.children)
-    if node and node.type == syms.simple_stmt:
-      if node.children[0].type == token.STRING:
-        return self.prepare_docstring(node.children[0].value)
+    if node and node.type == syms.simple_stmt and node.children[0].type == token.STRING:
+      return self.prepare_docstring(node.children[0].value)
     if not node and not module_level:
       return None
     if self.options.treat_singleline_comment_blocks_as_docstrings:
