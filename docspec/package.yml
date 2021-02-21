@@ -5,9 +5,9 @@ license: MIT
 description: Docspec is a JSON object specification for representing API documentation
   of programming languages.
 requirements:
-- python ^3.5
-- databind.core ^0.7.0
-- databind.json ^0.6.1
+- python ^3.6
+- nr.databind.core ~0.0.19
+- nr.databind.json ~0.0.9
 entrypoints:
   console_scripts:
   - docspec = docspec.__main__:main

@@ -28,8 +28,8 @@ else:
   long_description = None
 
 requirements = [
-  'databind.core >=0.7.0,<1.0.0',
-  'databind.json >=0.6.1,<1.0.0',
+  'nr.databind.core >=0.0.19,<0.1.0',
+  'nr.databind.json >=0.0.9,<0.1.0',
 ]
 
 setuptools.setup(
@@ -48,7 +48,7 @@ setuptools.setup(
   install_requires = requirements,
   extras_require = {},
   tests_require = [],
-  python_requires = '>=3.5.0,<4.0.0',
+  python_requires = '>=3.6.0,<4.0.0',
   data_files = [],
   entry_points = {
     'console_scripts': [
