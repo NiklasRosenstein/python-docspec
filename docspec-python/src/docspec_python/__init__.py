@@ -205,7 +205,7 @@ def discover(directory: str) -> Iterable[DiscoveryResult]:
         yield DiscoveryResult.Package(name, os.path.join(directory, name))
 
 
-def format_arglist(args: List[Argument]) -> str:
+def format_arglist(args: List[Argument], include_types: bool = True) -> str:
   """
   Formats a Python argument list.
   """
@@ -217,14 +217,14 @@ def format_arglist(args: List[Argument]) -> str:
     if arg.type == Argument.Type.KeywordOnly and '*' not in result:
       result.append('*')
     parts = [arg.name]
-    if arg.datatype:
+    if arg.datatype and include_types:
       parts.append(': ' + arg.datatype)
     if arg.default_value:
-      if arg.datatype:
+      if arg.datatype and include_types:
         parts.append(' ')
       parts.append('=')
     if arg.default_value:
-      if arg.datatype:
+      if arg.datatype and include_types:
         parts.append(' ')
       parts.append(arg.default_value)
     if arg.type == Argument.Type.PositionalRemainder:
