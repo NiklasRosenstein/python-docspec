@@ -211,7 +211,7 @@ def discover(directory: str) -> t.Iterable[DiscoveryResult]:
   #   if we're looking at a namespace package. If we do, continue recursively.
 
   for name in os.listdir(directory):
-    if name.endswith('.py'):
+    if name.endswith('.py') and name.count('.') == 1:
       yield DiscoveryResult.Module(name[:-3], os.path.join(directory, name))
     else:
       full_path = os.path.join(directory, name, '__init__.py')
