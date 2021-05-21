@@ -1,0 +1,7 @@
+release_date: null
+changes:
+- type: change
+  component: general
+  description: update type hints, use `@dataclass` over `nr.sumtype` which has MyPy
+    support
+  fixes: []

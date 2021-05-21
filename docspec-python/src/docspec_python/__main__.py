@@ -19,7 +19,7 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 # IN THE SOFTWARE.
 
-from docspec_python import discover, load_python_modules, ParserOptions
+from docspec_python import discover, load_python_modules, ParserOptions, DiscoveryResult
 import argparse
 import docspec
 import sys
@@ -54,11 +54,11 @@ def main():
       except FileNotFoundError:
         continue
       for item in discovered_items:
-        if args.exclude and item[1] in args.exclude:
+        if args.exclude and item.name in args.exclude:
           continue
-        if item.is_module():
+        if isinstance(item, DiscoveryResult.Module):
           args.module.append(item.name)
-        elif item.is_package():
+        elif isinstance(item, DiscoveryResult.Package):
           args.package.append(item.name)
         else:
           raise RuntimeError(item)

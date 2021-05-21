@@ -32,25 +32,24 @@ __all__ = [
   'discover'
 ]
 
-from .parser import Parser, ParserOptions
-from docspec import Argument, Module
-from typing import Any, ContextManager, Iterable, List, Optional, TextIO, Tuple, Union
-import contextlib
 import io
 import os
-import nr.sumtype  # type: ignore
 import sys
+import typing as t
+from dataclasses import dataclass
+from docspec import Argument, Module
+from .parser import Parser, ParserOptions
 
 
 def load_python_modules(
-  modules: List[str] = None,
-  packages: List[str] = None,
-  files: List[Tuple[Optional[str], Union[TextIO, str]]] = None,
-  search_path: List[str] = None,
+  modules: t.List[str] = None,
+  packages: t.List[str] = None,
+  files: t.List[t.Tuple[t.Optional[str], t.Union[t.TextIO, str]]] = None,
+  search_path: t.List[str] = None,
   options: ParserOptions = None,
   raise_: bool = True,
-  encoding: Optional[str] = None,
-) -> Iterable[Module]:
+  encoding: t.Optional[str] = None,
+) -> t.Iterable[Module]:
   """
   Utility function for loading multiple #Module#s from a list of Python module and package
   names. It combines #find_module(), #iter_package_files() and #parse_python_module() in a
@@ -67,7 +66,7 @@ def load_python_modules(
 
   files = list(files) if files else []
 
-  module_name: Optional[str]
+  module_name: t.Optional[str]
   for module_name in modules or []:
     try:
       files.append((module_name, find_module(module_name, search_path)))
@@ -86,11 +85,11 @@ def load_python_modules(
 
 
 def parse_python_module(
-    f: Union[str, TextIO],
+    f: t.Union[str, t.TextIO],
     filename: str = None,
     module_name: str = None,
     options: ParserOptions = None,
-    encoding: Optional[str] = None,
+    encoding: t.Optional[str] = None,
 ) -> Module:
   """
   Parses Python code of a file or file-like object and returns a #Module
@@ -110,7 +109,7 @@ def parse_python_module(
   return parser.parse(ast, filename, module_name)
 
 
-def find_module(module_name: str, search_path: List[str] = None) -> str:
+def find_module(module_name: str, search_path: t.List[str] = None) -> str:
   """
   Finds the filename of a module that can be parsed with #parse_python_module().
   If *search_path* is not set, the default #sys.path is used to search for the
@@ -142,8 +141,8 @@ def find_module(module_name: str, search_path: List[str] = None) -> str:
 
 def iter_package_files(
   package_name: str,
-  search_path: List[str] = None,
-) -> Iterable[Tuple[str, str]]:
+  search_path: t.List[str] = None,
+) -> t.Iterable[t.Tuple[str, str]]:
   """
   Returns an iterator for the Python source files in the specified package. The items returned
   by the iterator are tuples of the module name and filename.
@@ -177,13 +176,28 @@ def iter_package_files(
     yield from _recursive(package_name, path)
 
 
-@nr.sumtype.add_constructor_tests
-class DiscoveryResult(nr.sumtype.Sumtype):
-  Module = nr.sumtype.Constructor('name,filename')
-  Package = nr.sumtype.Constructor('name,directory')
+@dataclass
+class DiscoveryResult:
+  name: str
+  Module: t.ClassVar[t.Type['_Module']]
+  Package: t.ClassVar[t.Type['_Package']]
 
 
-def discover(directory: str) -> Iterable[DiscoveryResult]:
+@dataclass
+class _Module(DiscoveryResult):
+  filename: str
+
+
+@dataclass
+class _Package(DiscoveryResult):
+  directory: str
+
+
+DiscoveryResult.Module = _Module
+DiscoveryResult.Package = _Package
+
+
+def discover(directory: str) -> t.Iterable[DiscoveryResult]:
   """
   Discovers Python modules and packages in the specified *directory*. The returned generated
   returns tuples where the first element of the tuple is the type (either `'module'` or
@@ -205,7 +219,7 @@ def discover(directory: str) -> Iterable[DiscoveryResult]:
         yield DiscoveryResult.Package(name, os.path.join(directory, name))
 
 
-def format_arglist(args: List[Argument]) -> str:
+def format_arglist(args: t.List[Argument]) -> str:
   """
   Formats a Python argument list.
   """
