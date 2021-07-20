@@ -19,7 +19,7 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 # IN THE SOFTWARE.
 
-
+import dataclasses
 import os
 import re
 import textwrap
@@ -38,7 +38,6 @@ from lib2to3.pgen2 import token
 from lib2to3.pgen2.parse import ParseError
 from lib2to3.pygram import python_symbols as syms
 from lib2to3.pytree import Leaf, Node
-from nr.databind.core import Field, Struct  # type: ignore
 
 _REVERSE_SYMS = {v: k for k, v in vars(syms).items() if isinstance(v, int)}
 _REVERSE_TOKEN = {v: k for k, v in vars(token).items() if isinstance(v, int)}
@@ -58,9 +57,10 @@ def find(predicate, iterable):
   return None
 
 
-class ParserOptions(Struct):
-  print_function = Field(bool, default=True)
-  treat_singleline_comment_blocks_as_docstrings = Field(bool, default=False)
+@dataclasses.dataclass
+class ParserOptions:
+  print_function: bool = True
+  treat_singleline_comment_blocks_as_docstrings: bool = False
 
 
 class Parser:

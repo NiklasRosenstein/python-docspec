@@ -28,8 +28,9 @@ else:
   long_description = None
 
 requirements = [
-  'nr.databind.core >=0.0.19,<0.1.0',
-  'nr.databind.json >=0.0.9,<0.1.0',
+  'dataclasses',
+  'databind.core >=1.0.0,<2.0.0',
+  'databind.json >=1.0.0,<2.0.0',
 ]
 
 setuptools.setup(

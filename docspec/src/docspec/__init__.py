@@ -39,89 +39,90 @@ __all__ = [
   'get_member',
 ]
 
-
-from nr.databind.core import Field, ObjectMapper, ProxyType, Struct, UnionType, decorations  # type: ignore
-from nr.databind.json import JsonModule  # type: ignore
-from typing import Any, Callable, Dict, Iterable, List, Optional, TextIO, Union, cast
+import dataclasses
 import enum
 import io
 import json
+import sys
+import typing as t
+import typing_extensions as te
 
-_ClassProxy = ProxyType()
-_mapper = ObjectMapper(JsonModule())
-
-
-@decorations.SkipDefaults()
-class Location(Struct):
-  filename = Field(str, default=None)
-  lineno = Field(int)
+import databind.core.annotations as A
+import databind.json
 
 
-@decorations.SkipDefaults()
-class Decoration(Struct):
-  name = Field(str)
-  args = Field(str, default=None)
+@dataclasses.dataclass
+class Location:
+  filename: t.Optional[str]
+  lineno: int
 
 
-@decorations.SkipDefaults()
-class Argument(Struct):
+@dataclasses.dataclass
+class Decoration:
+  name: str
+  args: t.Optional[str] = None
+
+
+@dataclasses.dataclass
+class Argument:
+
   class Type(enum.Enum):
     PositionalOnly = 0
     Positional = 1
     PositionalRemainder = 2
     KeywordOnly = 3
     KeywordRemainder = 4
-  name = Field(str)
-  type = Field(Type)
-  decorations = Field([Decoration], default=None)
-  datatype = Field(str, default=None)
-  default_value = Field(str, default=None)
+
+  name: str
+  type: Type
+  decorations: t.Optional[t.List[Decoration]] = None
+  datatype: t.Optional[str] = None
+  default_value: t.Optional[str] = None
 
 
-@decorations.SkipDefaults()
-@decorations.KeywordsOnlyConstructor()
-class ApiObject(Struct):
-  name = Field(str, prominent=True)
-  location = Field(Location, default=None)
-  docstring = Field(str, default=None)
+@dataclasses.dataclass
+class ApiObject:
+  name: str
+  location: t.Optional[Location] = dataclasses.field(repr=False)
+  docstring: t.Optional[str] = dataclasses.field(repr=False)
 
 
+@dataclasses.dataclass
 class Data(ApiObject):
-  datatype = Field(str, default=None)
-  value = Field(str, default=None)
+  datatype: t.Optional[str] = None
+  value: t.Optional[str] = None
 
 
+@dataclasses.dataclass
 class Function(ApiObject):
-  modifiers = Field([str], default=None)
-  args = Field([Argument])
-  return_type = Field(str, default=None)
-  decorations = Field([Decoration], default=None)
+  modifiers: t.Optional[t.List[str]]
+  args: t.List[Argument]
+  return_type: t.Optional[str]
+  decorations: t.Optional[t.List[Decoration]]
 
 
-@_ClassProxy.implementation
+@dataclasses.dataclass
 class Class(ApiObject):
-  metaclass = Field(str, default=None)
-  bases = Field([str], default=None)
-  decorations = Field([Decoration], default=None)
-  members = Field([UnionType({
-    'data': Data,
-    'function': Function,
-    'class': _ClassProxy
-  })])
+  metaclass: t.Optional[str]
+  bases: t.Optional[t.List[str]]
+  decorations: t.Optional[t.List[Decoration]]
+  members: t.List['_MemberType']
 
 
+_MemberType = te.Annotated[
+  t.Union[Data, Function, Class],
+  A.unionclass({ 'data': Data, 'function': Function, 'class': Class }, style=A.unionclass.Style.flat)]
+
+
+@dataclasses.dataclass
 class Module(ApiObject):
-  members = Field([UnionType({
-    'data': Data,
-    'class': Class,
-    'function': Function,
-  })])
+  members: t.List['_MemberType']
 
 
 def load_module(
-    source: Union[str, TextIO, Dict],
-    filename: str = None,
-    loader = json.load
+  source: t.Union[str, t.TextIO, t.Dict],
+  filename: str = None,
+  loader = json.load,
 ) -> Module:
   """
   Loads a #Module from the specified *source*, which may be either a filename,
@@ -137,19 +138,21 @@ def load_module(
   filename = filename or getattr(source, 'name', None)
 
   if isinstance(source, str):
+    if source == '-':
+      return load_module(sys.stdin, source, loader)
     with io.open(source, encoding='utf-8') as fp:
       return load_module(fp, source, loader)
   elif hasattr(source, 'read'):
     source = loader(source)
 
-  return _mapper.deserialize(source, Module, filename=filename)
+  return databind.json.load(source, Module, filename=filename)
 
 
 def load_modules(
-    source: Union[str, TextIO, Iterable[Dict]],
-    filename: str = None,
-    loader = json.load
-) -> Iterable[Module]:
+  source: t.Union[str, t.TextIO, t.Iterable[t.Dict]],
+  filename: str = None,
+  loader = json.load,
+) -> t.Iterable[Module]:
   """
   Loads a stream of modules from the specified *source*. Similar to
   #load_module(), the *source* can be a filename, file-like object or a
@@ -163,17 +166,17 @@ def load_modules(
       yield from load_modules(fp, source, loader)
     return
   elif hasattr(source, 'read'):
-    source = (loader(io.StringIO(line)) for line in cast(TextIO, source))
+    source = (loader(io.StringIO(line)) for line in t.cast(t.TextIO, source))
 
   for data in source:
-    yield _mapper.deserialize(data, Module, filename=filename)
+    yield databind.json.load(data, Module, filename=filename)
 
 
 def dump_module(
-    module: Module,
-    target: Union[str, TextIO] = None,
-    dumper = json.dump
-) -> Optional[Dict]:
+  module: Module,
+  target: t.Union[str, t.TextIO] = None,
+  dumper = json.dump
+) -> t.Optional[t.Dict]:
   """
   Dumps a module to the specified target or returns it as plain structured data.
   """
@@ -183,7 +186,7 @@ def dump_module(
       dump_module(module, fp, dumper)
     return None
 
-  data = _mapper.serialize(module, Module)
+  data = databind.json.dump(module, Module)
   if target:
     dumper(data, target)
     target.write('\n')
@@ -193,8 +196,8 @@ def dump_module(
 
 
 def filter_visit(
-  objects: List[ApiObject],
-  predicate: Callable[[ApiObject], bool],
+  objects: t.List[ApiObject],
+  predicate: t.Callable[[ApiObject], bool],
   order: str = 'pre',
 ) -> None:
   """
@@ -229,8 +232,8 @@ def filter_visit(
 
 
 def visit(
-  objects: List[ApiObject],
-  func: Callable[[ApiObject], Any],
+  objects: t.List[ApiObject],
+  func: t.Callable[[ApiObject], t.Any],
   order: str = 'pre',
 ) -> None:
   """
@@ -245,26 +248,26 @@ class ReverseMap:
   Reverse map for finding the parent of an #ApiObject.
   """
 
-  def __init__(self, modules: List[Module]) -> None:
+  def __init__(self, modules: t.List[Module]) -> None:
     self._modules = modules
-    self._reverse_map: Dict[int, Optional[ApiObject]] = {}
+    self._reverse_map: t.Dict[int, t.Optional[ApiObject]] = {}
     for module in modules:
       self._init(module, None)
 
-  def _init(self, obj: ApiObject, parent: Optional[ApiObject]) -> None:
+  def _init(self, obj: ApiObject, parent: t.Optional[ApiObject]) -> None:
     self._reverse_map[id(obj)] = parent
     for member in getattr(obj, 'members', []):
       self._init(member, obj)
 
-  def get_parent(self, obj: ApiObject) -> Optional[ApiObject]:
+  def get_parent(self, obj: ApiObject) -> t.Optional[ApiObject]:
     try:
       return self._reverse_map[id(obj)]
     except KeyError:
       raise KeyError(obj)
 
-  def path(self, obj: ApiObject) -> List[ApiObject]:
+  def path(self, obj: ApiObject) -> t.List[ApiObject]:
     result = []
-    current: Optional[ApiObject] = obj
+    current: t.Optional[ApiObject] = obj
     while current:
       result.append(current)
       current = self.get_parent(current)
@@ -272,7 +275,7 @@ class ReverseMap:
     return result
 
 
-def get_member(obj: ApiObject, name: str) -> Optional[ApiObject]:
+def get_member(obj: ApiObject, name: str) -> t.Optional[ApiObject]:
   """
   Generic function to retrieve a member from an API object. This will always return #None for
   objects that don't support members (eg. #Function and #Data).

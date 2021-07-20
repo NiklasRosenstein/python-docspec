@@ -6,8 +6,9 @@ description: Docspec is a JSON object specification for representing API documen
   of programming languages.
 requirements:
 - python ^3.6
-- nr.databind.core ~0.0.19
-- nr.databind.json ~0.0.9
+- dataclasses
+- databind.core ^1.0.0
+- databind.json ^1.0.0
 entrypoints:
   console_scripts:
   - docspec = docspec.__main__:main
