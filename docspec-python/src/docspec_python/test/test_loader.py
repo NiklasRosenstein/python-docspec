@@ -62,4 +62,4 @@ def test_discovery_search_path_overrides_docspec_python_in_install_mode():
     packages=['docspec_python'], search_path=site.getsitepackages()))
   _assert_modules_loaded(site_modules)
 
-  assert site_modules[0].location.filename != src_modules[0].location.filename
+  assert site_modules[0].location.filename != src_modules[0].location.filename  # type: ignore
