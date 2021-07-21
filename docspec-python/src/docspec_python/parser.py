@@ -332,7 +332,7 @@ class Parser:
       metaclass, bases = self.parse_classdef_rawargs(node)
 
     suite = find(lambda x: x.type == syms.suite, node.children)
-    docstring = self.get_docstring_from_first_node(suite)
+    docstring = self.get_docstring_from_first_node(suite) if suite else None
     class_ = Class(
       name=name,
       location=self.location_from(node),
@@ -342,7 +342,7 @@ class Parser:
       decorations=decorations,
       members=[])
 
-    for child in suite.children:
+    for child in suite.children if suite else []:
       if isinstance(child, Node):
         member = self.parse_declaration(class_, child)
         if metaclass is None and isinstance(member, Data) and \
@@ -384,6 +384,7 @@ class Parser:
     node either declares a class or function.
     """
 
+    assert parent is not None
     node = find(lambda x: isinstance(x, Node), parent.children)
     if node and node.type == syms.simple_stmt and node.children[0].type == token.STRING:
       return self.prepare_docstring(node.children[0].value)

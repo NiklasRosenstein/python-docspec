@@ -78,8 +78,8 @@ def main():
   modules = load_python_modules(args.module, args.package, args.file, args.search_path, options)
 
   if args.list:
-    for module_name, filename in sorted(modules, key=lambda x: x[0]):
-      print('| ' * module_name.count('.') + module_name.rpartition('.')[-1])
+    for module in sorted(modules, key=lambda x: x.name):
+      print('| ' * module.name.count('.') + module.name.rpartition('.')[-1])
     return
 
   for module in modules:
