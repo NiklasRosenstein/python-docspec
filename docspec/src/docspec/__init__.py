@@ -192,7 +192,7 @@ def dump_module(
     target.write('\n')
     return None
   else:
-    return data
+    return t.cast(t.Dict, data)
 
 
 def filter_visit(
