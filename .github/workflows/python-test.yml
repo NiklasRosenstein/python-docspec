@@ -26,8 +26,8 @@ jobs:
     - name: Install dependencies
       run: |
         python -m venv .shut-venv
-        .shut-venv/bin/pip install shut==0.11.5 -q
-        .shut-venv/bin/shut mono install --extra test
+        .shut-venv/bin/pip install shut==0.14.0 -q
+        .shut-venv/bin/shut mono install --no-develop --test --dev
     - name: Install helpers
       run: |
         pip install flake8 pytest mypy
