@@ -28,7 +28,6 @@ else:
   long_description = None
 
 requirements = [
-  'dataclasses',
   'docspec >=1.0.0,<2.0.0',
 ]
 
@@ -48,7 +47,7 @@ setuptools.setup(
   install_requires = requirements,
   extras_require = {},
   tests_require = [],
-  python_requires = '>=3.6.0,<4.0.0',
+  python_requires = '>=3.7.0,<4.0.0',
   data_files = [],
   entry_points = {
     'console_scripts': [
