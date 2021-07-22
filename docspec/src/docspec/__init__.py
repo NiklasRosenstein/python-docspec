@@ -281,7 +281,7 @@ def get_member(obj: ApiObject, name: str) -> t.Optional[ApiObject]:
   objects that don't support members (eg. #Function and #Data).
   """
 
-  for member in getattr(obj, 'member', []):
+  for member in getattr(obj, 'members', []):
     if member.name == name:
       return member
   return None

@@ -1,0 +1,6 @@
+release_date: null
+changes:
+- type: fix
+  component: general
+  description: '`docspec.get_members()` access object members wrong'
+  fixes: []
