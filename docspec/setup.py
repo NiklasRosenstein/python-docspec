@@ -34,7 +34,7 @@ requirements = [
 
 setuptools.setup(
   name = 'docspec',
-  version = '1.0.0',
+  version = '1.0.1',
   author = 'Niklas Rosenstein',
   author_email = 'rosensteinniklas@gmail.com',
   description = 'Docspec is a JSON object specification for representing API documentation of programming languages.',

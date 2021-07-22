@@ -28,12 +28,12 @@ else:
   long_description = None
 
 requirements = [
-  'docspec >=1.0.0,<2.0.0',
+  'docspec >=1.0.1,<2.0.0',
 ]
 
 setuptools.setup(
   name = 'docspec-python',
-  version = '1.0.0',
+  version = '1.0.1',
   author = 'Niklas Rosenstein',
   author_email = 'rosensteinniklas@gmail.com',
   description = 'A parser based on lib2to3 producing docspec data from Python source code.',
