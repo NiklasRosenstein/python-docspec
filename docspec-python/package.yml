@@ -1,12 +1,12 @@
 name: "docspec-python"
 modulename: "docspec_python"
-version: "1.0.1"
+version: "1.0.2"
 author: "Niklas Rosenstein <rosensteinniklas@gmail.com>"
 license: "MIT"
 description: "A parser based on lib2to3 producing docspec data from Python source code."
 requirements:
 - python ^3.7
-- docspec ^1.0.1
+- docspec ^1.0.2
 entrypoints:
   console_scripts:
   - docspec-python = docspec_python.__main__:main

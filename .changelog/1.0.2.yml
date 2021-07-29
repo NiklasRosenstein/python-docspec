@@ -1,0 +1,7 @@
+release_date: '2021-07-29'
+changes:
+- type: fix
+  component: general
+  description: Add some type annotations (@tristanlatr)
+  fixes:
+  - '#14'
