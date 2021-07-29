@@ -1,5 +1,4 @@
 # -*- coding: utf8 -*-
-# Copyright (c) 2021 Pydoctor contributors
 # Copyright (c) 2020 Niklas Rosenstein
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
