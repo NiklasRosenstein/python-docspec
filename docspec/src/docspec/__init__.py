@@ -1,4 +1,5 @@
 # -*- coding: utf8 -*-
+# Copyright (c) 2021 Pydoctor contributors
 # Copyright (c) 2020 Niklas Rosenstein
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,6 +22,7 @@
 
 __author__ = 'Niklas Rosenstein <rosensteinniklas@gmail.com>'
 __version__ = '1.0.1'
+__docformat__ = 'restructuredtext'
 __all__ = [
   'Location',
   'Decoration',
@@ -120,9 +122,9 @@ class Module(ApiObject):
 
 
 def load_module(
-  source: t.Union[str, t.TextIO, t.Dict],
-  filename: str = None,
-  loader = json.load,
+  source: t.Union[str, t.TextIO, t.Dict[str, t.Any]],
+  filename: t.Optional[str] = None,
+  loader: t.Callable[[t.IO[str]], t.Any] = json.load,
 ) -> Module:
   """
   Loads a #Module from the specified *source*, which may be either a filename,
@@ -143,15 +145,16 @@ def load_module(
     with io.open(source, encoding='utf-8') as fp:
       return load_module(fp, source, loader)
   elif hasattr(source, 'read'):
-    source = loader(source)
+    # we ar sure the type is "IO" since the source has a read attribute.
+    source = loader(source) # type: ignore[arg-type]
 
   return databind.json.load(source, Module, filename=filename)
 
 
 def load_modules(
-  source: t.Union[str, t.TextIO, t.Iterable[t.Dict]],
-  filename: str = None,
-  loader = json.load,
+  source: t.Union[str, t.TextIO, t.Iterable[t.Any]],
+  filename: t.Optional[str] = None,
+  loader: t.Callable[[t.IO[str]], t.Any] = json.load,
 ) -> t.Iterable[Module]:
   """
   Loads a stream of modules from the specified *source*. Similar to
@@ -166,7 +169,7 @@ def load_modules(
       yield from load_modules(fp, source, loader)
     return
   elif hasattr(source, 'read'):
-    source = (loader(io.StringIO(line)) for line in t.cast(t.TextIO, source))
+    source = (loader(io.StringIO(line)) for line in t.cast(t.IO[str], source))
 
   for data in source:
     yield databind.json.load(data, Module, filename=filename)
@@ -174,9 +177,9 @@ def load_modules(
 
 def dump_module(
   module: Module,
-  target: t.Union[str, t.TextIO] = None,
-  dumper = json.dump
-) -> t.Optional[t.Dict]:
+  target: t.Optional[t.Union[str, t.IO[str]]] = None,
+  dumper: t.Callable[[t.Any, t.IO[str]], None] = json.dump
+) -> t.Optional[t.Dict[str, t.Any]]:
   """
   Dumps a module to the specified target or returns it as plain structured data.
   """
@@ -192,7 +195,7 @@ def dump_module(
     target.write('\n')
     return None
   else:
-    return t.cast(t.Dict, data)
+    return t.cast(t.Dict[str, t.Any], data)
 
 
 def filter_visit(
@@ -283,5 +286,6 @@ def get_member(obj: ApiObject, name: str) -> t.Optional[ApiObject]:
 
   for member in getattr(obj, 'members', []):
     if member.name == name:
+      assert isinstance(member, ApiObject)
       return member
   return None
