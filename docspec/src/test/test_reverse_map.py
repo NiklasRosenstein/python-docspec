@@ -13,6 +13,7 @@ def module() -> docspec.Module:
       ], None, None),
     ]),
   ])
+  module.sync_hierarchy()
   return module
 
 

@@ -1,5 +1,5 @@
 # -*- coding: utf8 -*-
-# Copyright (c) 2020 Niklas Rosenstein
+# Copyright (c) 2021 Niklas Rosenstein
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to
@@ -21,7 +21,6 @@
 
 __author__ = 'Niklas Rosenstein <rosensteinniklas@gmail.com>'
 __version__ = '1.0.2'
-__docformat__ = 'restructuredtext'
 __all__ = [
   'Location',
   'Decoration',
@@ -47,67 +46,233 @@ import json
 import sys
 import typing as t
 import typing_extensions as te
+import weakref
 
+import deprecated
 import databind.core.annotations as A
 import databind.json
 
 
 @dataclasses.dataclass
 class Location:
+  """
+  Represents the location of an #ApiObject by a filename and line number.
+  """
+
   filename: t.Optional[str]
   lineno: int
 
 
 @dataclasses.dataclass
 class Decoration:
+  """
+  Represents a decorator on a #Class or #Function.
+  """
+
+  #: The name of the decorator (i.e. the text between the `@` and `(`).
   name: str
+
+  #: Decorator arguments as plain code (including the leading and trailing parentheses). This is
+  #: `None` when the decorator does not have call arguments.
   args: t.Optional[str] = None
 
 
 @dataclasses.dataclass
 class Argument:
+  """
+  Represents a #Function argument.
+  """
 
   class Type(enum.Enum):
+    """
+    The type of the argument. This is currently very Python-centric, however most other languages should be able
+    to represent the various argument types with a subset of these types without additions (e.g. Java or TypeScript
+    only support #Positional and #PositionalRemainder arguments).
+    """
+
+    #: A positional only argument. Such arguments are denoted in Python like this: `def foo(a, b, /): ...`
     PositionalOnly = 0
+
+    #: A positional argument, which may also be given as a keyword argument. Basically that is just a normal
+    #: argument as you would see most commonly in Python function definitions.
     Positional = 1
+
+    #: An argument that denotes the capture of additional positional arguments, aka. "args" or "varags".
     PositionalRemainder = 2
+
+    #: A keyword-only argument is denoted in Python like thisL `def foo(*, kwonly): ...`
     KeywordOnly = 3
+
+    #: An argument that captures additional keyword arguments, aka. "kwargs".
     KeywordRemainder = 4
 
+  #: The name of the argument.
   name: str
+
+  #: The argument type.
   type: Type
+
+  #: A list of argument decorations. Python does not actually support decorators on function arguments
+  #: like for example Java does. This is probably premature to add into the API, but hey, here it is.
   decorations: t.Optional[t.List[Decoration]] = None
+
+  #: The datatype/type annotation of this argument as a code string.
   datatype: t.Optional[str] = None
+
+  #: The default value of the argument as a code string.
   default_value: t.Optional[str] = None
 
 
 @dataclasses.dataclass
 class ApiObject:
+  """
+  The base class for representing "API Objects". Any API object is any addressable entity in code,
+  be that a variable/constant, function, class or module.
+  """
+
+  #: The name of the entity. This is usually relative to the respective parent of the entity,
+  #: as opposed to it's fully qualified name/absolute name. However, that is more of a
+  #: recommendation than rule. For example the #docspec_python loader by default returns
+  #: #Module objects with their full module name (and does not create a module hierarchy).
   name: str
+
+  #: The location of the API object, i.e. where it is sourced from/defined in the code.
   location: t.Optional[Location] = dataclasses.field(repr=False)
+
+  #: The documentation string of the API object.
   docstring: t.Optional[str] = dataclasses.field(repr=False)
+
+  def __post_init__(self) -> None:
+    self._parent: t.Optional['weakref.ReferenceType[HasMembers]'] = None
+
+  @property
+  def parent(self) -> t.Optional['HasMembers']:
+    """
+    Returns the parent of the #HasMembers. Note that if you make any modifications to the API object tree,
+    you will need to call #sync_hierarchy() afterwards because adding to #Class.members or #Module.members
+    does not automatically keep the #parent property in sync.
+    """
+
+    if self._parent is not None:
+      parent = self._parent()
+      if parent is None:
+        raise RuntimeError(f'lost reference to parent object')
+    else:
+      parent = None
+    return parent
+
+  @parent.setter
+  def parent(self, parent: t.Optional['HasMembers']) -> None:
+    if parent is not None:
+      self._parent = weakref.ref(parent)
+    else:
+      self._parent = None
+
+  @property
+  def path(self) -> t.List['ApiObject']:
+    """
+    Returns a list of all of this API object's parents, from top to bottom. The list includes *self* as the
+    last item.
+    """
+
+    result = []
+    current: t.Optional[ApiObject] = self
+    while current:
+      result.append(current)
+      current = current.parent
+    result.reverse()
+    return result
+
+  def sync_hierarchy(self, parent: t.Optional['HasMembers'] = None) -> None:
+    """
+    Synchronize the hierarchy of this API object and all of it's children. This should be called when the
+    #HasMembers.members are updated to ensure that all child objects reference the right #parent. Loaders
+    are expected to return #ApiObject#s in a fully synchronized state such that the user does not have to
+    call this method unless they are doing modifications to the tree.
+    """
+
+    self.parent = parent
 
 
 @dataclasses.dataclass
 class Data(ApiObject):
+  """
+  Represents a variable assignment (e.g. for global variables (often used as constants) or class members).
+  """
+
+  #: The datatype associated with the assignment as code.
   datatype: t.Optional[str] = None
+
+  #: The value of the variable as code.
   value: t.Optional[str] = None
 
 
 @dataclasses.dataclass
 class Function(ApiObject):
+  """
+  Represents a function definition. This can be in a #Module for plain functions or in a #Class for methods.
+  The #decorations need to be introspected to understand if the function has a special purpose (e.g. is it a
+  `@property`, `@classmethod` or `@staticmethod`?).
+  """
+
+  #: A list of modifiers used in the function definition. For example, the only valid modified in
+  #: Python is "async".
   modifiers: t.Optional[t.List[str]]
+
+  #: A list of the function arguments.
   args: t.List[Argument]
+
+  #: The return type of the function as a code string.
   return_type: t.Optional[str]
+
+  #: A list of decorations used on the function.
   decorations: t.Optional[t.List[Decoration]]
+
+
+class HasMembers(ApiObject):
+  """
+  Base class for API objects that can have members, e.g. #Class and #Module.
+  """
+
+  #: The members of the API object.
+  members: t.Sequence[ApiObject]
+
+  def sync_hierarchy(self, parent: t.Optional[ApiObject] = None) -> None:
+    self.parent = parent
+    for member in self.members:
+      member.sync_hierarchy(self)
 
 
 @dataclasses.dataclass
-class Class(ApiObject):
+class Class(HasMembers):
+  """
+  Represents a class definition.
+  """
+
+  #: The metaclass used in the class definition as a code string.
   metaclass: t.Optional[str]
+
+  #: The list of base classes as code strings.
   bases: t.Optional[t.List[str]]
+
+  #: A list of decorations used in the class definition.
   decorations: t.Optional[t.List[Decoration]]
+
+  #: A list of the classes members. #Function#s in a class are to be considered instance methods of
+  #: that class unless some information about the #Function indicates otherwise.
   members: t.List['_MemberType']
+
+
+@dataclasses.dataclass
+class Module(HasMembers):
+  """
+  Represents a module, basically a named container for code/API objects. Modules may be nested in other modules.
+  Be aware that for historical reasons, some loaders lile #docspec_python by default do not return nested modules,
+  even if nesting would be appropriate (and instead the #Module.name simply contains the fully qualified name).
+  """
+
+  #: A list of module members.
+  members: t.List['_ModuleMemberType']
 
 
 _MemberType = te.Annotated[
@@ -115,9 +280,9 @@ _MemberType = te.Annotated[
   A.unionclass({ 'data': Data, 'function': Function, 'class': Class }, style=A.unionclass.Style.flat)]
 
 
-@dataclasses.dataclass
-class Module(ApiObject):
-  members: t.List['_MemberType']
+_ModuleMemberType = te.Annotated[
+  t.Union[Data, Function, Class, Module],
+  A.unionclass({ 'data': Data, 'function': Function, 'class': Class, 'module': Module }, style=A.unionclass.Style.flat)]
 
 
 def load_module(
@@ -245,36 +410,25 @@ def visit(
   filter_visit(objects, (lambda obj: func(obj) or True), order)
 
 
+@deprecated.deprecated(
+  version='1.1.0',
+  reason='#docspec.ReverseMap is deprecated and will be removed in a future version, use #ApiObject.parent '
+         'and #ApiObject.path instead')
 class ReverseMap:
   """
   Reverse map for finding the parent of an #ApiObject.
+
+  @deprecated 1.1.0 -- Use #ApiObject.parent and #ApiObject.path instead of #get_parent() and #path().
   """
 
   def __init__(self, modules: t.List[Module]) -> None:
-    self._modules = modules
-    self._reverse_map: t.Dict[int, t.Optional[ApiObject]] = {}
-    for module in modules:
-      self._init(module, None)
-
-  def _init(self, obj: ApiObject, parent: t.Optional[ApiObject]) -> None:
-    self._reverse_map[id(obj)] = parent
-    for member in getattr(obj, 'members', []):
-      self._init(member, obj)
+    pass  # don't actually need the modules since 1.1.0
 
   def get_parent(self, obj: ApiObject) -> t.Optional[ApiObject]:
-    try:
-      return self._reverse_map[id(obj)]
-    except KeyError:
-      raise KeyError(obj)
+    return obj.parent
 
   def path(self, obj: ApiObject) -> t.List[ApiObject]:
-    result = []
-    current: t.Optional[ApiObject] = obj
-    while current:
-      result.append(current)
-      current = self.get_parent(current)
-    result.reverse()
-    return result
+    return obj.path
 
 
 def get_member(obj: ApiObject, name: str) -> t.Optional[ApiObject]:
