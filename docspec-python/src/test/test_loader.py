@@ -53,7 +53,7 @@ def test_discovery_search_path_overrides():
   os.getenv('TEST_NO_DEVELOP') != 'true',
   reason='TEST_NO_DEVELOP needs to be set to "true" to test this case')
 def test_discovery_search_path_overrides_docspec_python_in_install_mode():
-  src_dir = os.path.normpath(__file__ + '/../../..')
+  src_dir = os.path.normpath(__file__ + '/../..')
   src_modules = list(docspec_python.load_python_modules(
     packages=['docspec_python'], search_path=[src_dir]))
   _assert_modules_loaded(src_modules)
