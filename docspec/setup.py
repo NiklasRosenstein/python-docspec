@@ -29,6 +29,7 @@ else:
 requirements = [
   'databind.core >=1.0.0,<2.0.0',
   'databind.json >=1.0.0,<2.0.0',
+  'Deprecated >=1.2.12,<2.0.0',
 ]
 
 setuptools.setup(
