@@ -237,7 +237,7 @@ class HasMembers(ApiObject):
   #: The members of the API object.
   members: t.Sequence[ApiObject]
 
-  def sync_hierarchy(self, parent: t.Optional[ApiObject] = None) -> None:
+  def sync_hierarchy(self, parent: t.Optional['HasMembers'] = None) -> None:
     self.parent = parent
     for member in self.members:
       member.sync_hierarchy(self)
