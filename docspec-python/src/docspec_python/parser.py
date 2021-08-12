@@ -105,6 +105,7 @@ class Parser:
       if member:
         module.members.append(member)
 
+    module.sync_hierarchy()
     return module
 
   def parse_declaration(self, parent, node, decorations=None):
