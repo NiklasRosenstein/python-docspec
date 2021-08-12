@@ -1,0 +1,6 @@
+changes:
+- type: change
+  component: general
+  description: '`get_member()` and `filter_visit()` have been updated to make use
+    of the `HasMembers` base class instead of relying on `hasattr()`/`getattr()`'
+  fixes: []

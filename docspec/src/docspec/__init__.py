@@ -366,7 +366,7 @@ def filter_visit(
   objects: t.List[ApiObject],
   predicate: t.Callable[[ApiObject], bool],
   order: str = 'pre',
-) -> None:
+) -> t.List[ApiObject]:
   """
   Visits all *objects* recursively, applying the *predicate* in the specified *order*. If
   the predicate returrns #False, the object will be removed from it's containing list.
@@ -386,16 +386,20 @@ def filter_visit(
 
   offset = 0
   for index in range(len(objects)):
+    current = objects[index - offset]
     if order == 'pre':
-      if not predicate(objects[index - offset]):
+      if not predicate(current):
         del objects[index - offset]
         offset += 1
         continue
-    filter_visit(getattr(objects[index - offset], 'members', []), predicate, order)
+    if isinstance(current, HasMembers):
+      current.members = filter_visit(list(current.members), predicate, order)
     if order == 'post':
-      if not predicate(objects[index - offset]):
+      if not predicate(current):
         del objects[index - offset]
         offset += 1
+
+  return objects
 
 
 def visit(
@@ -437,8 +441,10 @@ def get_member(obj: ApiObject, name: str) -> t.Optional[ApiObject]:
   objects that don't support members (eg. #Function and #Data).
   """
 
-  for member in getattr(obj, 'members', []):
-    if member.name == name:
-      assert isinstance(member, ApiObject)
-      return member
+  if isinstance(obj, HasMembers):
+    for member in obj.members:
+      if member.name == name:
+        assert isinstance(member, ApiObject), (name, obj, member)
+        return member
+
   return None
