@@ -1,0 +1,16 @@
+changes:
+- type: feature
+  component: general
+  description: add `ApiObject.parent` and `ApiObject.path` to deprecate `ReverseMap`
+    class
+  fixes: []
+- type: feature
+  component: general
+  description: add `ApiObject.sync_hierarchy()` method
+  fixes: []
+- type: feature
+  component: general
+  description: introduce `HasMembers` base class for `Class` and `Module`, `Module.members`
+    can now container other modules
+  fixes:
+  - '#15'
