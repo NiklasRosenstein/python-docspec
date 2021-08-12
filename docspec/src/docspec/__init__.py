@@ -312,7 +312,9 @@ def load_module(
     # we ar sure the type is "IO" since the source has a read attribute.
     source = loader(source) # type: ignore[arg-type]
 
-  return databind.json.load(source, Module, filename=filename)
+  module = databind.json.load(source, Module, filename=filename)
+  module.sync_hierarchy()
+  return module
 
 
 def load_modules(
@@ -336,7 +338,9 @@ def load_modules(
     source = (loader(io.StringIO(line)) for line in t.cast(t.IO[str], source))
 
   for data in source:
-    yield databind.json.load(data, Module, filename=filename)
+    module = databind.json.load(data, Module, filename=filename)
+    module.sync_hierarchy()
+    yield module
 
 
 def dump_module(
