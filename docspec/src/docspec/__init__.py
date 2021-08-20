@@ -513,8 +513,9 @@ class FilterVisitor(genericvisitor.Visitor[ApiObject]):
       # delete the object from the containing list
       assert isinstance(parent, (Module, Class))
       assert isinstance(ob, (Data, Function, Class, Module))
-        
-      del t.cast(t.List[_ModuleMemberType], parent.members)[parent.members.index(ob)]
+      
+      members = t.cast(t.List[_ModuleMemberType], parent.members)
+      members.remove(ob)
       
       assert get_member(parent, ob.name) is None
 
