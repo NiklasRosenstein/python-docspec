@@ -20,5 +20,6 @@ renderer:
         - title: docspec_python
           contents: [ docspec_python, docspec_python.* ]
   mkdocs_config:
-    site_name: My Project
+    site_name: docspec
     theme: readthedocs
+    repo_url: https://github.com/NiklasRosenstein/docspec
