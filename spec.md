@@ -105,6 +105,20 @@ _Fields_
   passed to the decoration. If unset or null, indicates that the decoration was
   not called like a function.
 
+### Indirection
+
+Represents an imported name or an alias. It can be used to properly 
+find the full name target of a link written with a local name. 
+
+_Fields_
+
+* `type` (str) &ndash; Value is `indirection`.
+* `name` (str) &ndash; The local name of the indirection.
+* `value` (str) &ndash; The target name of the indirection
+* `location` (Location)
+* `docstring` (Optional[str])
+* `datatype` (Optional[str])
+
 ---
 
 <p align="center">Copyright &copy; 2020, Niklas Rosenstein</p>
