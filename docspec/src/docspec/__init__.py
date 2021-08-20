@@ -208,17 +208,12 @@ class Data(ApiObject):
   value: t.Optional[str] = None
 
 @dataclasses.dataclass
-class Indirection(Data):
+class Indirection(ApiObject):
   """
-  Represents an imported name or an alias. It can be used to properly 
+  Represents an imported name. It can be used to properly 
   find the full name target of a link written with a local name. 
   """
-  value: str = t.cast(str, None)
-
-  def __post_init__(self) -> None:
-    super().__post_init__()
-    if self.value is None:
-      raise ValueError("missing or invalid parameter 'value' in Indirection() call, must be string.")
+  target: str
 
 @dataclasses.dataclass
 class Function(ApiObject):

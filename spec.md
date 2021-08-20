@@ -54,7 +54,7 @@ _Fields_
 
 ### Data
 
-A `Data` object represents a static value that is assigned to a name.
+A `Data` object represents a value that is assigned to a name or an expression.
 
 _Fields_
 
@@ -107,17 +107,16 @@ _Fields_
 
 ### Indirection
 
-Represents an imported name or an alias. It can be used to properly 
+Represents an imported name. It can be used to properly 
 find the full name target of a link written with a local name. 
 
 _Fields_
 
 * `type` (str) &ndash; Value is `indirection`.
 * `name` (str) &ndash; The local name of the indirection.
-* `value` (str) &ndash; The target name of the indirection
+* `target` (str) &ndash; The target name of the indirection
 * `location` (Location)
 * `docstring` (Optional[str])
-* `datatype` (Optional[str])
 
 ---
 
