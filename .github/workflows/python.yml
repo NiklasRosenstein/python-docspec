@@ -45,7 +45,9 @@ jobs:
     - name: Generate docs
       run: pydoc-markdown --build --site-dir _html
     - name: Publish docs
-      uses: tsunematsu21/actions-publish-gh-pages@v1.0.2
-        dir: _html
-        branch: gh-pages
-        token: ${{ secrets.GITHUB_TOKEN }}
+      uses: crazy-max/ghaction-github-pages@v2
+      with:
+        target_branch: gh-pages
+        build_dir: _html
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
