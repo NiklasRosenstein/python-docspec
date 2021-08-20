@@ -1,0 +1,24 @@
+loaders:
+  - type: python
+    search_path: [ docspec/src, docspec-python/src ]
+processors:
+  - type: filter
+  - type: smart
+  - type: crossref
+renderer:
+  type: mkdocs
+  pages:
+    - title: Home
+      name: index
+      source: README.md
+    - title: Specification
+      source: spec.md
+    - title: API Documentation
+      children:
+        - title: docspec
+          contents: [ docspec, docspec.* ]
+        - title: docspec_python
+          contents: [ docspec_python, docspec_python.* ]
+  mkdocs_config:
+    site_name: My Project
+    theme: readthedocs
