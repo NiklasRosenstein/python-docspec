@@ -23,27 +23,8 @@ import argparse
 import docspec
 import sys
 
-try:
-  from termcolor import colored
-except ImportError as exc:
-  def colored(s, *args, **kwargs):  # type: ignore
-    return str(s)
-
-_COLOR_MAP = {
-  docspec.Module: 'magenta',
-  docspec.Class: 'cyan',
-  docspec.Function: 'yellow',
-  docspec.Data: 'blue',
-}
-
-
-def _dump_tree(obj: docspec.ApiObject, depth: int = 0):
-  color = _COLOR_MAP.get(type(obj))
-  type_name = colored(type(obj).__name__.lower(), color)
-  print('| ' * depth + type_name, obj.name)
-  for member in getattr(obj, 'members', []):
-    _dump_tree(member, depth+1)
-
+def _dump_tree(obj: docspec.ApiObject):
+  obj.walk(docspec.PrintVisitor())
 
 def main():
   parser = argparse.ArgumentParser()
