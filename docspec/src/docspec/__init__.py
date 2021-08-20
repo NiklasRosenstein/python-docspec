@@ -289,13 +289,15 @@ class Module(HasMembers):
 
 
 _MemberType = te.Annotated[
-  t.Union[Data, Function, Class],
-  A.unionclass({ 'data': Data, 'function': Function, 'class': Class }, style=A.unionclass.Style.flat)]
+  t.Union[Data, Function, Class, Indirection],
+  A.unionclass({ 'data': Data, 'function': Function, 'class': Class, 'indirection': Indirection}, 
+    style=A.unionclass.Style.flat)]
 
 
 _ModuleMemberType = te.Annotated[
-  t.Union[Data, Function, Class, Module],
-  A.unionclass({ 'data': Data, 'function': Function, 'class': Class, 'module': Module }, style=A.unionclass.Style.flat)]
+  t.Union[Data, Function, Class, Module, Indirection],
+  A.unionclass({ 'data': Data, 'function': Function, 'class': Class, 'module': Module, 'indirection': Indirection}, 
+    style=A.unionclass.Style.flat)]
 
 
 def load_module(
