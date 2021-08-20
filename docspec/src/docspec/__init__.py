@@ -183,6 +183,10 @@ class ApiObject:
       current = current.parent
     result.reverse()
     return result
+  
+  @property
+  def full_name(self) -> str:
+    return '.'.join(ob.name for ob in self.path)
 
   def sync_hierarchy(self, parent: t.Optional['HasMembers'] = None) -> None:
     """
