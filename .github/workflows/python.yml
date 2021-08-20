@@ -34,7 +34,6 @@ jobs:
 
     runs-on: ubuntu-latest
     needs: test
-    if: github.ref == 'refs/heads/develop'
 
     steps:
     - uses: actions/checkout@v2
@@ -48,8 +47,14 @@ jobs:
       run: bin/generate-changelog.sh >changelog.md
     - name: Generate docs
       run: pydoc-markdown --build --site-dir "$PWD/_html"
+    - name: Store Html
+      uses: actions/upload-artifact@v2
+      with:
+        name: dos
+        path: _html
     - name: Publish docs
       uses: JamesIves/github-pages-deploy-action@4.1.4
+      if: github.ref == 'refs/heads/develop'
       with:
         branch: gh-pages
         folder: _html
