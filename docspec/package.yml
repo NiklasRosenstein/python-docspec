@@ -10,7 +10,7 @@ requirements:
 - databind.core ^1.0.0
 - databind.json ^1.0.0
 - Deprecated ^1.2.12
-dev-requirements:
+test-requirements:
 - types-Deprecated
 - types-termcolor
 entrypoints:
