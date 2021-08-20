@@ -13,6 +13,8 @@ renderer:
       source: README.md
     - title: Specification
       source: spec.md
+    - title: Changelog
+      source: changelog.md
     - title: API Documentation
       children:
         - title: docspec
