@@ -19,6 +19,10 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 # IN THE SOFTWARE.
 
+"""
+Note: The `docspec_python.parser` module is not public API.
+"""
+
 import dataclasses
 import os
 import re
