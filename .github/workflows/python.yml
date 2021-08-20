@@ -50,7 +50,7 @@ jobs:
     - name: Store Html
       uses: actions/upload-artifact@v2
       with:
-        name: dos
+        name: docs
         path: _html
     - name: Publish docs
       uses: JamesIves/github-pages-deploy-action@4.1.4
