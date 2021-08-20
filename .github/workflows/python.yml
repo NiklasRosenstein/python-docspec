@@ -28,4 +28,4 @@ jobs:
     - name: Test
       run: TEST_NO_DEVELOP=true shut mono test --isolate
     - name: Verify package metadata
-      run: shut update --verify
+      run: shut pkg update --verify
