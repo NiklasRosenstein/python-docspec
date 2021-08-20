@@ -547,8 +547,8 @@ class PrintVisitor(genericvisitor.Visitor[ApiObject]):
       obj_type = colored(type(ob).__name__, self._COLOR_MAP.get(type(ob))) if self.colorize else type(ob).__name__,
       obj_name = ob.name,
       obj_docstring = ob.docstring or "",
-      obj_lineno = str(ob.location.lineno),
-      obj_filename = ob.location.filename or '',
+      obj_lineno = str(ob.location.lineno) if ob.location else 0,
+      obj_filename = ob.location.filename or '' if ob.location else '',
       )
     print('| ' * depth + self.formatstr.format(**tokens))
   
