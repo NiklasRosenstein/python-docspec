@@ -508,12 +508,14 @@ class FilterVisitor(genericvisitor.Visitor[ApiObject]):
     if not self.predicate(ob):
       parent = ob.parent
       if parent is None:
-        raise RuntimeError(f'cannot remove root module, "{ob.full_name}", from the system.')
-      name = ob.name
-      assert isinstance(parent, HasMembers)
+        # Cannot filter out root modules, so we just ignore it. 
+        return
+      
+      # delete the object from the containing list/
+      assert isinstance(parent, (Module, Class))
       assert isinstance(ob, (Data, Function, Class, Module))
       del parent.members[parent.members.index(ob)]
-      assert get_member(parent, name) is None
+      assert get_member(parent, ob.name) is None
 
 class PrintVisitor(genericvisitor.Visitor[ApiObject]):
   """
