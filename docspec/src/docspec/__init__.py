@@ -508,8 +508,7 @@ class FilterVisitor(genericvisitor.Visitor[ApiObject]):
     if not self.predicate(ob):
       parent = ob.parent
       if parent is None:
-        # Cannot filter out root modules, so we just ignore it. 
-        return
+        raise RuntimeError("Cannot filter out root module: '{ob.name}'. ")
       
       # delete the object from the containing list
       assert isinstance(parent, (Module, Class))
