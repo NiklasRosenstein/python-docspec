@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Specification - My Project</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Specification";
+    var mkdocs_page_input_path = "specification.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> My Project</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Specification</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#object-types">Object Types</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#location">Location</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#module">Module</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#class">Class</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#data">Data</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#function">Function</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#argument">Argument</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#decoration">Decoration</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">API Documentation</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../api-documentation/docspec/">docspec</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../api-documentation/docspec_python/">docspec_python</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">My Project</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Specification</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="docspec-json-object-specification">Docspec JSON object specification</h1>
+<p><strong>Table of Contents</strong></p>
+<ul>
+<li><a href="#location">Location</a></li>
+<li><a href="#module">Module</a></li>
+<li><a href="#class">Class</a></li>
+<li><a href="#data">Data</a></li>
+<li><a href="#function">Function</a></li>
+<li><a href="#drgument">Argument</a></li>
+<li><a href="#decoration">Decoration</a></li>
+</ul>
+<h2 id="object-types">Object Types</h2>
+<h3 id="location">Location</h3>
+<p>The location object describes where the an API object was extracted from a
+file. Uusally this points to the source file and a line number. The filename
+should always be relative to the root of a project or source control repository.</p>
+<p><em>Fields</em></p>
+<ul>
+<li><code>filename</code> (str) &ndash; A relative filename.</li>
+<li><code>lineno</code> (int): &ndash; The line number from which the API object was parsed.</li>
+</ul>
+<h3 id="module">Module</h3>
+<p>A module represents a collection of data, function and classes. In the Python
+language, it represents an actual Python module. In other languages it may
+refer to another file type or a namespace.</p>
+<p><em>Fields</em></p>
+<ul>
+<li><code>name</code> (str) &ndash; The full name of the module.</li>
+<li><code>location</code> (Location)</li>
+<li><code>docstring</code> (Optional[str]) &ndash; The docstring for the module as parsed
+  from the source.</li>
+<li><code>members</code> (array) &ndash; An array of <code>Data</code>, <code>Function</code> or <code>Class</code> objects.</li>
+</ul>
+<h3 id="class">Class</h3>
+<p>Represents a class definition.</p>
+<p><em>Fields</em></p>
+<ul>
+<li><code>type</code> (str) &ndash; Value is <code>class</code></li>
+<li><code>name</code> (str)</li>
+<li><code>location</code> (Location)</li>
+<li><code>docstring</code> (Optional[str])</li>
+<li><code>metaclass</code> (Optional[str]) &ndash; A string representing the metaclass.</li>
+<li><code>bases</code> (Optional[array]) &ndash; An array of <code>str</code> representing the base classes.</li>
+<li><code>members</code> (array) &ndash; An array of <code>Data</code>, <code>Function</code> or <code>Class</code> objects.</li>
+<li><code>decorations</code> (Optional[array]) &ndash; An array of <code>Decoration</code> objects.</li>
+</ul>
+<h3 id="data">Data</h3>
+<p>A <code>Data</code> object represents a static value that is assigned to a name.</p>
+<p><em>Fields</em></p>
+<ul>
+<li><code>type</code> (str) &ndash; Value is <code>data</code>.</li>
+<li><code>name</code> (str) &ndash; The name for the value.</li>
+<li><code>location</code> (Location)</li>
+<li><code>docstring</code> (Optional[str])</li>
+<li><code>datatype</code> (Optional[str]) &ndash; The datatype of the value.</li>
+<li><code>value</code> (Optional[str]) &ndash; The value in the form of the definition
+  in the source.</li>
+</ul>
+<h3 id="function">Function</h3>
+<p>Represents a function definition in a module or class.</p>
+<p><em>Fields</em></p>
+<ul>
+<li><code>type</code> (str) &ndash; Value is <code>function</code></li>
+<li><code>name</code> (str)</li>
+<li><code>location</code> (str)</li>
+<li><code>docstring</code> (Optional[str])</li>
+<li><code>modifiers</code> (Optional[array]) &ndash; An array of <code>str</code> representing the modifers
+  of this function (e.g. <code>async</code>, <code>classmethod</code>, etc.).</li>
+<li><code>args</code> (array) &ndash; An array of <code>Argument</code> objects.</li>
+<li><code>return_type</code> (Optional[str]) &ndash; The return type of the function.</li>
+<li><code>decorations</code> (Optional[array]) &ndash; An array of <code>Decoration</code> objects.</li>
+</ul>
+<h3 id="argument">Argument</h3>
+<p>Represents a function argument.</p>
+<p><em>Fields</em></p>
+<ul>
+<li><code>type</code> (str) &ndash; One of <code>PositionalOnly</code>, <code>Positional</code>,
+  <code>PositionalRemainder</code>, <code>KeywordOnly</code> or <code>KeywordRemainder</code>.</li>
+<li><code>name</code> (str)</li>
+<li><code>datatype</code> (Optional[str])</li>
+<li><code>default_value</code> (Optional[str])</li>
+</ul>
+<h3 id="decoration">Decoration</h3>
+<p>Represents a decoration that can be applied to a function or class.</p>
+<p><em>Fields</em></p>
+<ul>
+<li><code>name</code> (str) &ndash; The name of the decoration.</li>
+<li><code>args</code> (Optionla[array]) &ndash; An array of <code>str</code> representing the arguments
+  passed to the decoration. If unset or null, indicates that the decoration was
+  not called like a function.</li>
+</ul>
+<hr />
+<p align="center">Copyright &copy; 2020, Niklas Rosenstein</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../api-documentation/docspec/" class="btn btn-neutral float-right" title="docspec">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href=".." class="btn btn-neutral" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href=".." style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../api-documentation/docspec/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

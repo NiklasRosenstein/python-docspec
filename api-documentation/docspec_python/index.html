@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+  <title>docspec_python - My Project</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "docspec_python";
+    var mkdocs_page_input_path = "api-documentation/docspec_python.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> My Project</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../specification/">Specification</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">API Documentation</span></p>
+                <ul class="current">
+                    <li class="toctree-l1"><a class="reference internal" href="../docspec/">docspec</a>
+                    </li>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">docspec_python</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#load_python_modules">load_python_modules</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#parse_python_module">parse_python_module</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#find_module">find_module</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#iter_package_files">iter_package_files</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#discover">discover</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#format_arglist">format_arglist</a>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">My Project</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>API Documentation &raquo;</li>
+        
+      
+    
+    <li>docspec_python</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+
+          <div role="main">
+            <div class="section">
+              
+                <p><a id="docspec_python"></a></p>
+<h1 id="docspec_python">docspec_python</h1>
+<p><a id="docspec_python.load_python_modules"></a></p>
+<h4 id="load_python_modules">load_python_modules</h4>
+<pre><code class="language-python">load_python_modules(modules: t.List[str] = None, packages: t.List[str] = None, files: t.List[t.Tuple[t.Optional[str], t.Union[t.TextIO, str]]] = None, search_path: t.List[str] = None, options: ParserOptions = None, raise_: bool = True, encoding: t.Optional[str] = None) -&gt; t.Iterable[Module]
+</code></pre>
+<p>Utility function for loading multiple <code>Modules</code> from a list of Python module and package
+names. It combines <a href="#docspec_python.find_module"><code>find_module()</code></a>, <a href="#docspec_python.iter_package_files"><code>iter_package_files()</code></a> and <a href="#docspec_python.parse_python_module"><code>parse_python_module()</code></a> in a
+convenient way.</p>
+<p><strong>Arguments</strong>:</p>
+<p>file-like object. The module name may be None.
+- <code>modules</code>: A list of module names to load and parse.
+- <code>packages</code>: A list of package names to load and parse.
+- <code>files</code>: A list of (module_name, filename) to parse. The filename may also be a
+- <code>search_path</code>: The Python module search path. Falls back to <code>sys.path</code> if omitted.
+- <code>options</code>: Options for the Python module parser.</p>
+<p><strong>Returns</strong>:</p>
+<p>Iterable of <code>Module</code>.</p>
+<p><a id="docspec_python.parse_python_module"></a></p>
+<h4 id="parse_python_module">parse_python_module</h4>
+<pre><code class="language-python">parse_python_module(f: t.Union[str, t.TextIO], filename: str = None, module_name: str = None, options: ParserOptions = None, encoding: t.Optional[str] = None) -&gt; Module
+</code></pre>
+<p>Parses Python code of a file or file-like object and returns a <code>Module</code>
+object with the contents of the file The <em>options</em> are forwarded to the
+<code>Parser</code> constructor.</p>
+<p><a id="docspec_python.find_module"></a></p>
+<h4 id="find_module">find_module</h4>
+<pre><code class="language-python">find_module(module_name: str, search_path: t.List[str] = None) -&gt; str
+</code></pre>
+<p>Finds the filename of a module that can be parsed with <a href="#docspec_python.parse_python_module"><code>parse_python_module()</code></a>.
+If <em>search_path</em> is not set, the default <code>sys.path</code> is used to search for the
+module.</p>
+<p><strong>Raises</strong>:</p>
+<ul>
+<li><code>ImportError</code>: If the module cannot be found.</li>
+</ul>
+<p><a id="docspec_python.iter_package_files"></a></p>
+<h4 id="iter_package_files">iter_package_files</h4>
+<pre><code class="language-python">iter_package_files(package_name: str, search_path: t.List[str] = None) -&gt; t.Iterable[t.Tuple[str, str]]
+</code></pre>
+<p>Returns an iterator for the Python source files in the specified package. The items returned
+by the iterator are tuples of the module name and filename.</p>
+<p><a id="docspec_python.discover"></a></p>
+<h4 id="discover">discover</h4>
+<pre><code class="language-python">discover(directory: str) -&gt; t.Iterable[DiscoveryResult]
+</code></pre>
+<p>Discovers Python modules and packages in the specified <em>directory</em>. The returned generated
+returns tuples where the first element of the tuple is the type (either <code>'module'</code> or
+<code>'package'</code>), the second is the name and the third is the path. In case of a package,
+the path points to the directory.</p>
+<p><strong>Raises</strong>:</p>
+<ul>
+<li><code>OSError</code>: Propagated from <code>os.listdir()</code>.</li>
+</ul>
+<p><a id="docspec_python.format_arglist"></a></p>
+<h4 id="format_arglist">format_arglist</h4>
+<pre><code class="language-python">format_arglist(args: t.List[Argument]) -&gt; str
+</code></pre>
+<p>Formats a Python argument list.</p>
+<p><a id="docspec_python.parser"></a></p>
+<h1 id="docspec_pythonparser">docspec_python.parser</h1>
+<p><a id="docspec_python.parser.Parser"></a></p>
+<h2 id="parser-objects">Parser Objects</h2>
+<pre><code class="language-python">class Parser()
+</code></pre>
+<p><a id="docspec_python.parser.Parser.parse_to_ast"></a></p>
+<h4 id="parse_to_ast">parse_to_ast</h4>
+<pre><code class="language-python"> | parse_to_ast(code, filename)
+</code></pre>
+<p>Parses the string <em>code</em> to an AST with <code>lib2to3</code>.</p>
+<p><a id="docspec_python.parser.Parser.parse_argument"></a></p>
+<h4 id="parse_argument">parse_argument</h4>
+<pre><code class="language-python"> | parse_argument(node: t.Union[Leaf, Node], argtype: Argument.Type, scanner: 'ListScanner') -&gt; Argument
+</code></pre>
+<p>Parses an argument from the AST. <em>node</em> must be the current node at
+the current position of the <em>scanner</em>. The scanner is used to extract
+the optional default argument value that follows the <em>node</em>.</p>
+<p><a id="docspec_python.parser.Parser.get_docstring_from_first_node"></a></p>
+<h4 id="get_docstring_from_first_node">get_docstring_from_first_node</h4>
+<pre><code class="language-python"> | get_docstring_from_first_node(parent, module_level=False)
+</code></pre>
+<p>This method retrieves the docstring for the block node <em>parent</em>. The
+node either declares a class or function.</p>
+<p><a id="docspec_python.parser.Parser.get_hashtag_docstring_from_prefix"></a></p>
+<h4 id="get_hashtag_docstring_from_prefix">get_hashtag_docstring_from_prefix</h4>
+<pre><code class="language-python"> | get_hashtag_docstring_from_prefix(node: Node) -&gt; t.Tuple[t.Optional[str], t.Optional[str]]
+</code></pre>
+<p>Given a node in the AST, this method retrieves the docstring from the
+closest prefix of this node (ie. any block of single-line comments that
+precede this node).</p>
+<p>The function will also return the type of docstring: A docstring that
+begins with <code>#:</code> is a statement docstring, otherwise it is a block
+docstring (and only used for classes/methods).</p>
+<p>return: (docstring, doc_type)</p>
+<p><a id="docspec_python.parser.Parser.nodes_to_string"></a></p>
+<h4 id="nodes_to_string">nodes_to_string</h4>
+<pre><code class="language-python"> | nodes_to_string(nodes)
+</code></pre>
+<p>Converts a list of AST nodes to a string.</p>
+<p><a id="docspec_python.parser.ListScanner"></a></p>
+<h2 id="listscanner-objects">ListScanner Objects</h2>
+<pre><code class="language-python">class ListScanner()
+</code></pre>
+<p>A helper class to navigate through a list. This is useful if you would
+usually iterate over the list by index to be able to acces the next
+element during the iteration.</p>
+<p><strong>Example</strong>:</p>
+<pre><code class="language-py">scanner = ListScanner(lst)
+for value in scanner.safe_iter():
+  if some_condition(value):
+    value = scanner.advance()
+</code></pre>
+<p><a id="docspec_python.parser.ListScanner.current"></a></p>
+<h4 id="current">current</h4>
+<pre><code class="language-python"> | @property
+ | current()
+</code></pre>
+<p>Returns the current list element.</p>
+<p><a id="docspec_python.parser.ListScanner.can_advance"></a></p>
+<h4 id="can_advance">can_advance</h4>
+<pre><code class="language-python"> | can_advance()
+</code></pre>
+<p>Returns <code>True</code> if there is a next element in the list.</p>
+<p><a id="docspec_python.parser.ListScanner.advance"></a></p>
+<h4 id="advance">advance</h4>
+<pre><code class="language-python"> | advance(expect=False)
+</code></pre>
+<p>Advances the scanner to the next element in the list. If <em>expect</em> is set
+to <code>True</code>, an <code>IndexError</code> will be raised when there is no next element.
+Otherwise, <code>None</code> will be returned.</p>
+<p><a id="docspec_python.parser.ListScanner.safe_iter"></a></p>
+<h4 id="safe_iter">safe_iter</h4>
+<pre><code class="language-python"> | safe_iter(auto_advance=True)
+</code></pre>
+<p>A useful generator function that iterates over every element in the list.
+You may call <a href="#docspec_python.parser.ListScanner.advance"><code>advance()</code></a> during the iteration to retrieve the next
+element in the list within a single iteration.</p>
+<p>If <em>auto_advance</em> is <code>True</code> (default), the function generator will
+always advance to the next element automatically. If it is set to <code>False</code>,
+<a href="#docspec_python.parser.ListScanner.advance"><code>advance()</code></a> must be called manually in every iteration to ensure that
+the scanner has advanced at least to the next element, or a
+<code>RuntimeError</code> will be raised.</p>
+<p><a id="docspec_python.__main__"></a></p>
+<h1 id="docspec_python__main__">docspec_python.__main__</h1>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="../docspec/" class="btn btn-neutral" title="docspec"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../docspec/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme_extra.js" defer></script>
+    <script src="../../js/theme.js" defer></script>
+      <script src="../../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
