@@ -53,6 +53,13 @@ import deprecated
 import databind.core.annotations as A
 import databind.json
 
+try:
+  from termcolor import colored
+except ImportError as exc:
+  def colored(s, *args, **kwargs):  # type: ignore
+    return str(s)
+
+from . import genericvisitor
 
 @dataclasses.dataclass
 class Location:
@@ -194,6 +201,15 @@ class ApiObject:
 
     self.parent = parent
 
+  def _get_children(self) -> t.Iterable['ApiObject']:
+    if isinstance(self, HasMembers): return self.members
+    else: return ()
+  def walk(self, v: genericvisitor.Visitor['ApiObject']) -> None:
+    """See #genericvisitor.walk"""
+    genericvisitor.walk(self, v, get_children=ApiObject._get_children)
+  def walkabout(self, v: genericvisitor.Visitor['ApiObject']) -> None:
+    """See #genericvisitor.walkabout"""
+    genericvisitor.walkabout(self, v, get_children=ApiObject._get_children)
 
 @dataclasses.dataclass
 class Data(ApiObject):
@@ -469,3 +485,72 @@ def get_member(obj: ApiObject, name: str) -> t.Optional[ApiObject]:
         return member
 
   return None
+
+# visitors
+
+class FilterVisitor(genericvisitor.Visitor[ApiObject]):
+  """
+  Visits *objects* applying the *predicate*. 
+  
+  If the predicate returrns #False, the object will be removed from it's containing list.
+  """
+  
+  def __init__(self, predicate: t.Callable[[ApiObject], bool]):
+    self.predicate = predicate
+
+  def unknown_visit(self, ob: ApiObject) -> None:
+    self.apply_predicate(ob)
+  
+  def unknown_departure(self, ob: ApiObject) -> None:
+    pass
+  
+  def apply_predicate(self, ob: ApiObject) -> None:
+    if not self.predicate(ob):
+      parent = ob.parent
+      if parent is None:
+        raise RuntimeError(f'cannot remove root module, "{ob.full_name}", from the system.')
+      name = ob.name
+      assert isinstance(parent, HasMembers)
+      assert isinstance(ob, (Data, Function, Class, Module))
+      del parent.members[parent.members.index(ob)]
+      assert get_member(parent, name) is None
+
+class PrintVisitor(genericvisitor.Visitor[ApiObject]):
+  """
+  Visit objects and print each object with the defined format string. 
+
+  Available substitutions are: 
+    - "{obj_type}" (colored)
+    - "{obj_name}"
+    - "{obj_docstring}"
+    - "{obj_lineno}"
+    - "{obj_filename}"
+
+  The default format string is: ":{obj_lineno} - {obj_type}: {obj_name}"
+  """
+
+  _COLOR_MAP = {
+    Module: 'magenta',
+    Class: 'cyan',
+    Function: 'yellow',
+    Data: 'blue',
+  }
+      
+  def __init__(self, formatstr: str = ":{obj_lineno} - {obj_type}: {obj_name}", 
+               colorize: bool = True):
+        self.formatstr = formatstr
+        self.colorize = colorize
+
+  def unknown_visit(self, ob: ApiObject) -> None:
+    depth = len(ob.path)-1
+    tokens = dict(
+      obj_type = colored(type(ob).__name__, self._COLOR_MAP.get(type(ob))) if self.colorize else type(ob).__name__,
+      obj_name = ob.name,
+      obj_docstring = ob.docstring or "",
+      obj_lineno = str(ob.location.lineno),
+      obj_filename = ob.location.filename or '',
+      )
+    print('| ' * depth + self.formatstr.format(**tokens))
+  
+  def unknown_departure(self, ob: ApiObject) -> None:
+    pass
