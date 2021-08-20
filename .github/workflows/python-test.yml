@@ -26,8 +26,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m venv .shut-venv
-        .shut-venv/bin/pip install shut==0.14.0 -q
-        .shut-venv/bin/shut mono install --no-develop --test --dev
+        .shut-venv/bin/pip install shut==0.17.2 -q
     - name: Install helpers
       run: |
         pip install flake8 pytest mypy
@@ -39,7 +38,4 @@ jobs:
     #    flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
-        TEST_NO_DEVELOP=true pytest
-    - name: Static Type Checking with Mypy
-      run: |
-        mypy docspec/src docspec-python/src --check-untyped-defs
+        TEST_NO_DEVELOP=true shut mono test --isolate
