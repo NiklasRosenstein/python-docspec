@@ -13,9 +13,9 @@ requirements:
 test-requirements:
 - types-Deprecated
 - types-termcolor
-entrypoints:
-  console_scripts:
-  - docspec = docspec.__main__:main
 test-drivers:
 - type: pytest
 - type: mypy
+entrypoints:
+  console_scripts:
+  - docspec = docspec.__main__:main

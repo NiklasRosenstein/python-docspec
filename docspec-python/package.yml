@@ -4,13 +4,15 @@ version: "1.0.2"
 author: "Niklas Rosenstein <rosensteinniklas@gmail.com>"
 license: "MIT"
 description: "A parser based on lib2to3 producing docspec data from Python source code."
+typed: true
 requirements:
 - python ^3.7
 - docspec ^1.0.2
-entrypoints:
-  console_scripts:
-  - docspec-python = docspec_python.__main__:main
-typed: true
+test-requirements:
+- types-Deprecated
 test-drivers:
 - type: pytest
 - type: mypy
+entrypoints:
+  console_scripts:
+  - docspec-python = docspec_python.__main__:main

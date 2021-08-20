@@ -37,6 +37,11 @@ else:
 requirements = [
   'docspec >=1.0.2,<2.0.0',
 ]
+test_requirements = [
+  'types-Deprecated',
+]
+extras_require = {}
+extras_require['test'] = test_requirements
 
 setuptools.setup(
   name = 'docspec-python',
@@ -52,8 +57,8 @@ setuptools.setup(
   package_dir = {'': 'src'},
   include_package_data = True,
   install_requires = requirements,
-  extras_require = {},
-  tests_require = [],
+  extras_require = extras_require,
+  tests_require = test_requirements,
   python_requires = '>=3.7.0,<4.0.0',
   data_files = [],
   entry_points = {
