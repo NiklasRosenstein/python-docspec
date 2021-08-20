@@ -16,5 +16,6 @@ dev-requirements:
 entrypoints:
   console_scripts:
   - docspec = docspec.__main__:main
-test-driver:
-  type: pytest
+test-drivers:
+-  type: pytest
+-  type: mypy

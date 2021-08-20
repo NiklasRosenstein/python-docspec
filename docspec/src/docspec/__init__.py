@@ -44,6 +44,7 @@ import enum
 import io
 import json
 import sys
+import types
 import typing as t
 import typing_extensions as te
 import weakref
@@ -341,6 +342,22 @@ def load_modules(
     module = databind.json.load(data, Module, filename=filename)
     module.sync_hierarchy()
     yield module
+
+
+@t.overload
+def dump_module(
+  module: Module,
+  target: t.Union[str, t.IO[str]],
+  dumper: t.Callable[[t.Any, t.IO[str]], None] = json.dump
+) -> None: ...
+
+
+@t.overload
+def dump_module(
+  module: Module,
+  target: None = None,
+  dumper: t.Callable[[t.Any, t.IO[str]], None] = json.dump
+) -> t.Dict[str, t.Any]: ...
 
 
 def dump_module(
