@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Changelog - docspec</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Changelog";
+    var mkdocs_page_input_path = "changelog.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> docspec</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../specification/">Specification</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Changelog</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#unreleased-no-release-date">Unreleased (no release date)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#100-2021-07-21">1.0.0 (2021-07-21)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#021-2021-02-21">0.2.1 (2021-02-21)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#020-2020-07-06">0.2.0 (2020-07-06)</a>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">API Documentation</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../api-documentation/docspec/">docspec</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../api-documentation/docspec_python/">docspec_python</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">docspec</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Changelog</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/NiklasRosenstein/docspec/edit/master/docs/changelog.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="docspec-changelog">docspec Changelog</h1>
+<h2 id="unreleased-no-release-date">Unreleased (no release date)</h2>
+<ul>
+<li><strong>general</strong><ul>
+<li><strong>feature</strong>: add <code>ApiObject.parent</code> and <code>ApiObject.path</code> to deprecate
+  <code>ReverseMap</code> class</li>
+<li><strong>feature</strong>: add <code>ApiObject.sync_hierarchy()</code> method</li>
+<li><strong>feature</strong>: introduce <code>HasMembers</code> base class for <code>Class</code> and <code>Module</code>,
+  <code>Module.members</code> can now container other modules (#15)</li>
+<li><strong>change</strong>: <code>get_member()</code> and <code>filter_visit()</code> have been updated to make use of
+  the <code>HasMembers</code> base class instead of relying on <code>hasattr()</code>/<code>getattr()</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="100-2021-07-21">1.0.0 (2021-07-21)</h2>
+<ul>
+<li><strong>general</strong><ul>
+<li><strong>breaking_change</strong>: Migrate to using <code>databind.core 1.x</code> and <code>databind.json
+  1.x</code> from <code>nr.databind.core</code> and <code>nr.databind.json</code>.</li>
+</ul>
+</li>
+</ul>
+<h2 id="021-2021-02-21">0.2.1 (2021-02-21)</h2>
+<ul>
+<li><strong>general</strong><ul>
+<li><strong>fix</strong>: fix dependencies</li>
+</ul>
+</li>
+</ul>
+<h2 id="020-2020-07-06">0.2.0 (2020-07-06)</h2>
+<ul>
+<li><strong>general</strong><ul>
+<li><strong>change</strong>: <code>ApiObject</code> constructors now accept keyword arguments only</li>
+<li><strong>change</strong>: All <code>nullable</code> fields now have <code>default=None</code></li>
+<li><strong>change</strong>: Many serializable classes are now decorated with <code>SkipDefaults()</code></li>
+</ul>
+</li>
+</ul>
+<h1 id="docspec_python-changelog">docspec_python Changelog</h1>
+<h2 id="100-2021-07-21_1">1.0.0 (2021-07-21)</h2>
+<ul>
+<li><strong>general</strong><ul>
+<li><strong>breaking_change</strong>: Migrate to using <code>databind.core 1.x</code> and <code>databind.json
+  1.x</code> from <code>nr.databind.core</code> and <code>nr.databind.json</code>.</li>
+</ul>
+</li>
+</ul>
+<h2 id="020-2021-05-29">0.2.0 (2021-05-29)</h2>
+<ul>
+<li><strong>general</strong><ul>
+<li><strong>change</strong>: republish 0.1.1 as 0.2.0</li>
+</ul>
+</li>
+</ul>
+<h2 id="011-2021-05-21">0.1.1 (2021-05-21)</h2>
+<ul>
+<li><strong>general</strong><ul>
+<li><strong>change</strong>: update type hints, use <code>@dataclass</code> over <code>nr.sumtype</code> which has MyPy
+  support</li>
+<li><strong>fix</strong>: fix <code>discover()</code> to ignore Python files with more than one dot in it</li>
+</ul>
+</li>
+</ul>
+<h2 id="010-2021-02-20">0.1.0 (2021-02-20)</h2>
+<ul>
+<li><strong>general</strong><ul>
+<li><strong>fix</strong>: Fix <code>NameError</code> in function type annotation</li>
+<li><strong>feature</strong>: add <code>encoding</code> parameter to <code>load_python_modules()</code> and
+  <code>parse_python_module()</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="007-2020-07-16">0.0.7 (2020-07-16)</h2>
+<ul>
+<li><strong>general</strong><ul>
+<li><strong>improvement</strong>: no longer use <code>pkgutil.find_loader()</code> to find Python modules as
+  it prefers modules that are already in <code>sys.modules</code> even if that instance of
+  the module would not occurr in the specified <code>search_path</code>.
+  <code>docspec_python.find_module()</code> now re-implements the search mechanism</li>
+<li><strong>tests</strong>: add tests for Python module loader logic</li>
+<li><strong>fix</strong>: fix support for Python 3.5</li>
+</ul>
+</li>
+<li><strong>tests</strong><ul>
+<li><strong>fix</strong>: fix test cases</li>
+</ul>
+</li>
+</ul>
+<h2 id="006-2020-07-16">0.0.6 (2020-07-16)</h2>
+<ul>
+<li><strong>general</strong><ul>
+<li><strong>fix</strong>: fix <code>iter_package_files()</code> which would not respect the <code>search_path</code>
+  argument</li>
+</ul>
+</li>
+</ul>
+<h2 id="005-2020-07-06">0.0.5 (2020-07-06)</h2>
+<ul>
+<li><strong>general</strong><ul>
+<li><strong>change</strong>: Update calls to <code>ApiObject</code> subclasses to pass keyword arguments
+  only (as is required in <code>docspec &gt;=0.2.0</code>)</li>
+<li><strong>fix</strong>: Fix derivation of Python module name from name of file on disk (before
+  it would accidentally strip trailing p's or y's from the name).</li>
+</ul>
+</li>
+</ul>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../api-documentation/docspec/" class="btn btn-neutral float-right" title="docspec">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../specification/" class="btn btn-neutral" title="Specification"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/NiklasRosenstein/docspec/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../specification/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../api-documentation/docspec/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
