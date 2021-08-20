@@ -511,13 +511,12 @@ class FilterVisitor(genericvisitor.Visitor[ApiObject]):
         # Cannot filter out root modules, so we just ignore it. 
         return
       
-      # delete the object from the containing list/
+      # delete the object from the containing list
       assert isinstance(parent, (Module, Class))
-      if isinstance(parent, Module):
-        assert isinstance(ob, (Data, Function, Class, Module))
-      else:
-        assert isinstance(ob, (Data, Function, Class))
-      del parent.members[parent.members.index(ob)]
+      assert isinstance(ob, (Data, Function, Class, Module))
+        
+      del t.cast(t.List[_ModuleMemberType], parent.members)[parent.members.index(ob)]
+      
       assert get_member(parent, ob.name) is None
 
 class PrintVisitor(genericvisitor.Visitor[ApiObject]):
