@@ -513,7 +513,10 @@ class FilterVisitor(genericvisitor.Visitor[ApiObject]):
       
       # delete the object from the containing list/
       assert isinstance(parent, (Module, Class))
-      assert isinstance(ob, (Data, Function, Class, Module))
+      if isinstance(parent, Module):
+        assert isinstance(ob, (Data, Function, Class, Module))
+      else:
+        assert isinstance(ob, (Data, Function, Class))
       del parent.members[parent.members.index(ob)]
       assert get_member(parent, ob.name) is None
 
