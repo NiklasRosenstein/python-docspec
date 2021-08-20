@@ -17,5 +17,5 @@ entrypoints:
   console_scripts:
   - docspec = docspec.__main__:main
 test-drivers:
--  type: pytest
--  type: mypy
+- type: pytest
+- type: mypy
