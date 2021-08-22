@@ -210,8 +210,8 @@ class Data(ApiObject):
 @dataclasses.dataclass
 class Indirection(ApiObject):
   """
-  Represents an imported name. It can be used to properly 
-  find the full name target of a link written with a local name. 
+  Represents an imported name. It can be used to properly find the full name target of a link written with a 
+  local name. 
   """
 
   target: str
