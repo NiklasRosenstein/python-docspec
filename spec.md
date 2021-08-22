@@ -54,7 +54,7 @@ _Fields_
 
 ### Data
 
-A `Data` object represents a value that is assigned to a name or an expression.
+A `Data` object represents a value that is assigned to a name.
 
 _Fields_
 
