@@ -41,7 +41,7 @@ def test_serialize_typed(typed_module: docspec.Module):
                   'name': 'foo',
                   'type': 'class'}],
     'name': 'a',
-      }
+  }
 
 def test_serialize(module: docspec.Module):
   assert docspec.dump_module(module) == {
