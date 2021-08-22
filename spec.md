@@ -54,7 +54,7 @@ _Fields_
 
 ### Data
 
-A `Data` object represents a value that is assigned to a name.
+A `Data` object represents an expression assigned to a name (e.g., a variable or constant).
 
 _Fields_
 
@@ -107,8 +107,8 @@ _Fields_
 
 ### Indirection
 
-Represents an imported name. It can be used to properly 
-find the full name target of a link written with a local name. 
+Represents an imported name. It can be used to properly find the full name 
+target of a link written with a local name. 
 
 _Fields_
 
