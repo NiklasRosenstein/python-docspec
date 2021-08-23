@@ -122,6 +122,8 @@
     </li>
         </ul>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#indirection-objects">Indirection Objects</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#function-objects">Function Objects</a>
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#modifiers">modifiers</a>
@@ -339,6 +341,13 @@ class Data(ApiObject)
 <p><a id="docspec.Data.value"></a></p>
 <h4 id="value">value</h4>
 <p>The value of the variable as code.</p>
+<p><a id="docspec.Indirection"></a></p>
+<h2 id="indirection-objects">Indirection Objects</h2>
+<pre><code class="language-python">@dataclasses.dataclass
+class Indirection(ApiObject)
+</code></pre>
+<p>Represents an imported name. It can be used to properly find the full name target of a link written with a 
+local name.</p>
 <p><a id="docspec.Function"></a></p>
 <h2 id="function-objects">Function Objects</h2>
 <pre><code class="language-python">@dataclasses.dataclass
