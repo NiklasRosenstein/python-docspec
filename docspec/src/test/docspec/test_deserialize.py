@@ -2,8 +2,46 @@
 import docspec
 import typing as t
 import weakref
-from .fixtures import module
+from .fixtures import module, typed_module
 
+def test_serialize_typed(typed_module: docspec.Module):
+  assert docspec.dump_module(typed_module) == {
+    'docstring': None,
+    'location': {'filename': 'test.py',
+                  'lineno': 0},
+    'members': [{'docstring': None,
+                  'location': {'filename': 'test.py',
+                              'lineno': 1},
+                  'name': 'Union',
+                  'target': 'typing.Union',
+                  'type': 'indirection'},
+                {'bases': None,
+                  'decorations': None,
+                  'docstring': 'This is class foo.',
+                  'location': {'filename': 'test.py',
+                              'lineno': 2},
+                  'members': [{'datatype': 'Union[int, float]',
+                              'docstring': None,
+                              'location': {'filename': 'test.py',
+                                            'lineno': 4},
+                              'name': 'val',
+                              'type': 'data',
+                              'value': '42'},
+                              {'args': [{'name': 'self',
+                                        'type': 'Positional'}],
+                              'decorations': None,
+                              'docstring': None,
+                              'location': {'filename': 'test.py',
+                                            'lineno': 5},
+                              'modifiers': None,
+                              'name': '__init__',
+                              'return_type': None,
+                              'type': 'function'}],
+                  'metaclass': None,
+                  'name': 'foo',
+                  'type': 'class'}],
+    'name': 'a',
+  }
 
 def test_serialize(module: docspec.Module):
   assert docspec.dump_module(module) == {

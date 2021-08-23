@@ -54,7 +54,7 @@ _Fields_
 
 ### Data
 
-A `Data` object represents a static value that is assigned to a name.
+A `Data` object represents an expression assigned to a name (e.g., a variable or constant).
 
 _Fields_
 
@@ -104,6 +104,19 @@ _Fields_
 * `args` (Optionla[array]) &ndash; An array of `str` representing the arguments
   passed to the decoration. If unset or null, indicates that the decoration was
   not called like a function.
+
+### Indirection
+
+Represents an imported name. It can be used to properly find the full name 
+target of a link written with a local name. 
+
+_Fields_
+
+* `type` (str) &ndash; Value is `indirection`.
+* `name` (str) &ndash; The local name of the indirection.
+* `target` (str) &ndash; The target name of the indirection
+* `location` (Location)
+* `docstring` (Optional[str])
 
 ---
 

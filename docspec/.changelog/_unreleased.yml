@@ -19,3 +19,8 @@ changes:
   description: '`get_member()` and `filter_visit()` have been updated to make use
     of the `HasMembers` base class instead of relying on `hasattr()`/`getattr()`'
   fixes: []
+- type: feature
+  component: general
+  description: add `Indirection` class to keep track of imports and resolve names 
+    correctly. (@tristanlatr)
+  fixes: []
