@@ -494,30 +494,22 @@ class FilterVisitor(genericvisitor.Visitor[ApiObject]):
   
   If the predicate returrns #False, the object will be removed from it's containing list.
   """
-  
+
   def __init__(self, predicate: t.Callable[[ApiObject], bool]):
     self.predicate = predicate
 
   def unknown_visit(self, ob: ApiObject) -> None:
-    self.apply_predicate(ob)
-  
+    # if we are visiting a object, it means it has not been filtered out.
+    self.apply_predicate_on_members(ob)
+
   def unknown_departure(self, ob: ApiObject) -> None:
     pass
-  
-  def apply_predicate(self, ob: ApiObject) -> None:
-    if not self.predicate(ob):
-      parent = ob.parent
-      if parent is None:
-        raise RuntimeError("Cannot filter out root module: '{ob.name}'. ")
-      
-      # delete the object from the containing list
-      assert isinstance(parent, (Module, Class))
-      assert isinstance(ob, (Data, Function, Class, Module))
-      
-      members = t.cast(t.List[_ModuleMemberType], parent.members)
-      members.remove(ob)
-      
-      assert get_member(parent, ob.name) is None
+
+  def apply_predicate_on_members(self, ob: ApiObject) -> None:
+    if not isinstance(ob, HasMembers):
+      return
+    
+    ob.members[:] = [m for m in ob.members if self.predicate(m)]
 
 class PrintVisitor(genericvisitor.Visitor[ApiObject]):
   """
