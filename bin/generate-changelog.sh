@@ -5,7 +5,7 @@ echo "__Table of Contents__"
 echo
 echo "* [Changelog](#changelog)"
 echo "* [docspec Changelog](#docspec-changelog)"
-echo "* [docspec_python Changelog](#docspec-python-changelog)"
+echo "* [docspec_python Changelog](#docspec_python-changelog)"
 echo
 
 echo
