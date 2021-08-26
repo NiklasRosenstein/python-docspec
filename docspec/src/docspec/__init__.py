@@ -24,6 +24,7 @@ __version__ = '1.0.2'
 __all__ = [
   'Location',
   'Decoration',
+  'Docstring',
   'Argument',
   'ApiObject',
   'Data',
@@ -44,7 +45,6 @@ import enum
 import io
 import json
 import sys
-import types
 import typing as t
 import typing_extensions as te
 import weakref
@@ -62,6 +62,30 @@ class Location:
 
   filename: t.Optional[str]
   lineno: int
+
+
+@dataclasses.dataclass(init=False, frozen=True)
+class Docstring(str):
+  """
+  Represents a docstring for an #APIObject, i.e. it's content and location. This class is a subclass of `str`
+  for backwards compatibility reasons. Use the #content property to access the docstring content over the
+  #Docstring value directory.
+
+  Added in `1.1.0`.
+  """
+
+  #: The location of where the docstring is defined.
+  location: t.Optional[Location]
+
+  #: The content of the docstring. While the #Docstring class is a subclass of `str` and holds
+  #: the same value as *content*, using the #content property should be preferred as the inheritance
+  #: from the `str` class may be removed in future versions.
+  content: str = t.cast(str, property(lambda self: str(self)))
+
+  def __new__(cls, content: str, location: t.Optional[Location]) -> 'Docstring':
+    obj = super().__new__(cls, content)
+    obj.__dict__['location'] = location
+    return obj
 
 
 @dataclasses.dataclass
@@ -141,7 +165,7 @@ class ApiObject:
   location: t.Optional[Location] = dataclasses.field(repr=False)
 
   #: The documentation string of the API object.
-  docstring: t.Optional[str] = dataclasses.field(repr=False)
+  docstring: t.Optional[Docstring] = dataclasses.field(repr=False)
 
   def __post_init__(self) -> None:
     self._parent: t.Optional['weakref.ReferenceType[HasMembers]'] = None
@@ -210,8 +234,8 @@ class Data(ApiObject):
 @dataclasses.dataclass
 class Indirection(ApiObject):
   """
-  Represents an imported name. It can be used to properly find the full name target of a link written with a 
-  local name. 
+  Represents an imported name. It can be used to properly find the full name target of a link written with a
+  local name.
   """
 
   target: str
@@ -286,13 +310,13 @@ class Module(HasMembers):
 
 _MemberType = te.Annotated[
   t.Union[Data, Function, Class, Indirection],
-  A.unionclass({ 'data': Data, 'function': Function, 'class': Class, 'indirection': Indirection }, 
+  A.unionclass({ 'data': Data, 'function': Function, 'class': Class, 'indirection': Indirection },
     style=A.unionclass.Style.flat)]
 
 
 _ModuleMemberType = te.Annotated[
   t.Union[Data, Function, Class, Module, Indirection],
-  A.unionclass({ 'data': Data, 'function': Function, 'class': Class, 'module': Module, 'indirection': Indirection }, 
+  A.unionclass({ 'data': Data, 'function': Function, 'class': Class, 'module': Module, 'indirection': Indirection },
     style=A.unionclass.Style.flat)]
 
 

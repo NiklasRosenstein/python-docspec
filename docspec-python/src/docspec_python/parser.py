@@ -33,6 +33,7 @@ from docspec import (
   Argument,
   Class,
   Data,
+  Docstring,
   Decoration,
   Function,
   Location,
@@ -359,17 +360,17 @@ class Parser:
     class_.metaclass = metaclass
     return class_
 
-  def location_from(self, node):
+  def location_from(self, node: t.Union[Node, Leaf]) -> Location:
     return Location(self.filename, node.get_lineno())
 
-  def get_return_annotation(self, node):
+  def get_return_annotation(self, node: Node) -> t.Optional[str]:
     rarrow = find(lambda x: x.type == token.RARROW, node.children)
     if rarrow:
       node = rarrow.next_sibling
       return self.nodes_to_string([node])
     return None
 
-  def get_most_recent_prefix(self, node):
+  def get_most_recent_prefix(self, node) -> str:
     if node.prefix:
       return node.prefix
     while not node.prev_sibling and not node.prefix:
@@ -383,7 +384,7 @@ class Parser:
       node = node.children[-1]
     return node.prefix
 
-  def get_docstring_from_first_node(self, parent, module_level=False):
+  def get_docstring_from_first_node(self, parent: Node, module_level: bool = False) -> t.Optional[Docstring]:
     """
     This method retrieves the docstring for the block node *parent*. The
     node either declares a class or function.
@@ -392,7 +393,7 @@ class Parser:
     assert parent is not None
     node = find(lambda x: isinstance(x, Node), parent.children)
     if node and node.type == syms.simple_stmt and node.children[0].type == token.STRING:
-      return self.prepare_docstring(node.children[0].value)
+      return self.prepare_docstring(node.children[0].value, parent)
     if not node and not module_level:
       return None
     if self.options.treat_singleline_comment_blocks_as_docstrings:
@@ -401,7 +402,7 @@ class Parser:
         return docstring
     return None
 
-  def get_statement_docstring(self, node):
+  def get_statement_docstring(self, node: Node) -> t.Optional[Docstring]:
     prefix = self.get_most_recent_prefix(node)
     match = re.match(r'\s*', prefix[::-1])
     assert match is not None
@@ -411,15 +412,17 @@ class Parser:
       if doc_type == 'statement':
         return docstring
     # Look for the next string literal instead.
-    while node and node.type != syms.simple_stmt:
-      node = node.parent
-    if node and node.next_sibling and node.next_sibling.type == syms.simple_stmt:
-      string_literal = node.next_sibling.children[0]
+    curr: t.Optional[Node] = node
+    while curr and curr.type != syms.simple_stmt:
+      curr = curr.parent
+    if curr and curr.next_sibling and curr.next_sibling.type == syms.simple_stmt:
+      string_literal = curr.next_sibling.children[0]
       if string_literal.type == token.STRING:
-        return self.prepare_docstring(string_literal.value)
+        assert isinstance(string_literal, Leaf)
+        return self.prepare_docstring(string_literal.value, string_literal)
     return None
 
-  def get_hashtag_docstring_from_prefix(self, node: Node) -> t.Tuple[t.Optional[str], t.Optional[str]]:
+  def get_hashtag_docstring_from_prefix(self, node: Node) -> t.Tuple[t.Optional[Docstring], t.Optional[str]]:
     """
     Given a node in the AST, this method retrieves the docstring from the
     closest prefix of this node (ie. any block of single-line comments that
@@ -445,12 +448,15 @@ class Parser:
         doc_type = 'block'
       if lines or line:
         lines.append(line)
-    return self.prepare_docstring('\n'.join(reversed(lines))), doc_type
 
-  def prepare_docstring(self, s):
+    return self.prepare_docstring('\n'.join(reversed(lines)), node), doc_type
+
+  def prepare_docstring(self, s: str, node_for_location: t.Union[Node, Leaf]) -> t.Optional[Docstring]:
     # TODO @NiklasRosenstein handle u/f prefixes of string literal?
+    location = self.location_from(node_for_location)
     s = s.strip()
     if s.startswith('#'):
+      location.lineno -= s.count('\n') + 2
       lines = []
       for line in s.split('\n'):
         line = line.strip()
@@ -459,11 +465,11 @@ class Parser:
         else:
           line = line[1:]
         lines.append(line.lstrip())
-      return '\n'.join(lines).strip()
+      return Docstring('\n'.join(lines).strip(), location)
     if s.startswith('"""') or s.startswith("'''"):
-      return dedent_docstring(s[3:-3]).strip()
+      return Docstring(dedent_docstring(s[3:-3]).strip(), location)
     if s.startswith('"') or s.startswith("'"):
-      return dedent_docstring(s[1:-1]).strip()
+      return Docstring(dedent_docstring(s[1:-1]).strip(), location)
     return None
 
   def nodes_to_string(self, nodes):

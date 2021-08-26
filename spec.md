@@ -3,6 +3,7 @@
 __Table of Contents__
 
 * [Location](#location)
+* [Docstring](#docstring)
 * [Module](#module)
 * [Class](#class)
 * [Data](#data)
@@ -23,6 +24,16 @@ _Fields_
 * `filename` (str) &ndash; A relative filename.
 * `lineno` (int): &ndash; The line number from which the API object was parsed.
 
+### Docstring
+
+Represents the documentation string of an API object.
+
+_Fields_
+
+* `content` (str) &ndash; The content of the docstring.
+* `location` (Optional[Location]) &ndash; The location where the docstring is defined. This points
+  at the position of the first character in the *content* field.
+
 ### Module
 
 A module represents a collection of data, function and classes. In the Python
@@ -33,8 +44,7 @@ _Fields_
 
 * `name` (str) &ndash; The full name of the module.
 * `location` (Location)
-* `docstring` (Optional[str]) &ndash; The docstring for the module as parsed
-  from the source.
+* `docstring` (Optional[Docstring]) &ndash; The docstring for the module as parsed from the source.
 * `members` (array) &ndash; An array of `Data`, `Function` or `Class` objects.
 
 ### Class
@@ -46,7 +56,7 @@ _Fields_
 * `type` (str) &ndash; Value is `class`
 * `name` (str)
 * `location` (Location)
-* `docstring` (Optional[str])
+* `docstring` (Optional[Docstring])
 * `metaclass` (Optional[str]) &ndash; A string representing the metaclass.
 * `bases` (Optional[array]) &ndash; An array of `str` representing the base classes.
 * `members` (array) &ndash; An array of `Data`, `Function` or `Class` objects.
@@ -61,7 +71,7 @@ _Fields_
 * `type` (str) &ndash; Value is `data`.
 * `name` (str) &ndash; The name for the value.
 * `location` (Location)
-* `docstring` (Optional[str])
+* `docstring` (Optional[Docstring])
 * `datatype` (Optional[str]) &ndash; The datatype of the value.
 * `value` (Optional[str]) &ndash; The value in the form of the definition
   in the source.
@@ -75,9 +85,9 @@ _Fields_
 * `type` (str) &ndash; Value is `function`
 * `name` (str)
 * `location` (str)
-* `docstring` (Optional[str])
-* `modifiers` (Optional[array]) &ndash; An array of `str` representing the modifers
-  of this function (e.g. `async`, `classmethod`, etc.).
+* `docstring` (Optional[Docstring])
+* `modifiers` (Optional[array]) &ndash; An array of `str` representing the modifers of this
+  function (e.g. `async`, `classmethod`, etc.).
 * `args` (array) &ndash; An array of `Argument` objects.
 * `return_type` (Optional[str]) &ndash; The return type of the function.
 * `decorations` (Optional[array]) &ndash; An array of `Decoration` objects.
@@ -116,7 +126,7 @@ _Fields_
 * `name` (str) &ndash; The local name of the indirection.
 * `target` (str) &ndash; The target name of the indirection
 * `location` (Location)
-* `docstring` (Optional[str])
+* `docstring` (Optional[Docstring])
 
 ---
 
