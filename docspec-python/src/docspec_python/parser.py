@@ -111,7 +111,7 @@ class Parser:
     for node in ast.children:
       member = self.parse_declaration(module, node)
       if isinstance(member, list):
-        module.members += member  #
+        module.members += member
       elif member:
         module.members.append(member)
 
