@@ -11,6 +11,10 @@ __Contents__
 * `docspec-python`: Python library to parse Python source code into Docspec
   compatible JSON data using `lib2to3`.
 
+__Projects using Docspec__
+
+* [Pydoc-Markdown](https://github.com/NiklasRosenstein/pydoc-markdown) &ndash; The original spark for Docspec.
+
 ---
 
 <p align="center">Copyright &copy; 2020, Niklas Rosenstein</p>
