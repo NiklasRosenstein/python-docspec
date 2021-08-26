@@ -66,11 +66,16 @@ class Location:
 @dataclasses.dataclass(init=False, frozen=True)
 class Docstring(str):
   """
-  Represents a docstring for an #APIObject, i.e. it's content and location.
+  Represents a docstring for an #APIObject, i.e. it's content and location. This class is a subclass of `str`
+  for backwards compatibility reasons. Use the #content property to access the docstring content over the
+  #Docstring value directory.
 
   Added in `1.1.0`.
   """
 
+  #: The content of the docstring. While the #Docstring class is a subclass of `str` and holds
+  #: the same value as *content*, using the #content property should be preferred as the inheritance
+  #: from the `str` class may be removed in future versions.
   content: str
 
   #: The location of where the docstring is defined.
