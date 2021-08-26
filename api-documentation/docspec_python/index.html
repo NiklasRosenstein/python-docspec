@@ -199,13 +199,13 @@ the current position of the <em>scanner</em>. The scanner is used to extract
 the optional default argument value that follows the <em>node</em>.</p>
 <p><a id="docspec_python.parser.Parser.get_docstring_from_first_node"></a></p>
 <h4 id="get_docstring_from_first_node">get_docstring_from_first_node</h4>
-<pre><code class="language-python"> | get_docstring_from_first_node(parent, module_level=False)
+<pre><code class="language-python"> | get_docstring_from_first_node(parent: Node, module_level: bool = False) -&gt; t.Optional[Docstring]
 </code></pre>
 <p>This method retrieves the docstring for the block node <em>parent</em>. The
 node either declares a class or function.</p>
 <p><a id="docspec_python.parser.Parser.get_hashtag_docstring_from_prefix"></a></p>
 <h4 id="get_hashtag_docstring_from_prefix">get_hashtag_docstring_from_prefix</h4>
-<pre><code class="language-python"> | get_hashtag_docstring_from_prefix(node: Node) -&gt; t.Tuple[t.Optional[str], t.Optional[str]]
+<pre><code class="language-python"> | get_hashtag_docstring_from_prefix(node: Node) -&gt; t.Tuple[t.Optional[Docstring], t.Optional[str]]
 </code></pre>
 <p>Given a node in the AST, this method retrieves the docstring from the
 closest prefix of this node (ie. any block of single-line comments that

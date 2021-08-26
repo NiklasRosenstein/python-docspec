@@ -57,6 +57,8 @@
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#location">Location</a>
     </li>
+    <li class="toctree-l3"><a class="reference internal" href="#docstring">Docstring</a>
+    </li>
     <li class="toctree-l3"><a class="reference internal" href="#module">Module</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#class">Class</a>
@@ -127,6 +129,7 @@
 <p><strong>Table of Contents</strong></p>
 <ul>
 <li><a href="#location">Location</a></li>
+<li><a href="#docstring">Docstring</a></li>
 <li><a href="#module">Module</a></li>
 <li><a href="#class">Class</a></li>
 <li><a href="#data">Data</a></li>
@@ -144,6 +147,14 @@ should always be relative to the root of a project or source control repository.
 <li><code>filename</code> (str) &ndash; A relative filename.</li>
 <li><code>lineno</code> (int): &ndash; The line number from which the API object was parsed.</li>
 </ul>
+<h3 id="docstring">Docstring</h3>
+<p>Represents the documentation string of an API object.</p>
+<p><em>Fields</em></p>
+<ul>
+<li><code>content</code> (str) &ndash; The content of the docstring.</li>
+<li><code>location</code> (Optional[Location]) &ndash; The location where the docstring is defined. This points
+  at the position of the first character in the <em>content</em> field.</li>
+</ul>
 <h3 id="module">Module</h3>
 <p>A module represents a collection of data, function and classes. In the Python
 language, it represents an actual Python module. In other languages it may
@@ -152,8 +163,7 @@ refer to another file type or a namespace.</p>
 <ul>
 <li><code>name</code> (str) &ndash; The full name of the module.</li>
 <li><code>location</code> (Location)</li>
-<li><code>docstring</code> (Optional[str]) &ndash; The docstring for the module as parsed
-  from the source.</li>
+<li><code>docstring</code> (Optional[Docstring]) &ndash; The docstring for the module as parsed from the source.</li>
 <li><code>members</code> (array) &ndash; An array of <code>Data</code>, <code>Function</code> or <code>Class</code> objects.</li>
 </ul>
 <h3 id="class">Class</h3>
@@ -163,7 +173,7 @@ refer to another file type or a namespace.</p>
 <li><code>type</code> (str) &ndash; Value is <code>class</code></li>
 <li><code>name</code> (str)</li>
 <li><code>location</code> (Location)</li>
-<li><code>docstring</code> (Optional[str])</li>
+<li><code>docstring</code> (Optional[Docstring])</li>
 <li><code>metaclass</code> (Optional[str]) &ndash; A string representing the metaclass.</li>
 <li><code>bases</code> (Optional[array]) &ndash; An array of <code>str</code> representing the base classes.</li>
 <li><code>members</code> (array) &ndash; An array of <code>Data</code>, <code>Function</code> or <code>Class</code> objects.</li>
@@ -176,7 +186,7 @@ refer to another file type or a namespace.</p>
 <li><code>type</code> (str) &ndash; Value is <code>data</code>.</li>
 <li><code>name</code> (str) &ndash; The name for the value.</li>
 <li><code>location</code> (Location)</li>
-<li><code>docstring</code> (Optional[str])</li>
+<li><code>docstring</code> (Optional[Docstring])</li>
 <li><code>datatype</code> (Optional[str]) &ndash; The datatype of the value.</li>
 <li><code>value</code> (Optional[str]) &ndash; The value in the form of the definition
   in the source.</li>
@@ -188,9 +198,9 @@ refer to another file type or a namespace.</p>
 <li><code>type</code> (str) &ndash; Value is <code>function</code></li>
 <li><code>name</code> (str)</li>
 <li><code>location</code> (str)</li>
-<li><code>docstring</code> (Optional[str])</li>
-<li><code>modifiers</code> (Optional[array]) &ndash; An array of <code>str</code> representing the modifers
-  of this function (e.g. <code>async</code>, <code>classmethod</code>, etc.).</li>
+<li><code>docstring</code> (Optional[Docstring])</li>
+<li><code>modifiers</code> (Optional[array]) &ndash; An array of <code>str</code> representing the modifers of this
+  function (e.g. <code>async</code>, <code>classmethod</code>, etc.).</li>
 <li><code>args</code> (array) &ndash; An array of <code>Argument</code> objects.</li>
 <li><code>return_type</code> (Optional[str]) &ndash; The return type of the function.</li>
 <li><code>decorations</code> (Optional[array]) &ndash; An array of <code>Decoration</code> objects.</li>
@@ -223,7 +233,7 @@ target of a link written with a local name. </p>
 <li><code>name</code> (str) &ndash; The local name of the indirection.</li>
 <li><code>target</code> (str) &ndash; The target name of the indirection</li>
 <li><code>location</code> (Location)</li>
-<li><code>docstring</code> (Optional[str])</li>
+<li><code>docstring</code> (Optional[Docstring])</li>
 </ul>
 <hr />
 <p align="center">Copyright &copy; 2020, Niklas Rosenstein</p>

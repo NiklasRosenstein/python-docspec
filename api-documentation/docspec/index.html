@@ -64,6 +64,14 @@
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#location-objects">Location Objects</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#docstring-objects">Docstring Objects</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#location">location</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#content">content</a>
+    </li>
+        </ul>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#decoration-objects">Decoration Objects</a>
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#name">name</a>
@@ -102,7 +110,7 @@
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#name_2">name</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#location">location</a>
+    <li class="toctree-l3"><a class="reference internal" href="#location_1">location</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#docstring">docstring</a>
     </li>
@@ -229,6 +237,23 @@
 class Location()
 </code></pre>
 <p>Represents the location of an <a href="#docspec.ApiObject"><code>ApiObject</code></a> by a filename and line number.</p>
+<p><a id="docspec.Docstring"></a></p>
+<h2 id="docstring-objects">Docstring Objects</h2>
+<pre><code class="language-python">@dataclasses.dataclass(init=False, frozen=True)
+class Docstring(str)
+</code></pre>
+<p>Represents a docstring for an <code>APIObject</code>, i.e. it's content and location. This class is a subclass of <code>str</code>
+for backwards compatibility reasons. Use the <a href="#docspec.Docstring.content"><code>content</code></a> property to access the docstring content over the
+<a href="#docspec.Docstring"><code>Docstring</code></a> value directory.</p>
+<p>Added in <code>1.1.0</code>.</p>
+<p><a id="docspec.Docstring.location"></a></p>
+<h4 id="location">location</h4>
+<p>The location of where the docstring is defined.</p>
+<p><a id="docspec.Docstring.content"></a></p>
+<h4 id="content">content</h4>
+<p>The content of the docstring. While the <a href="#docspec.Docstring"><code>Docstring</code></a> class is a subclass of <code>str</code> and holds
+the same value as <em>content</em>, using the <a href="#docspec.Docstring.content"><code>content</code></a> property should be preferred as the inheritance
+from the <code>str</code> class may be removed in future versions.</p>
 <p><a id="docspec.Decoration"></a></p>
 <h2 id="decoration-objects">Decoration Objects</h2>
 <pre><code class="language-python">@dataclasses.dataclass
@@ -301,7 +326,7 @@ as opposed to it's fully qualified name/absolute name. However, that is more of 
 recommendation than rule. For example the <code>docspec_python</code> loader by default returns
 <a href="#docspec.Module"><code>Module</code></a> objects with their full module name (and does not create a module hierarchy).</p>
 <p><a id="docspec.ApiObject.location"></a></p>
-<h4 id="location">location</h4>
+<h4 id="location_1">location</h4>
 <p>The location of the API object, i.e. where it is sourced from/defined in the code.</p>
 <p><a id="docspec.ApiObject.docstring"></a></p>
 <h4 id="docstring">docstring</h4>
@@ -346,7 +371,7 @@ class Data(ApiObject)
 <pre><code class="language-python">@dataclasses.dataclass
 class Indirection(ApiObject)
 </code></pre>
-<p>Represents an imported name. It can be used to properly find the full name target of a link written with a 
+<p>Represents an imported name. It can be used to properly find the full name target of a link written with a
 local name.</p>
 <p><a id="docspec.Function"></a></p>
 <h2 id="function-objects">Function Objects</h2>
