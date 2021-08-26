@@ -57,13 +57,7 @@
                 <ul class="current">
                     <li class="toctree-l1 current"><a class="reference internal current" href="./">Changelog</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#unreleased-no-release-date">Unreleased (no release date)</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#100-2021-07-21">1.0.0 (2021-07-21)</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#021-2021-02-21">0.2.1 (2021-02-21)</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#020-2020-07-06">0.2.0 (2020-07-06)</a>
+    <li class="toctree-l2"><a class="reference internal" href="#100-2021-07-22">1.0.0 (2021-07-22)</a>
     </li>
     </ul>
                     </li>
@@ -111,7 +105,22 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="docspec-changelog">docspec Changelog</h1>
+                <p><strong>Table of Contents</strong></p>
+<ul>
+<li><a href="#changelog">Changelog</a></li>
+<li><a href="#docspec-changelog">docspec Changelog</a></li>
+<li><a href="#docspec-python-changelog">docspec_python Changelog</a></li>
+</ul>
+<h1 id="changelog">Changelog</h1>
+<h2 id="100-2021-07-22">1.0.0 (2021-07-22)</h2>
+<ul>
+<li><strong>general</strong><ul>
+<li><strong>change</strong>: Bump minimum Python version to 3.7 (databind.core 1.x also requires
+  3.7 minimum)</li>
+</ul>
+</li>
+</ul>
+<h1 id="docspec-changelog">docspec Changelog</h1>
 <h2 id="unreleased-no-release-date">Unreleased (no release date)</h2>
 <ul>
 <li><strong>general</strong><ul>
@@ -126,6 +135,20 @@
   correctly. (@tristanlatr)</li>
 <li><strong>feature</strong>: add <code>Docstring</code> class which represents the docstring, plus the
   location of the docstring</li>
+</ul>
+</li>
+</ul>
+<h2 id="102-2021-07-29">1.0.2 (2021-07-29)</h2>
+<ul>
+<li><strong>general</strong><ul>
+<li><strong>fix</strong>: Add some type annotations (@tristanlatr) (#14)</li>
+</ul>
+</li>
+</ul>
+<h2 id="101-2021-07-22">1.0.1 (2021-07-22)</h2>
+<ul>
+<li><strong>general</strong><ul>
+<li><strong>fix</strong>: <code>docspec.get_members()</code> access object members wrong</li>
 </ul>
 </li>
 </ul>
@@ -168,6 +191,8 @@
 <li><strong>general</strong><ul>
 <li><strong>breaking_change</strong>: Migrate to using <code>databind.core 1.x</code> and <code>databind.json
   1.x</code> from <code>nr.databind.core</code> and <code>nr.databind.json</code>.</li>
+<li><strong>fix</strong>: fix parsing of lib2to3 syntax tree if class does not have a suite
+  (e.g., "pass" on the same line as the class definition)</li>
 </ul>
 </li>
 </ul>
