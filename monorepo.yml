@@ -1,6 +1,14 @@
 version: 1.1.0
-name: "docspec"
-author: "Niklas Rosenstein <rosensteinniklas@gmail.com>"
-license: "MIT"
+name: docspec
+author: Niklas Rosenstein <rosensteinniklas@gmail.com>
+url: https://github.com/NiklasRosenstein/docspec
+license: MIT
 release:
   single-version: true
+publish:
+  pypi:
+    credentials:
+      username: __token__
+      password: $PYPI_TOKEN
+      test_username: __token__
+      test_password: $TEST_PYPI_TOKEN

@@ -53,7 +53,7 @@ setuptools.setup(
   description = 'Docspec is a JSON object specification for representing API documentation of programming languages.',
   long_description = long_description,
   long_description_content_type = 'text/markdown',
-  url = None,
+  url = 'https://github.com/NiklasRosenstein/docspec',
   license = 'MIT',
   packages = setuptools.find_packages('src', ['test', 'test.*', 'tests', 'tests.*', 'docs', 'docs.*']),
   package_dir = {'': 'src'},

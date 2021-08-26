@@ -50,7 +50,7 @@ setuptools.setup(
   description = 'A parser based on lib2to3 producing docspec data from Python source code.',
   long_description = long_description,
   long_description_content_type = 'text/markdown',
-  url = None,
+  url = 'https://github.com/NiklasRosenstein/docspec',
   license = 'MIT',
   packages = setuptools.find_packages('src', ['test', 'test.*', 'tests', 'tests.*', 'docs', 'docs.*']),
   package_dir = {'': 'src'},
