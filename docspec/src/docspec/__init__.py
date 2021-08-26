@@ -27,6 +27,8 @@ __all__ = [
   'Docstring',
   'Argument',
   'ApiObject',
+  'Indirection',
+  'HasMembers',
   'Data',
   'Function',
   'Class',
@@ -231,6 +233,7 @@ class Data(ApiObject):
   #: The value of the variable as code.
   value: t.Optional[str] = None
 
+
 @dataclasses.dataclass
 class Indirection(ApiObject):
   """
@@ -239,6 +242,7 @@ class Indirection(ApiObject):
   """
 
   target: str
+
 
 @dataclasses.dataclass
 class Function(ApiObject):
