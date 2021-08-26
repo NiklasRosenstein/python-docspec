@@ -30,12 +30,14 @@ import textwrap
 import typing as t
 
 from docspec import (
+  ApiObject,
   Argument,
   Class,
   Data,
   Docstring,
   Decoration,
   Function,
+  Indirection,
   Location,
   Module)
 from lib2to3.refactor import RefactoringTool  # type: ignore
@@ -107,21 +109,22 @@ class Parser:
 
     for node in ast.children:
       member = self.parse_declaration(module, node)
-      if member:
+      if isinstance(member, list):
+        module.members += member
+      elif member:
         module.members.append(member)
 
     module.sync_hierarchy()
     return module
 
-  def parse_declaration(self, parent, node, decorations=None):
+  def parse_declaration(self, parent, node, decorations=None) -> t.Union[None, ApiObject, t.List[ApiObject]]:
     if node.type == syms.simple_stmt:
       assert not decorations
       stmt = node.children[0]
-      if stmt.type in (syms.import_name, syms.import_from):
-        # TODO @NiklasRosenstein handle import statements?
-        pass
+      if stmt.type in (syms.import_stmt, syms.import_name, syms.import_from, syms.import_as_names, syms.import_as_name):
+        return list(self.parse_import(node, stmt))
       elif stmt.type == syms.expr_stmt:
-        return self.parse_statement(parent, stmt)
+        return self.parse_statement(node, stmt)
     elif node.type == syms.funcdef:
       return self.parse_funcdef(parent, node, False, decorations)
     elif node.type == syms.classdef:
@@ -170,6 +173,55 @@ class Parser:
 
     result = dict(_parse([], ('names', []), stmt))
     return result.get('names', []), result.get('annotation', []), result.get('value', [])
+
+  def parse_import(self, parent, node: Node) -> t.Iterable[Indirection]:
+
+    def _single_import_to_indirection(node: t.Union[Node, Leaf]) -> Indirection:
+      if node.type == syms.dotted_as_name:  # example: urllib.request as r
+        target = self.name_to_string(node.children[0])
+        name = self.name_to_string(node.children[2])
+        return Indirection(name, self.location_from(node), None, target)
+      elif node.type == syms.dotted_name:  # example os.path
+        name = self.name_to_string(node)
+        return Indirection(name.split('.')[-1], self.location_from(node), None, name)
+      elif isinstance(node, Leaf):
+        return Indirection(node.value, self.location_from(node), None, node.value)
+      else:
+        raise RuntimeError(f'cannot handle {node!r}')
+
+    def _from_import_to_indirection(prefix: str, node: t.Union[Node, Leaf]) -> Indirection:
+      if node.type == syms.import_as_name:  # example: Widget as W
+        target = self.name_to_string(node.children[0])
+        name = self.name_to_string(node.children[2])
+        return Indirection(name, self.location_from(node), None, prefix + '.' + target)
+      elif isinstance(node, Leaf):  # example: Widget
+        name = self.name_to_string(node)
+        if not prefix.endswith('.'):
+          prefix += '.'
+        return Indirection(name, self.location_from(node), None, prefix + name)
+      else:
+        raise RuntimeError(f'cannot handle {node!r}')
+
+    if node.type == syms.import_name:  # example: import ...
+      subject_node = node.children[1]
+      if subject_node.type == syms.dotted_as_names:
+        yield from (_single_import_to_indirection(n) for n in subject_node.children if n.type != token.COMMA)
+      else:
+        yield _single_import_to_indirection(subject_node)
+
+    elif node.type == syms.import_from:  # example: from xyz import ...
+      index = next(i for i, n in enumerate(node.children) if n.type == token.NAME and n.value == 'import')
+      name = ''.join(self.name_to_string(x) for x in node.children[1:index])
+      subject_node = node.children[index + 1]
+      if subject_node.type == token.LPAR:
+        subject_node = node.children[index + 2]
+      if subject_node.type == syms.import_as_names:
+        yield from (_from_import_to_indirection(name, n) for n in subject_node.children if n.type not in (token.LPAR, token.RPAR, token.COMMA))
+      else:
+        yield _from_import_to_indirection(name, subject_node)
+
+    else:
+      raise RuntimeError(f'dont know how to deal with {node!r}')
 
   def parse_statement(self, parent, stmt):
     names, annotation, value = self._split_statement(stmt)
