@@ -39,7 +39,8 @@ from docspec import (
   Function,
   Indirection,
   Location,
-  Module)
+  Module,
+  _ModuleMembers)
 from lib2to3.refactor import RefactoringTool  # type: ignore
 from lib2to3.pgen2 import token
 from lib2to3.pgen2.parse import ParseError
@@ -110,14 +111,14 @@ class Parser:
     for node in ast.children:
       member = self.parse_declaration(module, node)
       if isinstance(member, list):
-        module.members += member
+        module.members += member  #
       elif member:
         module.members.append(member)
 
     module.sync_hierarchy()
     return module
 
-  def parse_declaration(self, parent, node, decorations=None) -> t.Union[None, ApiObject, t.List[ApiObject]]:
+  def parse_declaration(self, parent, node, decorations=None) -> t.Union[None, _ModuleMembers, t.List[_ModuleMembers]]:
     if node.type == syms.simple_stmt:
       assert not decorations
       stmt = node.children[0]
@@ -210,7 +211,7 @@ class Parser:
         yield _single_import_to_indirection(subject_node)
 
     elif node.type == syms.import_from:  # example: from xyz import ...
-      index = next(i for i, n in enumerate(node.children) if n.type == token.NAME and n.value == 'import')
+      index = next(i for i, n in enumerate(node.children) if isinstance(n, Leaf) and n.type == token.NAME and n.value == 'import')
       name = ''.join(self.name_to_string(x) for x in node.children[1:index])
       subject_node = node.children[index + 1]
       if subject_node.type == token.LPAR:
@@ -403,6 +404,7 @@ class Parser:
     for child in suite.children if suite else []:
       if isinstance(child, Node):
         member = self.parse_declaration(class_, child)
+        assert not isinstance(member, (list, Module)), member
         if metaclass is None and isinstance(member, Data) and \
             member.name == '__metaclass__':
           metaclass = member.value
