@@ -5,3 +5,8 @@ changes:
   description: Migrate to using `databind.core 1.x` and `databind.json 1.x` from `nr.databind.core`
     and `nr.databind.json`.
   fixes: []
+- type: fix
+  component: general
+  description: fix parsing of lib2to3 syntax tree if class does not have a suite (e.g.,
+    "pass" on the same line as the class definition)
+  fixes: []

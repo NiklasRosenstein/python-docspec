@@ -5,8 +5,3 @@ changes:
   description: Bump minimum Python version to 3.7 (databind.core 1.x also requires
     3.7 minimum)
   fixes: []
-- type: fix
-  component: general
-  description: fix parsing of lib2to3 syntax tre if class does not have a suite (e.g.,
-    "pass" on the same line as the class definition)
-  fixes: []
