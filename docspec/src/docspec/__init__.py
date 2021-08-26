@@ -73,22 +73,18 @@ class Docstring(str):
   Added in `1.1.0`.
   """
 
-  #: The content of the docstring. While the #Docstring class is a subclass of `str` and holds
-  #: the same value as *content*, using the #content property should be preferred as the inheritance
-  #: from the `str` class may be removed in future versions.
-  content: str
-
   #: The location of where the docstring is defined.
   location: t.Optional[Location]
 
-  def __new__(cls, content: str, location: t.Optional[Location]) -> None:
+  #: The content of the docstring. While the #Docstring class is a subclass of `str` and holds
+  #: the same value as *content*, using the #content property should be preferred as the inheritance
+  #: from the `str` class may be removed in future versions.
+  content: str = t.cast(str, property(lambda self: str(self)))
+
+  def __new__(cls, content: str, location: t.Optional[Location]) -> 'Docstring':
     obj = super().__new__(cls, content)
     obj.__dict__['location'] = location
     return obj
-
-  @property
-  def content(self) -> str:
-    return str(self)
 
 
 @dataclasses.dataclass
