@@ -33,6 +33,7 @@ from docspec import (
   Argument,
   Class,
   Data,
+  Docstring,
   Decoration,
   Function,
   Location,
@@ -383,7 +384,7 @@ class Parser:
       node = node.children[-1]
     return node.prefix
 
-  def get_docstring_from_first_node(self, parent, module_level=False):
+  def get_docstring_from_first_node(self, parent: Node, module_level: bool = False) -> t.Optional[Docstring]:
     """
     This method retrieves the docstring for the block node *parent*. The
     node either declares a class or function.
@@ -392,7 +393,7 @@ class Parser:
     assert parent is not None
     node = find(lambda x: isinstance(x, Node), parent.children)
     if node and node.type == syms.simple_stmt and node.children[0].type == token.STRING:
-      return self.prepare_docstring(node.children[0].value)
+      return Docstring(self.prepare_docstring(node.children[0].value), self.location_from(parent))
     if not node and not module_level:
       return None
     if self.options.treat_singleline_comment_blocks_as_docstrings:
@@ -401,7 +402,7 @@ class Parser:
         return docstring
     return None
 
-  def get_statement_docstring(self, node):
+  def get_statement_docstring(self, node: Node) -> t.Optional[Docstring]:
     prefix = self.get_most_recent_prefix(node)
     match = re.match(r'\s*', prefix[::-1])
     assert match is not None
@@ -416,10 +417,10 @@ class Parser:
     if node and node.next_sibling and node.next_sibling.type == syms.simple_stmt:
       string_literal = node.next_sibling.children[0]
       if string_literal.type == token.STRING:
-        return self.prepare_docstring(string_literal.value)
+        return Docstring(self.prepare_docstring(string_literal.value), self.location_from(node))
     return None
 
-  def get_hashtag_docstring_from_prefix(self, node: Node) -> t.Tuple[t.Optional[str], t.Optional[str]]:
+  def get_hashtag_docstring_from_prefix(self, node: Node) -> t.Tuple[t.Optional[Docstring], t.Optional[str]]:
     """
     Given a node in the AST, this method retrieves the docstring from the
     closest prefix of this node (ie. any block of single-line comments that
@@ -445,9 +446,10 @@ class Parser:
         doc_type = 'block'
       if lines or line:
         lines.append(line)
-    return self.prepare_docstring('\n'.join(reversed(lines))), doc_type
 
-  def prepare_docstring(self, s):
+    return Docstring(self.prepare_docstring('\n'.join(reversed(lines))), self.location_from(node)), doc_type
+
+  def prepare_docstring(self, s: str) -> str:
     # TODO @NiklasRosenstein handle u/f prefixes of string literal?
     s = s.strip()
     if s.startswith('#'):

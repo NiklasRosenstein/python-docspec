@@ -44,7 +44,6 @@ import enum
 import io
 import json
 import sys
-import types
 import typing as t
 import typing_extensions as te
 import weakref
@@ -62,6 +61,29 @@ class Location:
 
   filename: t.Optional[str]
   lineno: int
+
+
+@dataclasses.dataclass(init=False, frozen=True)
+class Docstring(str):
+  """
+  Represents a docstring for an #APIObject, i.e. it's content and location.
+
+  Added in `1.1.0`.
+  """
+
+  content: str
+
+  #: The location of where the docstring is defined.
+  location: t.Optional[Location]
+
+  def __new__(cls, content: str, location: t.Optional[Location]) -> None:
+    obj = super().__new__(cls, content)
+    obj.__dict__['location'] = location
+    return obj
+
+  @property
+  def content(self) -> str:
+    return str(self)
 
 
 @dataclasses.dataclass
@@ -141,7 +163,7 @@ class ApiObject:
   location: t.Optional[Location] = dataclasses.field(repr=False)
 
   #: The documentation string of the API object.
-  docstring: t.Optional[str] = dataclasses.field(repr=False)
+  docstring: t.Optional[Docstring] = dataclasses.field(repr=False)
 
   def __post_init__(self) -> None:
     self._parent: t.Optional['weakref.ReferenceType[HasMembers]'] = None
