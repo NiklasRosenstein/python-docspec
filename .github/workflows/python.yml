@@ -6,6 +6,7 @@ name: Python package
 on:
   push:
     branches: [ develop ]
+    tags: [ '*' ]
   pull_request:
     branches: [ develop ]
 
@@ -59,3 +60,26 @@ jobs:
         branch: gh-pages
         folder: _html
         ssh-key: ${{ secrets.DEPLOY_KEY }}
+
+  publish:
+
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - name: Install dependencies
+      run: pip install -q shut==0.18.1 -q
+    - name: Shut publish
+      env:
+        PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
+        TEST_PYPI_TOKEN: ${{ secrets.TEST_PYPI_TOKEN }}
+      run: |
+        shut mono update --verify-tag "$GITHUB_REF"
+        shut mono publish warehouse:pypi --test
+        shut mono publish warehouse:pypi
