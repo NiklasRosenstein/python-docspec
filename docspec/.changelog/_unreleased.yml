@@ -21,6 +21,11 @@ changes:
   fixes: []
 - type: feature
   component: general
-  description: add `Indirection` class to keep track of imports and resolve names 
+  description: add `Indirection` class to keep track of imports and resolve names
     correctly. (@tristanlatr)
+  fixes: []
+- type: feature
+  component: general
+  description: add `Docstring` class which represents the docstring, plus the location
+    of the docstring
   fixes: []
