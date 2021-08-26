@@ -68,7 +68,7 @@ def test_funcdef_1():
     Function(
       name='a',
       location=None,
-      docstring='A simple function.',
+      docstring=Docstring('A simple function.', Location('test_funcdef_1', 2)),
       modifiers=None,
       args=[],
       return_type=None,
@@ -87,7 +87,7 @@ def test_funcdef_2():
     Function(
       name='b',
       location=None,
-      docstring='This uses annotations and keyword-only arguments.',
+      docstring=Docstring('This uses annotations and keyword-only arguments.', Location('test_funcdef_2', 2)),
       modifiers=None,
       args=[
         Argument('a', Argument.Type.Positional, None, 'int', None),
@@ -113,7 +113,7 @@ def test_funcdef_3():
     Function(
       name='c',
       location=None,
-      docstring='More arg variations.',
+      docstring=Docstring('More arg variations.', Location('test_funcdef_3', 4)),
       modifiers=None,
       args=[
         Argument('self', Argument.Type.Positional, None, None, None),
@@ -178,11 +178,11 @@ def test_funcdef_5_single_stmt():
     return self.foo
   """
 
-  def mkfunc(name: str, docstring: Optional[str]) -> Function:
+  def mkfunc(name: str, docstring: Optional[str], lineno: int) -> Function:
     return Function(
       name=name,
       location=None,
-      docstring=docstring,
+      docstring=Docstring(docstring, Location('test_funcdef_5_single_stmt', lineno)) if docstring else None,
       modifiers=None,
       args=[Argument('self', Argument.Type.Positional, None, None, None)],
       return_type=None,
@@ -190,10 +190,10 @@ def test_funcdef_5_single_stmt():
     )
 
   return [
-    mkfunc('func1', None),
-    mkfunc('func2', 'ABC\nDEF'),
-    mkfunc('func3', 'ABC\nDEF'),
-    mkfunc('func4', 'ABC\n  DEF'),
+    mkfunc('func1', None, 1),
+    mkfunc('func2', 'ABC\nDEF', 4),
+    mkfunc('func3', 'ABC\nDEF', 9),
+    mkfunc('func4', 'ABC\n  DEF', 14),
   ]
 
 
@@ -216,11 +216,11 @@ def test_funcdef_6_starred_args():
     '''Docstring goes here'''
   """
 
-  def mkfunc(name: str, docstring: Optional[str], args: List[Argument]) -> Function:
+  def mkfunc(name: str, docstring: Optional[str], lineno: int, args: List[Argument]) -> Function:
     return Function(
       name=name,
       location=None,
-      docstring=docstring,
+      docstring=Docstring(docstring, Location('test_funcdef_6_starred_args', lineno)) if docstring else None,
       modifiers=None,
       args=args,
       return_type=None,
@@ -228,22 +228,22 @@ def test_funcdef_6_starred_args():
     )
 
   return [
-    mkfunc('func1', None, [
+    mkfunc('func1', None, 0, [
       Argument('a', Argument.Type.Positional, None, None, None),
       Argument('b', Argument.Type.KeywordOnly, None, None, None),
       Argument('c', Argument.Type.KeywordRemainder, None, None, None),
     ]),
-    mkfunc('func2', 'Docstring goes here.', [
+    mkfunc('func2', 'Docstring goes here.', 4, [
       Argument('args', Argument.Type.PositionalRemainder, None, None, None),
       Argument('kwargs', Argument.Type.KeywordRemainder, None, None, None),
     ]),
-    mkfunc('func3', 'Docstring goes here.', [
+    mkfunc('func3', 'Docstring goes here.', 7, [
       Argument('kwargs', Argument.Type.KeywordRemainder, None, None, None),
     ]),
-    mkfunc('func4', 'Docstring goes here', [
+    mkfunc('func4', 'Docstring goes here', 10, [
       Argument('abc', Argument.Type.Positional, None, None, None),
     ]),
-    mkfunc('func5', 'Docstring goes here', [
+    mkfunc('func5', 'Docstring goes here', 13, [
       Argument('abc', Argument.Type.Positional, None, None, None),
       Argument('kwonly', Argument.Type.KeywordOnly, None, None, None),
     ]),
