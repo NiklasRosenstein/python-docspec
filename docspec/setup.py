@@ -47,7 +47,7 @@ extras_require['test'] = test_requirements
 
 setuptools.setup(
   name = 'docspec',
-  version = '1.0.2',
+  version = '1.1.0',
   author = 'Niklas Rosenstein',
   author_email = 'rosensteinniklas@gmail.com',
   description = 'Docspec is a JSON object specification for representing API documentation of programming languages.',

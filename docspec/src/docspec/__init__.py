@@ -20,7 +20,7 @@
 # IN THE SOFTWARE.
 
 __author__ = 'Niklas Rosenstein <rosensteinniklas@gmail.com>'
-__version__ = '1.0.2'
+__version__ = '1.1.0'
 __all__ = [
   'Location',
   'Decoration',

@@ -29,3 +29,4 @@ changes:
   description: add `Docstring` class which represents the docstring, plus the location
     of the docstring
   fixes: []
+release_date: '2021-08-27'
