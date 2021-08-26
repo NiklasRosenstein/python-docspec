@@ -7,8 +7,6 @@ import os
 import setuptools
 import sys
 
-command = sys.argv[1] if len(sys.argv) >= 2 else None
-
 def _tempcopy(src, dst):
   import atexit, shutil
   if not os.path.isfile(dst):
