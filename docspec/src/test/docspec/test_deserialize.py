@@ -17,7 +17,7 @@ def test_serialize_typed(typed_module: docspec.Module):
                   'type': 'indirection'},
                 {'bases': None,
                   'decorations': None,
-                  'docstring': 'This is class foo.',
+                  'docstring': { 'content': 'This is class foo.', 'location': { 'filename': 'test.py', 'lineno': 3 } },
                   'location': {'filename': 'test.py',
                               'lineno': 2},
                   'members': [{'datatype': 'Union[int, float]',
@@ -53,7 +53,10 @@ def test_serialize(module: docspec.Module):
         'type': 'class',
         'name': 'foo',
         'location': None,
-        'docstring': 'This is class foo.',
+        'docstring': {
+          'content': 'This is class foo.',
+          'location': None,
+        },
         'members': [
           {
             'type': 'data',
