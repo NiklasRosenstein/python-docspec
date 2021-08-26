@@ -24,6 +24,7 @@ __version__ = '1.0.2'
 __all__ = [
   'Location',
   'Decoration',
+  'Docstring',
   'Argument',
   'ApiObject',
   'Data',
