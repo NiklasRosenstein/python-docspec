@@ -27,6 +27,8 @@ __all__ = [
   'Docstring',
   'Argument',
   'ApiObject',
+  'Indirection',
+  'HasMembers',
   'Data',
   'Function',
   'Class',
@@ -231,6 +233,7 @@ class Data(ApiObject):
   #: The value of the variable as code.
   value: t.Optional[str] = None
 
+
 @dataclasses.dataclass
 class Indirection(ApiObject):
   """
@@ -239,6 +242,7 @@ class Indirection(ApiObject):
   """
 
   target: str
+
 
 @dataclasses.dataclass
 class Function(ApiObject):
@@ -308,14 +312,16 @@ class Module(HasMembers):
   members: t.List['_ModuleMemberType']
 
 
+_Members = t.Union[Data, Function, Class, Indirection]
 _MemberType = te.Annotated[
-  t.Union[Data, Function, Class, Indirection],
+  _Members,
   A.unionclass({ 'data': Data, 'function': Function, 'class': Class, 'indirection': Indirection },
     style=A.unionclass.Style.flat)]
 
 
+_ModuleMembers = t.Union[Data, Function, Class, Module, Indirection]
 _ModuleMemberType = te.Annotated[
-  t.Union[Data, Function, Class, Module, Indirection],
+  _ModuleMembers,
   A.unionclass({ 'data': Data, 'function': Function, 'class': Class, 'module': Module, 'indirection': Indirection },
     style=A.unionclass.Style.flat)]
 

@@ -30,13 +30,16 @@ import pytest
 import sys
 
 
-def unset_location(obj):
+def unset_location(obj: ApiObject):
   obj.location = None
-  for member in getattr(obj, 'members', []):
-    unset_location(member)
+  #if obj.docstring:
+  #  obj.docstring = Docstring(obj.docstring.content, None)
+  if isinstance(obj, HasMembers):
+    for member in obj.members:
+      unset_location(member)
 
 
-def docspec_test(module_name=None, parser_options=None):
+def docspec_test(module_name=None, parser_options=None, strip_locations: bool = True):
   """
   Decorator for docspec unit tests.
   """
@@ -50,7 +53,9 @@ def docspec_test(module_name=None, parser_options=None):
         options=parser_options,
         filename=func.__name__,
       )
-      unset_location(parsed_module)
+      parsed_module.location = None
+      if strip_locations:
+        unset_location(parsed_module)
       reference_module = Module(name=parsed_module.name, location=None, docstring=None, members=func(*args, **kwargs))
       assert dumps(dump_module(reference_module), indent=2) == dumps(dump_module(parsed_module), indent=2)
     return wrapper
@@ -327,4 +332,43 @@ def test_classdef_1_exceptions():
       decorations=None,
       members=[]
     ),
+  ]
+
+
+@docspec_test(strip_locations=False)
+def test_indirections():
+  """
+  import os
+  import urllib.request as r
+  import os.path, \
+    sys, pathlib as P
+  from sys import platform, executable as EXE
+  from os.path import *
+  from pathlib import (
+    PurePath as PP,
+    PosixPath
+  )
+  from .. import core
+  from ..core import Widget, View
+  from .vendor import pkg_resources, six
+  from ...api import *
+  """
+
+  return [
+    Indirection('os', Location('test_indirections', 2), None, 'os'),
+    Indirection('r', Location('test_indirections', 3), None, 'urllib.request'),
+    Indirection('path', Location('test_indirections', 4), None, 'os.path'),
+    Indirection('sys', Location('test_indirections', 4), None, 'sys'),
+    Indirection('P', Location('test_indirections', 4), None, 'pathlib'),
+    Indirection('platform', Location('test_indirections', 5), None, 'sys.platform'),
+    Indirection('EXE', Location('test_indirections', 5), None, 'sys.executable'),
+    Indirection('*', Location('test_indirections', 6), None, 'os.path.*'),
+    Indirection('PP', Location('test_indirections', 8), None, 'pathlib.PurePath'),
+    Indirection('PosixPath', Location('test_indirections', 9), None, 'pathlib.PosixPath'),
+    Indirection('core', Location('test_indirections', 11), None, '..core'),
+    Indirection('Widget', Location('test_indirections', 12), None, '..core.Widget'),
+    Indirection('View', Location('test_indirections', 12), None, '..core.View'),
+    Indirection('pkg_resources', Location('test_indirections', 13), None, '.vendor.pkg_resources'),
+    Indirection('six', Location('test_indirections', 13), None, '.vendor.six'),
+    Indirection('*', Location('test_indirections', 14), None, '...api.*'),
   ]
