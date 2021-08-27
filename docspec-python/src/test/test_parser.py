@@ -352,6 +352,11 @@ def test_indirections():
   from ..core import Widget, View
   from .vendor import pkg_resources, six
   from ...api import *
+  def foo():
+    from sys import platform
+  class bar:
+    import os
+    from os.path import dirname
   """
 
   return [
@@ -371,4 +376,9 @@ def test_indirections():
     Indirection('pkg_resources', Location('test_indirections', 13), None, '.vendor.pkg_resources'),
     Indirection('six', Location('test_indirections', 13), None, '.vendor.six'),
     Indirection('*', Location('test_indirections', 14), None, '...api.*'),
+    Function('foo', Location('test_indirections', 15), None, None, [], None, []),
+    Class('bar', Location('test_indirections', 17), None, None, [], None, [
+      Indirection('os', Location('test_indirections', 18), None, 'os'),
+      Indirection('dirname', Location('test_indirections', 19), None, 'os.path.dirname'),
+    ])
   ]

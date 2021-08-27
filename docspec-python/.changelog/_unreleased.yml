@@ -1,0 +1,6 @@
+changes:
+- type: fix
+  component: general
+  description: support imports on the class-level
+  fixes:
+  - '#34'
