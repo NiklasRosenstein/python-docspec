@@ -403,13 +403,16 @@ class Parser:
 
     for child in suite.children if suite else []:
       if isinstance(child, Node):
-        member = self.parse_declaration(class_, child)
-        assert not isinstance(member, (list, Module)), member
-        if metaclass is None and isinstance(member, Data) and \
-            member.name == '__metaclass__':
-          metaclass = member.value
-        elif member:
-          class_.members.append(member)
+        members = self.parse_declaration(class_, child) or []
+        if not isinstance(members, list):
+          members = [members]
+        for member in members:
+          assert not isinstance(member, Module)
+          if metaclass is None and isinstance(member, Data) and \
+              member.name == '__metaclass__':
+            metaclass = member.value
+          elif member:
+            class_.members.append(member)
 
     class_.metaclass = metaclass
     return class_
