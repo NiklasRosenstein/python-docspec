@@ -4,3 +4,4 @@ changes:
   description: support imports on the class-level
   fixes:
   - '#34'
+release_date: '2021-08-27'

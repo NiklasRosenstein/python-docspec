@@ -7,11 +7,12 @@ import os
 import setuptools
 import sys
 
+command = sys.argv[1] if len(sys.argv) >= 2 else None
+
 def _tempcopy(src, dst):
   import atexit, shutil
   if not os.path.isfile(dst):
     if not os.path.isfile(src):
-      command = sys.argv[1] if len(sys.argv) >= 2 else None
       msg = '"{}" does not exist, and cannot copy it from "{}" either'.format(dst, src)
       # NOTE: In dist/build commands that are not invoked by Pip, we enforce that the license file
       #       must be present. See https://github.com/NiklasRosenstein/shut/issues/22
@@ -34,7 +35,7 @@ else:
   long_description = None
 
 requirements = [
-  'docspec >=1.1.0,<2.0.0',
+  'docspec >=1.1.1,<2.0.0',
 ]
 test_requirements = [
   'types-Deprecated',
@@ -44,7 +45,7 @@ extras_require['test'] = test_requirements
 
 setuptools.setup(
   name = 'docspec-python',
-  version = '1.1.0',
+  version = '1.1.1',
   author = 'Niklas Rosenstein',
   author_email = 'rosensteinniklas@gmail.com',
   description = 'A parser based on lib2to3 producing docspec data from Python source code.',
