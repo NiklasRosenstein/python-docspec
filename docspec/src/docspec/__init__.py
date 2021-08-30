@@ -52,8 +52,8 @@ import typing_extensions as te
 import weakref
 
 import deprecated
-import databind.core.annotations as A
 import databind.json
+from databind.core.annotations import alias, union
 
 
 @dataclasses.dataclass
@@ -410,15 +410,14 @@ class Module(HasMembers):
 _Members = t.Union[Data, Function, Class, Indirection]
 _MemberType = te.Annotated[
   _Members,
-  A.unionclass({ 'data': Data, 'function': Function, 'class': Class, 'indirection': Indirection },
-    style=A.unionclass.Style.flat)]
+  union({ 'data': Data, 'function': Function, 'class': Class, 'indirection': Indirection }, style=union.Style.flat)]
 
 
 _ModuleMembers = t.Union[Data, Function, Class, Module, Indirection]
 _ModuleMemberType = te.Annotated[
   _ModuleMembers,
-  A.unionclass({ 'data': Data, 'function': Function, 'class': Class, 'module': Module, 'indirection': Indirection },
-    style=A.unionclass.Style.flat)]
+  union({ 'data': Data, 'function': Function, 'class': Class, 'module': Module, 'indirection': Indirection },
+    style=union.Style.flat)]
 
 
 def load_module(
