@@ -325,6 +325,12 @@
 <td>No</td>
 <td>The default value of the argument as a code string.</td>
 </tr>
+<tr>
+<td><code>location</code></td>
+<td><code>Optional[List[str]]</code></td>
+<td>No</td>
+<td>The location of the decoration in the source code.</td>
+</tr>
 </tbody>
 </table>
 <h2 id="enumeration-argumenttype">Enumeration <code>ArgumentType</code></h2>
@@ -364,6 +370,12 @@
 <td><code>Optional[List[str]]</code></td>
 <td>No</td>
 <td>The raw code string that represents the decorator that is used for this expression. This is used if the decorator can not be represented by just a <code>name</code>. The <code>args</code> may still be used if the expression gets called (e.g. in the case of <code>@(decorator_factory().dec)(a, b, c)</code>, the <code>raw_expression</code> should be <code>"(decorator_factory().dec)"</code> whereas the <code>args</code> should be <code>["a", "b", "c"]</code>.</td>
+</tr>
+<tr>
+<td><code>location</code></td>
+<td><code>Optional[List[str]]</code></td>
+<td>No</td>
+<td>The location of the decoration in the source code.</td>
 </tr>
 </tbody>
 </table>
