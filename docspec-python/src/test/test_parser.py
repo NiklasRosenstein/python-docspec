@@ -95,9 +95,9 @@ def test_funcdef_2():
       docstring=Docstring('This uses annotations and keyword-only arguments.', Location('test_funcdef_2', 2)),
       modifiers=None,
       args=[
-        Argument('a', Argument.Type.Positional, None, 'int', None),
-        Argument('c', Argument.Type.KeywordOnly, None, 'str', None),
-        Argument('opts', Argument.Type.KeywordRemainder, None, 'Any', None),
+        Argument('a', Argument.Type.POSITIONAL, None, 'int', None),
+        Argument('c', Argument.Type.KEYWORD_ONLY, None, 'str', None),
+        Argument('opts', Argument.Type.KEYWORD_REMAINDER, None, 'Any', None),
       ],
       return_type='None',
       decorations=[],
@@ -121,11 +121,11 @@ def test_funcdef_3():
       docstring=Docstring('More arg variations.', Location('test_funcdef_3', 4)),
       modifiers=None,
       args=[
-        Argument('self', Argument.Type.Positional, None, None, None),
-        Argument('a', Argument.Type.Positional, None, 'int', None),
-        Argument('b', Argument.Type.Positional, None, None, None),
-        Argument('args', Argument.Type.PositionalRemainder, None, None, None),
-        Argument('opt', Argument.Type.KeywordOnly, None, 'str', None),
+        Argument('self', Argument.Type.POSITIONAL, None, None, None),
+        Argument('a', Argument.Type.POSITIONAL, None, 'int', None),
+        Argument('b', Argument.Type.POSITIONAL, None, None, None),
+        Argument('args', Argument.Type.POSITIONAL_REMAINDER, None, None, None),
+        Argument('opt', Argument.Type.KEYWORD_ONLY, None, 'str', None),
       ],
       return_type='Optional[int]',
       decorations=[
@@ -150,9 +150,9 @@ def test_funcdef_4():
       docstring=None,
       modifiers=None,
       args=[
-        Argument('project_name', Argument.Type.Positional, None, None, None),
-        Argument('project_type', Argument.Type.Positional, None, None, None),
-        Argument('port', Argument.Type.Positional, None, None, '8001'),
+        Argument('project_name', Argument.Type.POSITIONAL, None, None, None),
+        Argument('project_type', Argument.Type.POSITIONAL, None, None, None),
+        Argument('port', Argument.Type.POSITIONAL, None, None, '8001'),
       ],
       return_type=None,
       decorations=[],
@@ -189,7 +189,7 @@ def test_funcdef_5_single_stmt():
       location=None,
       docstring=Docstring(docstring, Location('test_funcdef_5_single_stmt', lineno)) if docstring else None,
       modifiers=None,
-      args=[Argument('self', Argument.Type.Positional, None, None, None)],
+      args=[Argument('self', Argument.Type.POSITIONAL, None, None, None)],
       return_type=None,
       decorations=[],
     )
@@ -234,23 +234,23 @@ def test_funcdef_6_starred_args():
 
   return [
     mkfunc('func1', None, 0, [
-      Argument('a', Argument.Type.Positional, None, None, None),
-      Argument('b', Argument.Type.KeywordOnly, None, None, None),
-      Argument('c', Argument.Type.KeywordRemainder, None, None, None),
+      Argument('a', Argument.Type.POSITIONAL, None, None, None),
+      Argument('b', Argument.Type.KEYWORD_ONLY, None, None, None),
+      Argument('c', Argument.Type.KEYWORD_REMAINDER, None, None, None),
     ]),
     mkfunc('func2', 'Docstring goes here.', 4, [
-      Argument('args', Argument.Type.PositionalRemainder, None, None, None),
-      Argument('kwargs', Argument.Type.KeywordRemainder, None, None, None),
+      Argument('args', Argument.Type.POSITIONAL_REMAINDER, None, None, None),
+      Argument('kwargs', Argument.Type.KEYWORD_REMAINDER, None, None, None),
     ]),
     mkfunc('func3', 'Docstring goes here.', 7, [
-      Argument('kwargs', Argument.Type.KeywordRemainder, None, None, None),
+      Argument('kwargs', Argument.Type.KEYWORD_REMAINDER, None, None, None),
     ]),
     mkfunc('func4', 'Docstring goes here', 10, [
-      Argument('abc', Argument.Type.Positional, None, None, None),
+      Argument('abc', Argument.Type.POSITIONAL, None, None, None),
     ]),
     mkfunc('func5', 'Docstring goes here', 13, [
-      Argument('abc', Argument.Type.Positional, None, None, None),
-      Argument('kwonly', Argument.Type.KeywordOnly, None, None, None),
+      Argument('abc', Argument.Type.POSITIONAL, None, None, None),
+      Argument('kwonly', Argument.Type.KEYWORD_ONLY, None, None, None),
     ]),
   ]
 

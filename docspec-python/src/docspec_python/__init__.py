@@ -228,7 +228,7 @@ def format_arglist(args: t.List[Argument]) -> str:
 
   for arg in args:
     parts = []
-    if arg.type == Argument.Type.KeywordOnly and '*' not in result:
+    if arg.type == Argument.Type.KEYWORD_ONLY and '*' not in result:
       result.append('*')
     parts = [arg.name]
     if arg.datatype:
@@ -241,9 +241,9 @@ def format_arglist(args: t.List[Argument]) -> str:
       if arg.datatype:
         parts.append(' ')
       parts.append(arg.default_value)
-    if arg.type == Argument.Type.PositionalRemainder:
+    if arg.type == Argument.Type.POSITIONAL_REMAINDER:
       parts.insert(0, '*')
-    elif arg.type == Argument.Type.KeywordRemainder:
+    elif arg.type == Argument.Type.KEYWORD_REMAINDER:
       parts.insert(0, '**')
     result.append(''.join(parts))
 
