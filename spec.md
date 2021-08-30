@@ -92,11 +92,11 @@ _Fields_
 * `name` (str)
 * `location` (str)
 * `docstring` (Optional[Docstring])
-* `modifiers` (Optional[array]) &ndash; An array of `str` representing the modifers of this
+* `modifiers` (Optional[List[str]]) &ndash; An array of `str` representing the modifers of this
   function (e.g. `async`, `classmethod`, etc.).
 * `args` (array) &ndash; An array of `Argument` objects.
 * `return_type` (Optional[str]) &ndash; The return type of the function.
-* `decorations` (Optional[array]) &ndash; An array of `Decoration` objects.
+* `decorations` (Optional[List[str]]) &ndash; An array of `Decoration` objects.
 * `semantic_hints` <sup>(1)</sup> (Optional[List[Function.Semantic]]) &ndash; A list of well-known semantics that
   describe the object. Valid values are `Coroutine`, `NoReturn`, `InstanceMethod`, `ClassMethod`, `StaticMethod`,
   `PropertyGetter`, `PropertySetter`, `PropertyDeleter`, `Abstract`, `Final`.
