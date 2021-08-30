@@ -4,6 +4,7 @@ import typing as t
 import weakref
 from .fixtures import module, typed_module
 
+
 def test_serialize_typed(typed_module: docspec.Module):
   assert docspec.dump_module(typed_module) == {
     'docstring': None,
@@ -28,7 +29,7 @@ def test_serialize_typed(typed_module: docspec.Module):
                               'type': 'data',
                               'value': '42'},
                               {'args': [{'name': 'self',
-                                        'type': 'Positional'}],
+                                        'type': 'POSITIONAL'}],
                               'decorations': None,
                               'docstring': None,
                               'location': {'filename': 'test.py',
@@ -42,6 +43,7 @@ def test_serialize_typed(typed_module: docspec.Module):
                   'type': 'class'}],
     'name': 'a',
   }
+
 
 def test_serialize(module: docspec.Module):
   assert docspec.dump_module(module) == {
@@ -75,7 +77,7 @@ def test_serialize(module: docspec.Module):
             'args': [
               {
                 'name': 'self',
-                'type': 'Positional',
+                'type': 'POSITIONAL',
               }
             ],
             'return_type': None,
