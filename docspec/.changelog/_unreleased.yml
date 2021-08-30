@@ -1,7 +1,13 @@
 changes:
 - type: feature
   component: general
-  description: add `Data.modifiers`, `Data.semantic_hints`, `Class.modifiers`, `Class.semantic_hints` and
-    `Function.semantic_hints`
+  description: add `Data.modifiers`, `Data.semantic_hints`, `Class.modifiers`, `Class.semantic_hints`
+    and `Function.semantic_hints`
   fixes:
   - '#30'
+- type: change
+  component: general
+  description: rename `Argument.Type` enumeration values to `UPPER_CASE` format according
+    to latest specification (full backwards compatibility, including deserializing
+    JSON payloads with the old argument type names)
+  fixes: []

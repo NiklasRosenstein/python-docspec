@@ -52,8 +52,8 @@ import typing_extensions as te
 import weakref
 
 import deprecated
-import databind.core.annotations as A
 import databind.json
+from databind.core.annotations import alias, union
 
 
 @dataclasses.dataclass
@@ -118,20 +118,33 @@ class Argument:
     """
 
     #: A positional only argument. Such arguments are denoted in Python like this: `def foo(a, b, /): ...`
-    PositionalOnly = 0
+    POSITIONAL_ONLY: te.Annotated[int, alias('POSITIONAL_ONLY', 'PositionalOnly')] = 0
 
     #: A positional argument, which may also be given as a keyword argument. Basically that is just a normal
     #: argument as you would see most commonly in Python function definitions.
-    Positional = 1
+    POSITIONAL: te.Annotated[int, alias('POSITIONAL', 'Positional')] = 1
 
     #: An argument that denotes the capture of additional positional arguments, aka. "args" or "varags".
-    PositionalRemainder = 2
+    POSITIONAL_REMAINDER: te.Annotated[int, alias('POSITIONAL_REMAINDER', 'PositionalRemainder')] = 2
 
     #: A keyword-only argument is denoted in Python like thisL `def foo(*, kwonly): ...`
-    KeywordOnly = 3
+    KEYWORD_ONLY: te.Annotated[int, alias('KEYWORD_ONLY', 'KeywordOnly')] = 3
 
     #: An argument that captures additional keyword arguments, aka. "kwargs".
-    KeywordRemainder = 4
+    KEYWORD_REMAINDER: te.Annotated[int, alias('KEYWORD_REMAINDER', 'KeywordRemainder')] = 4
+
+    # backwards compatibility, < 1.2.0
+    PositionalOnly: t.ClassVar['Argument.Type']
+    Positional: t.ClassVar['Argument.Type']
+    PositionalRemainder: t.ClassVar['Argument.Type']
+    KeywordOnly: t.ClassVar['Argument.Type']
+    KeywordRemainder: t.ClassVar['Argument.Type']
+
+  Type.PositionalOnly = Type.POSITIONAL_ONLY
+  Type.Positional = Type.POSITIONAL
+  Type.PositionalRemainder = Type.POSITIONAL_REMAINDER
+  Type.KeywordOnly = Type.KEYWORD_ONLY
+  Type.KeywordRemainder = Type.KEYWORD_REMAINDER
 
   #: The name of the argument.
   name: str
@@ -233,13 +246,13 @@ class Data(ApiObject):
     """
 
     #: The #Data object is an instance variable of a class.
-    InstanceVariable = 0
+    INSTANCE_VARIABLE = 0
 
     #: The #Data object is a static variable of a class.
-    ClassVariable = 1
+    CLASS_VARIABLE = 1
 
     #: The #Data object represents a constant value.
-    Constant = 2
+    CONSTANT = 2
 
   #: The datatype associated with the assignment as code.
   datatype: t.Optional[str] = None
@@ -278,35 +291,35 @@ class Function(ApiObject):
     A list of well-known properties and behaviour that can be attributed to a function.
     """
 
-    #: The function is a coroutine.
-    Coroutine = 0
-
-    #: The function does not return.
-    NoReturn = 1
-
-    #: The function is an instance method.
-    InstanceMethod = 2
-
-    #: The function is a classmethod.
-    ClassMethod = 3
-
-    #: The function is a staticmethod.
-    StaticMethod = 4
-
-    #: The function is a property getter.
-    PropertyGetter = 5
-
-    #: The function is a property setter.
-    PropertySetter = 6
-
-    #: The function is a property deleter.
-    PropertyDelete = 6
-
     #: The function is abstract.
-    Abstract = 7
+    ABSTRACT = 0
 
     #: The function is final.
-    Final = 8
+    FINAL = 1
+
+    #: The function is a coroutine.
+    COROUTINE = 2
+
+    #: The function does not return.
+    NO_RETURN = 3
+
+    #: The function is an instance method.
+    INSTANCE_METHOD = 4
+
+    #: The function is a classmethod.
+    CLASS_METHOD = 5
+
+    #: The function is a staticmethod.
+    STATIC_METHOD = 6
+
+    #: The function is a property getter.
+    PROPERTY_GETTER = 7
+
+    #: The function is a property setter.
+    PROPERTY_SETTER = 8
+
+    #: The function is a property deleter.
+    PROPERTY_DELETER = 9
 
   #: A list of modifiers used in the function definition. For example, the only valid modified in
   #: Python is "async".
@@ -351,16 +364,16 @@ class Class(HasMembers):
     """
 
     #: The class describes an interface.
-    Interface = 0
+    INTERFACE = 0
 
     #: The class is abstract.
-    Abstract = 1
+    ABSTRACT = 1
 
     #: The class is final.
-    Final = 2
+    FINAL = 2
 
     #: The class is an enumeration.
-    Enum = 3
+    ENUM = 3
 
   #: The metaclass used in the class definition as a code string.
   metaclass: t.Optional[str]
@@ -397,15 +410,14 @@ class Module(HasMembers):
 _Members = t.Union[Data, Function, Class, Indirection]
 _MemberType = te.Annotated[
   _Members,
-  A.unionclass({ 'data': Data, 'function': Function, 'class': Class, 'indirection': Indirection },
-    style=A.unionclass.Style.flat)]
+  union({ 'data': Data, 'function': Function, 'class': Class, 'indirection': Indirection }, style=union.Style.flat)]
 
 
 _ModuleMembers = t.Union[Data, Function, Class, Module, Indirection]
 _ModuleMemberType = te.Annotated[
   _ModuleMembers,
-  A.unionclass({ 'data': Data, 'function': Function, 'class': Class, 'module': Module, 'indirection': Indirection },
-    style=A.unionclass.Style.flat)]
+  union({ 'data': Data, 'function': Function, 'class': Class, 'module': Module, 'indirection': Indirection },
+    style=union.Style.flat)]
 
 
 def load_module(

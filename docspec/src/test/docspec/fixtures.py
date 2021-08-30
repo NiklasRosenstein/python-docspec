@@ -9,7 +9,7 @@ def module() -> docspec.Module:
     docspec.Class('foo', None, docspec.Docstring('This is class foo.', None), None, None, None, [
       docspec.Data('val', None, None, 'int', '42'),
       docspec.Function('__init__', None, None, None, [
-        docspec.Argument('self', docspec.Argument.Type.Positional, None, None, None)
+        docspec.Argument('self', docspec.Argument.Type.POSITIONAL, None, None, None)
       ], None, None),
     ]),
   ])
@@ -24,7 +24,7 @@ def typed_module() -> docspec.Module:
     docspec.Class('foo', docspec.Location('test.py', 2), docspec.Docstring('This is class foo.', docspec.Location('test.py', 3)), None, None, None, [
       docspec.Data('val', docspec.Location('test.py', 4), None, 'Union[int, float]', '42'),
       docspec.Function('__init__', docspec.Location('test.py', 5), None, None, [
-        docspec.Argument('self', docspec.Argument.Type.Positional, None, None, None)
+        docspec.Argument('self', docspec.Argument.Type.POSITIONAL, None, None, None)
       ], None, None),
     ]),
   ])

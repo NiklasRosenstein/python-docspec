@@ -313,15 +313,15 @@ class Parser:
       tname = find(lambda x: x.type == syms.tname, parameters.children)
       if tname:
         scanner = ListScanner(parameters.children, parameters.children.index(tname))
-        result.append(self.parse_argument(tname, Argument.Type.Positional, scanner))
+        result.append(self.parse_argument(tname, Argument.Type.POSITIONAL, scanner))
       else:
         # This must be either ["(", ")"] or ["(", "argname", ")"].
         assert len(parameters.children) in (2, 3), parameters.children
         if len(parameters.children) == 3:
-          result.append(Argument(parameters.children[1].value, Argument.Type.Positional, None, None, None))
+          result.append(Argument(parameters.children[1].value, Argument.Type.POSITIONAL, None, None, None))
       return result
 
-    argtype = Argument.Type.Positional
+    argtype = Argument.Type.POSITIONAL
 
     index = ListScanner(arglist.children)
     for node in index.safe_iter(auto_advance=False):
@@ -329,13 +329,13 @@ class Parser:
       if node.type == token.STAR:
         node = index.advance()
         if node.type != token.COMMA:
-          result.append(self.parse_argument(node, Argument.Type.PositionalRemainder, index))
+          result.append(self.parse_argument(node, Argument.Type.POSITIONAL_REMAINDER, index))
         index.advance()
-        argtype = Argument.Type.KeywordOnly
+        argtype = Argument.Type.KEYWORD_ONLY
         continue
       elif node.type == token.DOUBLESTAR:
         node = index.advance()
-        result.append(self.parse_argument(node, Argument.Type.KeywordRemainder, index))
+        result.append(self.parse_argument(node, Argument.Type.KEYWORD_REMAINDER, index))
         continue
       result.append(self.parse_argument(node, argtype, index))
       index.advance()
