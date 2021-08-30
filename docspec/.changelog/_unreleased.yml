@@ -1,0 +1,6 @@
+changes:
+- type: feature
+  component: general
+  description: add `Data.modifiers` and `Data.semantic_hints`
+  fixes:
+  - '#30'

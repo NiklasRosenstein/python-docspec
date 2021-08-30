@@ -227,11 +227,32 @@ class Data(ApiObject):
   Represents a variable assignment (e.g. for global variables (often used as constants) or class members).
   """
 
+  class Semantic(enum.Enum):
+    """
+    Describes a semantic property of a #Data object.
+    """
+
+    #: The #Data object is an instance variable of a class.
+    InstanceVariable = 0
+
+    #: The #Data object is a static variable of a class.
+    ClassVariable = 1
+
+    #: The #Data object represents a constant value.
+    Constant = 2
+
   #: The datatype associated with the assignment as code.
   datatype: t.Optional[str] = None
 
   #: The value of the variable as code.
   value: t.Optional[str] = None
+
+  #: A list of language-specific modifiers that were used to declare this #Data object.
+  modifiers: t.List[str] = dataclasses.field(default_factory=list)
+
+  #: A list of hints that express the semantic of this #Data object that is not otherwise
+  #: derivable from the context.
+  semantic_hints: t.List[Semantic] = dataclasses.field(default_factory=list)
 
 
 @dataclasses.dataclass
