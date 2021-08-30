@@ -5,6 +5,10 @@ processors:
   - type: filter
   - type: smart
   - type: crossref
+hooks:
+  pre-render:
+    - bin/render-spec docspec/src/specification.yml >spec.md
+    - bin/changelog >changelog.md
 renderer:
   type: mkdocs
   pages:

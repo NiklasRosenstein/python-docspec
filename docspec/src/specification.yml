@@ -1,0 +1,269 @@
+
+Location:
+  type: struct
+  docs: The location object describes where the an API object was extracted from a
+    file. Uusally this points to the source file and a line number. The filename
+    should always be relative to the root of a project or source control repository.
+  fields:
+    filename:
+      type: str
+      docs: A relative filename (e.g. relative to the project root).
+    lineno:
+      type: int
+      docs: The line number in the *filename* from which the API object was parsed.
+
+Docstring:
+  type: struct
+  docs: Represents the documentation string of an API object.
+  fields:
+    content:
+      type: str
+      docs: The content of the docstring.
+    location:
+      type: Optional[Location]
+      required: false
+      docs: The location where the docstring is defined. This points at the position of
+        the first character in the *content* field.
+
+Indirection:
+  type: struct
+  docs: Represents an imported name. It can be used to resolve references to names
+    in the API tree to fully qualified names.
+  fields:
+    type:
+      type: str
+      docs: The value is `"indirection"`.
+    name:
+      type: str
+      docs: The name that is made available in the scope of the parent object.
+    location:
+      type: Optional[Location]
+      required: false
+      docs: The location where the indirection is defined.
+    target:
+      type: str
+      docs: The target to which the name points. In the case of Python for example this
+        can be a fully qualified name pointing to a member or a member of a module. In
+        the case of starred imports, the last part is a star (as in `os.path.*`).
+
+Data:
+  type: struct
+  docs: A `Data` object represents a variable or constant.
+  fields:
+    type:
+      type: str
+      docs: The value is `"data"`.
+    name:
+      type: str
+      docs: The name of the variable or constant.
+    location:
+      type: Optional[Location]
+      required: false
+      docs: The location where the variable or constant is defined.
+    docstring:
+      type: Optional[Docstring]
+      required: false
+      docs: The docstring of the variable or constant.
+    datatype:
+      type: Optional[str]
+      required: false
+      docs: The name of the type of the variable or constant.
+    value:
+      type: Optional[str]
+      required: false
+      docs: The value that is assigned to this variable or constant as source code.
+    modifiers:
+      type: Optional[List[str]]
+      required: false
+      docs: A list of modifier keywords used in the source code to define this variable or
+        constant, like `const`, `static`, `final`, `mut`, etc.
+    semantic_hints:
+      type: List[DataSemantic]
+      required: false
+      docs: A list of behavioral properties for this variable or constant.
+
+DataSemantic:
+  type: enum
+  docs: Describes possible behavioral properties of a variable or constant.
+  values:
+    - name: INSTANCE_VARIABLE
+    - name: CLASS_VARIABLE
+    - name: CONSTANT
+
+Argument:
+  type: struct
+  docs: Represents a function argument.
+  fields:
+    type:
+      type: ArgumentType
+      docs: The type of argument.
+    name:
+      type: str
+      docs: The name of the argument.
+    datatype:
+      type: Optional[str]
+      required: false
+      docs: The data type of the argument.
+    default_value:
+      type: Optional[str]
+      required: false
+      docs: The default value of the argument as a code string.
+
+ArgumentType:
+  type: enum
+  values:
+    - name: POSITIONAL_ONLY
+      docs: An argument that can only be given by its position in the argument list. In Python,
+        these are arguments preceeding a `/` marker in the argument list. Many programming languages
+        support only one type of positional arguments. Loaders for such languages should prefer the
+        `POSITIONAL` argument type over `POSITIONAL_ONLY` to describe these type of arguments.
+    - name: POSITIONAL
+    - name: POSITIONAL_REMAINDER
+    - name: KEYWORD_ONLY
+    - name: KEYWORD_REMAINDER
+
+Decoration:
+  type: struct
+  docs: Represents a decoration that can be applied to a function or class.
+  fields:
+    name:
+      type: Optional[str]
+      docs: The name of the decorator used in this decoration. This may be `null` if the decorator
+        can not be represented simply by a name, e.g. in Python 3.9 where decorators can be full
+        fledged expressions. In that case the `raw_expression` field is used instead.
+    args:
+      type: Optional[List[str]]
+      required: false
+      docs: A list of the raw source code for each argument of the decorator. If this is not set,
+        that means the decorator is not called. If the list is empty, the decorator is called without
+        arguments.
+    raw_expression:
+      type: Optional[List[str]]
+      required: false
+      docs: The raw code string that represents the decorator that is used for this expression. This
+        is used if the decorator can not be represented by just a `name`. The `args` may still be used
+        if the expression gets called (e.g. in the case of `@(decorator_factory().dec)(a, b, c)`, the
+        `raw_expression` should be `"(decorator_factory().dec)"` whereas the `args` should be
+        `["a", "b", "c"]`.
+
+Function:
+  type: struct
+  docs: Represents a function definition in a module or class.
+  fields:
+    type:
+      type: str
+      docs: Value is `"function"`
+    name:
+      type: str
+      docs: The name of the function.
+    location:
+      type: Optional[Location]
+      required: false
+    docstring:
+      type: Optional[Docstring]
+      required: false
+    modifiers:
+      type: Optional[List[str]]
+      required: false
+      docs: An list of modifier keywords that the function was defined with.
+    args:
+      type: List[Argument]
+      docs: The function arguments.
+    return_type:
+      type: Optional[str]
+      required: false
+      docs: The return type of the function.
+    decorations:
+      type: Optional[List[Decoration]]
+      required: false
+      docs: The list of decorations attached to the function.
+    semantic_hints:
+      type: List[FunctionSemantic]
+      required: false
+      docs: A list of behavioral properties for this function.
+
+FunctionSemantic:
+  type: enum
+  values:
+    - name: ABSTRACT
+    - name: FINAL
+    - name: COROUTINE
+    - name: NO_RETURN
+    - name: INSTANCE_METHOD
+    - name: CLASS_METHOD
+    - name: STATIC_METHOD
+    - name: PROPERTY_GETTER
+    - name: PROPERTY_SETTER
+    - name: PROPERTY_DELETER
+
+Class:
+  type: struct
+  docs: Represents a class definition.
+  fields:
+    type:
+      type: str
+      docs: The value is `"class"`.
+    name:
+      type: str
+      docs: The name of the class.
+    location:
+      type: Optional[Location]
+      required: false
+    docstring:
+      type: Optional[Docstring]
+      required: false
+    metaclass:
+      type: Optional[str]
+      required: false
+      docs: The name of the metaclass used in this class definition.
+    bases:
+      type: Optional[List[str]]
+      required: false
+      docs: A list of the base classes that the class inherits from.
+    members:
+      type: List[Data | Function | Class]
+      docs: A list of the members of the class.
+    decorations:
+      type: Optional[List[Decoration]]
+      required: false
+      docs: A list of the decorations applied to the class definition.
+    modifiers:
+      type: Optional[List[str]]
+      required: false
+      docs: A list of the modifier keywords used to declare this class.
+    semantic_hints:
+      type: List[ClassSemantic]
+      required: false
+      docs: A list of the semantic hints for this class.
+
+ClassSemantic:
+  type: enum
+  values:
+    - name: INTERFACE
+    - name: ABSTRACT
+    - name: FINAL
+    - name: ENUM
+
+Module:
+  type: struct
+  docs: A module represents a collection of data, function and classes. In the Python
+    language, it represents an actual Python module. In other languages it may
+    refer to another file type or a namespace.
+  fields:
+    type:
+      type: str
+      docs: The value is `"module"`.
+    name:
+      type: str
+      docs: The name of the module. The name is supposed to be relative to the parent.
+    location:
+      type: Optional[Docstring]
+      required: false
+      docs: The location of the module. Usually the line number will be `0`.
+    docstring:
+      type: Optional[Docstring]
+      required: false
+      docs: The docstring for the module as parsed from the source.
+    members:
+      type: List[Class | Data | Function | Module]
+      docs: A list of the module members.
