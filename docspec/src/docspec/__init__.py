@@ -250,7 +250,7 @@ class Data(ApiObject):
   #: A list of language-specific modifiers that were used to declare this #Data object.
   modifiers: t.List[str] = dataclasses.field(default_factory=list)
 
-  #: A list of hints that express the semantic of this #Data object that is not otherwise
+  #: A list of hints that express semantics of this #Data object which are not otherwise
   #: derivable from the context.
   semantic_hints: t.List[Semantic] = dataclasses.field(default_factory=list)
 
