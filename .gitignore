@@ -6,5 +6,8 @@
 *.egg-info
 *.egg
 build/
-changelog.md
 .vscode/
+
+# Generate files for documentation.
+changelog.md
+spec.md

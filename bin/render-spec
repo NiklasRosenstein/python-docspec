@@ -1,0 +1,94 @@
+#!/usr/bin/env python
+
+# requirements:
+#   databind.core
+#   databind.json
+#   mako
+#   PyYAML
+#   typing-extensions
+
+import dataclasses
+import sys
+import typing as t
+
+import databind.core.annotations as annotations
+import databind.json
+import mako.template
+import typing_extensions as te
+import yaml
+
+TEMPLATE = r'''
+<%def name="struct(k, s)">
+${'##'} Struct `${k}`
+
+${s.docs or ''}
+
+| Field | Type | Required | Description |
+| ----- | ---- | -------- | ----------- |
+% for name, field in s.fields.items():
+| `${name}` | `${field.type.replace('|', '\\|')}` | ${'Yes' if field.required else 'No'} | ${field.docs or ''} |
+% endfor
+</%def>
+
+<%def name="enum(k, s)">
+${'##'} Enumeration `${k}`
+
+${s.docs or ''}
+
+% for value in s.values:
+* `${value.name}` &ndash; ${value.docs or ''}
+% endfor
+</%def>
+
+# Docspec JSON Specification
+
+% for name, obj in config.items():
+  % if isinstance(obj, Struct):
+${struct(name, obj)}
+  % elif isinstance(obj, Enum):
+${enum(name, obj)}
+  % endif
+% endfor
+'''
+
+
+@dataclasses.dataclass
+class StructField:
+  type: str
+  required: bool = True
+  docs: t.Optional[str] = None
+
+
+@dataclasses.dataclass
+class Struct:
+  fields: t.Dict[str, StructField]
+  docs: t.Optional[str] = None
+
+
+@dataclasses.dataclass
+class EnumValue:
+  name: str
+  docs: t.Optional[str] = None
+
+
+@dataclasses.dataclass
+class Enum:
+  values: t.List[EnumValue]
+  docs: t.Optional[str] = None
+
+
+Config = t.Dict[str, te.Annotated[
+  t.Union[Struct, Enum],
+  annotations.union({ 'struct': Struct, 'enum': Enum }, style=annotations.union.Style.flat)]]
+
+
+def main():
+  with open(sys.argv[1]) as fp:
+    config = databind.json.load(yaml.safe_load(fp), Config, filename=fp.name)
+
+  template = mako.template.Template(TEMPLATE)
+  print(template.render(config=config, Struct=Struct, Enum=Enum))
+
+
+if __name__ == '__main__':
+  main()
