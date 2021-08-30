@@ -11,6 +11,11 @@ Location:
     lineno:
       type: int
       docs: The line number in the *filename* from which the API object was parsed.
+    endlineno:
+      type: Optional[int]
+      required: false
+      docs: If the location of an entity spans over multiple lines, it can be indicated by specifying at
+        which line it ends with this property.
 
 Docstring:
   type: struct
