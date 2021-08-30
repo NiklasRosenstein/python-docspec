@@ -227,11 +227,32 @@ class Data(ApiObject):
   Represents a variable assignment (e.g. for global variables (often used as constants) or class members).
   """
 
+  class Semantic(enum.Enum):
+    """
+    A list of well-known properties and behaviour that can be attributed to a variable/constant.
+    """
+
+    #: The #Data object is an instance variable of a class.
+    InstanceVariable = 0
+
+    #: The #Data object is a static variable of a class.
+    ClassVariable = 1
+
+    #: The #Data object represents a constant value.
+    Constant = 2
+
   #: The datatype associated with the assignment as code.
   datatype: t.Optional[str] = None
 
   #: The value of the variable as code.
   value: t.Optional[str] = None
+
+  #: A list of language-specific modifiers that were used to declare this #Data object.
+  modifiers: t.List[str] = dataclasses.field(default_factory=list)
+
+  #: A list of hints that express semantics of this #Data object which are not otherwise
+  #: derivable from the context.
+  semantic_hints: t.List[Semantic] = dataclasses.field(default_factory=list)
 
 
 @dataclasses.dataclass
@@ -252,6 +273,41 @@ class Function(ApiObject):
   `@property`, `@classmethod` or `@staticmethod`?).
   """
 
+  class Semantic(enum.Enum):
+    """
+    A list of well-known properties and behaviour that can be attributed to a function.
+    """
+
+    #: The function is a coroutine.
+    Coroutine = 0
+
+    #: The function does not return.
+    NoReturn = 1
+
+    #: The function is an instance method.
+    InstanceMethod = 2
+
+    #: The function is a classmethod.
+    ClassMethod = 3
+
+    #: The function is a staticmethod.
+    StaticMethod = 4
+
+    #: The function is a property getter.
+    PropertyGetter = 5
+
+    #: The function is a property setter.
+    PropertySetter = 6
+
+    #: The function is a property deleter.
+    PropertyDelete = 6
+
+    #: The function is abstract.
+    Abstract = 7
+
+    #: The function is final.
+    Final = 8
+
   #: A list of modifiers used in the function definition. For example, the only valid modified in
   #: Python is "async".
   modifiers: t.Optional[t.List[str]]
@@ -264,6 +320,9 @@ class Function(ApiObject):
 
   #: A list of decorations used on the function.
   decorations: t.Optional[t.List[Decoration]]
+
+  #: A list of hints that describe the object.
+  semantic_hints: t.List[Semantic] = dataclasses.field(default_factory=list)
 
 
 class HasMembers(ApiObject):
@@ -286,6 +345,23 @@ class Class(HasMembers):
   Represents a class definition.
   """
 
+  class Semantic(enum.Enum):
+    """
+    A list of well-known properties and behaviour that can be attributed to a class.
+    """
+
+    #: The class describes an interface.
+    Interface = 0
+
+    #: The class is abstract.
+    Abstract = 1
+
+    #: The class is final.
+    Final = 2
+
+    #: The class is an enumeration.
+    Enum = 3
+
   #: The metaclass used in the class definition as a code string.
   metaclass: t.Optional[str]
 
@@ -298,6 +374,12 @@ class Class(HasMembers):
   #: A list of the classes members. #Function#s in a class are to be considered instance methods of
   #: that class unless some information about the #Function indicates otherwise.
   members: t.List['_MemberType']
+
+  #: A list of language-specific modifiers that were used to declare this #Data object.
+  modifiers: t.List[str] = dataclasses.field(default_factory=list)
+
+  #: A list of hints that describe the object.
+  semantic_hints: t.List[Semantic] = dataclasses.field(default_factory=list)
 
 
 @dataclasses.dataclass

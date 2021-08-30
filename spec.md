@@ -61,6 +61,9 @@ _Fields_
 * `bases` (Optional[array]) &ndash; An array of `str` representing the base classes.
 * `members` (array) &ndash; An array of `Data`, `Function` or `Class` objects.
 * `decorations` (Optional[array]) &ndash; An array of `Decoration` objects.
+* `modifiers` (Optional[List[str]]) &ndash; A list of modifiers used to declare the class.
+* `semantic_hints` <sup>(1)</sup> (Optional[List[Class.Semantic]]) &ndash; A list of well-known semantics that describe the object.
+  Valid values are `Interface`, `Abstract`, `Final`, `Enum`.
 
 ### Data
 
@@ -75,6 +78,9 @@ _Fields_
 * `datatype` (Optional[str]) &ndash; The datatype of the value.
 * `value` (Optional[str]) &ndash; The value in the form of the definition
   in the source.
+* `modifiers` (Optional[List[str]]) &ndash; A list of modifiers used to declare the this object.
+* `semantic_hints` <sup>(1)</sup> (Optional[List[Data.Semantic]]) &ndash; A list of well-known semantics that describe
+  the object. Valid values are `InstanceVariable`, `ClassVariable` and `Constant`.
 
 ### Function
 
@@ -86,11 +92,14 @@ _Fields_
 * `name` (str)
 * `location` (str)
 * `docstring` (Optional[Docstring])
-* `modifiers` (Optional[array]) &ndash; An array of `str` representing the modifers of this
+* `modifiers` (Optional[List[str]]) &ndash; An array of `str` representing the modifers of this
   function (e.g. `async`, `classmethod`, etc.).
 * `args` (array) &ndash; An array of `Argument` objects.
 * `return_type` (Optional[str]) &ndash; The return type of the function.
-* `decorations` (Optional[array]) &ndash; An array of `Decoration` objects.
+* `decorations` (Optional[List[str]]) &ndash; An array of `Decoration` objects.
+* `semantic_hints` <sup>(1)</sup> (Optional[List[Function.Semantic]]) &ndash; A list of well-known semantics that
+  describe the object. Valid values are `Coroutine`, `NoReturn`, `InstanceMethod`, `ClassMethod`, `StaticMethod`,
+  `PropertyGetter`, `PropertySetter`, `PropertyDeleter`, `Abstract`, `Final`.
 
 ### Argument
 
@@ -127,6 +136,16 @@ _Fields_
 * `target` (str) &ndash; The target name of the indirection
 * `location` (Location)
 * `docstring` (Optional[Docstring])
+
+### _Footnotes_
+
+<sup>(1) About `semantic_hints`: Semantic hints are intended to describe facets of an API object that are well-known
+natural properties of the programming language. Sometimes those hints are not otherwise derivable from the surrounding
+API object tree, and sometimes the information may appears duplicated. (Example: In Python, a class that can be
+considered an interface might inherit from `typing.Protocol` or be implemented as a `zope.interface`, thus the
+information would also be available through `Class.bases`. In Java, an interface has the `interface` as an entry in
+the `Class.modifiers`). The extend to which the semantic hints are complete or correct depends entirely on the
+docspec loader.</sup>
 
 ---
 
