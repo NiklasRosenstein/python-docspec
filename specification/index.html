@@ -73,6 +73,8 @@
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#indirection">Indirection</a>
     </li>
+    <li class="toctree-l3"><a class="reference internal" href="#footnotes">Footnotes</a>
+    </li>
         </ul>
     </li>
     </ul>
@@ -178,6 +180,9 @@ refer to another file type or a namespace.</p>
 <li><code>bases</code> (Optional[array]) &ndash; An array of <code>str</code> representing the base classes.</li>
 <li><code>members</code> (array) &ndash; An array of <code>Data</code>, <code>Function</code> or <code>Class</code> objects.</li>
 <li><code>decorations</code> (Optional[array]) &ndash; An array of <code>Decoration</code> objects.</li>
+<li><code>modifiers</code> (Optional[List[str]]) &ndash; A list of modifiers used to declare the class.</li>
+<li><code>semantic_hints</code> <sup>(1)</sup> (Optional[List[Class.Semantic]]) &ndash; A list of well-known semantics that describe the object.
+  Valid values are <code>Interface</code>, <code>Abstract</code>, <code>Final</code>, <code>Enum</code>.</li>
 </ul>
 <h3 id="data">Data</h3>
 <p>A <code>Data</code> object represents an expression assigned to a name (e.g., a variable or constant).</p>
@@ -190,6 +195,9 @@ refer to another file type or a namespace.</p>
 <li><code>datatype</code> (Optional[str]) &ndash; The datatype of the value.</li>
 <li><code>value</code> (Optional[str]) &ndash; The value in the form of the definition
   in the source.</li>
+<li><code>modifiers</code> (Optional[List[str]]) &ndash; A list of modifiers used to declare the this object.</li>
+<li><code>semantic_hints</code> <sup>(1)</sup> (Optional[List[Data.Semantic]]) &ndash; A list of well-known semantics that describe
+  the object. Valid values are <code>InstanceVariable</code>, <code>ClassVariable</code> and <code>Constant</code>.</li>
 </ul>
 <h3 id="function">Function</h3>
 <p>Represents a function definition in a module or class.</p>
@@ -199,11 +207,14 @@ refer to another file type or a namespace.</p>
 <li><code>name</code> (str)</li>
 <li><code>location</code> (str)</li>
 <li><code>docstring</code> (Optional[Docstring])</li>
-<li><code>modifiers</code> (Optional[array]) &ndash; An array of <code>str</code> representing the modifers of this
+<li><code>modifiers</code> (Optional[List[str]]) &ndash; An array of <code>str</code> representing the modifers of this
   function (e.g. <code>async</code>, <code>classmethod</code>, etc.).</li>
 <li><code>args</code> (array) &ndash; An array of <code>Argument</code> objects.</li>
 <li><code>return_type</code> (Optional[str]) &ndash; The return type of the function.</li>
-<li><code>decorations</code> (Optional[array]) &ndash; An array of <code>Decoration</code> objects.</li>
+<li><code>decorations</code> (Optional[List[str]]) &ndash; An array of <code>Decoration</code> objects.</li>
+<li><code>semantic_hints</code> <sup>(1)</sup> (Optional[List[Function.Semantic]]) &ndash; A list of well-known semantics that
+  describe the object. Valid values are <code>Coroutine</code>, <code>NoReturn</code>, <code>InstanceMethod</code>, <code>ClassMethod</code>, <code>StaticMethod</code>,
+  <code>PropertyGetter</code>, <code>PropertySetter</code>, <code>PropertyDeleter</code>, <code>Abstract</code>, <code>Final</code>.</li>
 </ul>
 <h3 id="argument">Argument</h3>
 <p>Represents a function argument.</p>
@@ -235,6 +246,14 @@ target of a link written with a local name. </p>
 <li><code>location</code> (Location)</li>
 <li><code>docstring</code> (Optional[Docstring])</li>
 </ul>
+<h3 id="footnotes"><em>Footnotes</em></h3>
+<p><sup>(1) About <code>semantic_hints</code>: Semantic hints are intended to describe facets of an API object that are well-known
+natural properties of the programming language. Sometimes those hints are not otherwise derivable from the surrounding
+API object tree, and sometimes the information may appears duplicated. (Example: In Python, a class that can be
+considered an interface might inherit from <code>typing.Protocol</code> or be implemented as a <code>zope.interface</code>, thus the
+information would also be available through <code>Class.bases</code>. In Java, an interface has the <code>interface</code> as an entry in
+the <code>Class.modifiers</code>). The extend to which the semantic hints are complete or correct depends entirely on the
+docspec loader.</sup></p>
 <hr />
 <p align="center">Copyright &copy; 2020, Niklas Rosenstein</p>
               

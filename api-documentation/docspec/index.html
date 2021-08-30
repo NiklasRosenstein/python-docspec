@@ -123,24 +123,60 @@
         </ul>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#data-objects">Data Objects</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#semantic-objects">Semantic Objects</a>
         <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#instancevariable">InstanceVariable</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#classvariable">ClassVariable</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#constant">Constant</a>
+    </li>
     <li class="toctree-l3"><a class="reference internal" href="#datatype_1">datatype</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#value">value</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#modifiers">modifiers</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#semantic_hints">semantic_hints</a>
     </li>
         </ul>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#indirection-objects">Indirection Objects</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#function-objects">Function Objects</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#semantic-objects_1">Semantic Objects</a>
         <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#modifiers">modifiers</a>
+    <li class="toctree-l3"><a class="reference internal" href="#coroutine">Coroutine</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#noreturn">NoReturn</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#instancemethod">InstanceMethod</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#classmethod">ClassMethod</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#staticmethod">StaticMethod</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#propertygetter">PropertyGetter</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#propertysetter">PropertySetter</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#propertydelete">PropertyDelete</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#abstract">Abstract</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#final">Final</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#modifiers_1">modifiers</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#args_1">args</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#return_type">return_type</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#decorations_1">decorations</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#semantic_hints_1">semantic_hints</a>
     </li>
         </ul>
     </li>
@@ -151,7 +187,17 @@
         </ul>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#class-objects">Class Objects</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#semantic-objects_2">Semantic Objects</a>
         <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#interface">Interface</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#abstract_1">Abstract</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#final_1">Final</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#enum">Enum</a>
+    </li>
     <li class="toctree-l3"><a class="reference internal" href="#metaclass">metaclass</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#bases">bases</a>
@@ -159,6 +205,10 @@
     <li class="toctree-l3"><a class="reference internal" href="#decorations_2">decorations</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#members_1">members</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#modifiers_2">modifiers</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#semantic_hints_2">semantic_hints</a>
     </li>
         </ul>
     </li>
@@ -360,12 +410,33 @@ call this method unless they are doing modifications to the tree.</p>
 class Data(ApiObject)
 </code></pre>
 <p>Represents a variable assignment (e.g. for global variables (often used as constants) or class members).</p>
+<p><a id="docspec.Data.Semantic"></a></p>
+<h2 id="semantic-objects">Semantic Objects</h2>
+<pre><code class="language-python">class Semantic(enum.Enum)
+</code></pre>
+<p>A list of well-known properties and behaviour that can be attributed to a variable/constant.</p>
+<p><a id="docspec.Data.Semantic.InstanceVariable"></a></p>
+<h4 id="instancevariable">InstanceVariable</h4>
+<p>The <a href="#docspec.Data"><code>Data</code></a> object is an instance variable of a class.</p>
+<p><a id="docspec.Data.Semantic.ClassVariable"></a></p>
+<h4 id="classvariable">ClassVariable</h4>
+<p>The <a href="#docspec.Data"><code>Data</code></a> object is a static variable of a class.</p>
+<p><a id="docspec.Data.Semantic.Constant"></a></p>
+<h4 id="constant">Constant</h4>
+<p>The <a href="#docspec.Data"><code>Data</code></a> object represents a constant value.</p>
 <p><a id="docspec.Data.datatype"></a></p>
 <h4 id="datatype_1">datatype</h4>
 <p>The datatype associated with the assignment as code.</p>
 <p><a id="docspec.Data.value"></a></p>
 <h4 id="value">value</h4>
 <p>The value of the variable as code.</p>
+<p><a id="docspec.Data.modifiers"></a></p>
+<h4 id="modifiers">modifiers</h4>
+<p>A list of language-specific modifiers that were used to declare this <a href="#docspec.Data"><code>Data</code></a> object.</p>
+<p><a id="docspec.Data.semantic_hints"></a></p>
+<h4 id="semantic_hints">semantic_hints</h4>
+<p>A list of hints that express semantics of this <a href="#docspec.Data"><code>Data</code></a> object which are not otherwise
+derivable from the context.</p>
 <p><a id="docspec.Indirection"></a></p>
 <h2 id="indirection-objects">Indirection Objects</h2>
 <pre><code class="language-python">@dataclasses.dataclass
@@ -381,8 +452,43 @@ class Function(ApiObject)
 <p>Represents a function definition. This can be in a <a href="#docspec.Module"><code>Module</code></a> for plain functions or in a <a href="#docspec.Class"><code>Class</code></a> for methods.
 The <a href="#docspec.Function.decorations"><code>decorations</code></a> need to be introspected to understand if the function has a special purpose (e.g. is it a
 <code>@property</code>, <code>@classmethod</code> or <code>@staticmethod</code>?).</p>
+<p><a id="docspec.Function.Semantic"></a></p>
+<h2 id="semantic-objects_1">Semantic Objects</h2>
+<pre><code class="language-python">class Semantic(enum.Enum)
+</code></pre>
+<p>A list of well-known properties and behaviour that can be attributed to a function.</p>
+<p><a id="docspec.Function.Semantic.Coroutine"></a></p>
+<h4 id="coroutine">Coroutine</h4>
+<p>The function is a coroutine.</p>
+<p><a id="docspec.Function.Semantic.NoReturn"></a></p>
+<h4 id="noreturn">NoReturn</h4>
+<p>The function does not return.</p>
+<p><a id="docspec.Function.Semantic.InstanceMethod"></a></p>
+<h4 id="instancemethod">InstanceMethod</h4>
+<p>The function is an instance method.</p>
+<p><a id="docspec.Function.Semantic.ClassMethod"></a></p>
+<h4 id="classmethod">ClassMethod</h4>
+<p>The function is a classmethod.</p>
+<p><a id="docspec.Function.Semantic.StaticMethod"></a></p>
+<h4 id="staticmethod">StaticMethod</h4>
+<p>The function is a staticmethod.</p>
+<p><a id="docspec.Function.Semantic.PropertyGetter"></a></p>
+<h4 id="propertygetter">PropertyGetter</h4>
+<p>The function is a property getter.</p>
+<p><a id="docspec.Function.Semantic.PropertySetter"></a></p>
+<h4 id="propertysetter">PropertySetter</h4>
+<p>The function is a property setter.</p>
+<p><a id="docspec.Function.Semantic.PropertyDelete"></a></p>
+<h4 id="propertydelete">PropertyDelete</h4>
+<p>The function is a property deleter.</p>
+<p><a id="docspec.Function.Semantic.Abstract"></a></p>
+<h4 id="abstract">Abstract</h4>
+<p>The function is abstract.</p>
+<p><a id="docspec.Function.Semantic.Final"></a></p>
+<h4 id="final">Final</h4>
+<p>The function is final.</p>
 <p><a id="docspec.Function.modifiers"></a></p>
-<h4 id="modifiers">modifiers</h4>
+<h4 id="modifiers_1">modifiers</h4>
 <p>A list of modifiers used in the function definition. For example, the only valid modified in
 Python is "async".</p>
 <p><a id="docspec.Function.args"></a></p>
@@ -394,6 +500,9 @@ Python is "async".</p>
 <p><a id="docspec.Function.decorations"></a></p>
 <h4 id="decorations_1">decorations</h4>
 <p>A list of decorations used on the function.</p>
+<p><a id="docspec.Function.semantic_hints"></a></p>
+<h4 id="semantic_hints_1">semantic_hints</h4>
+<p>A list of hints that describe the object.</p>
 <p><a id="docspec.HasMembers"></a></p>
 <h2 id="hasmembers-objects">HasMembers Objects</h2>
 <pre><code class="language-python">class HasMembers(ApiObject)
@@ -408,6 +517,23 @@ Python is "async".</p>
 class Class(HasMembers)
 </code></pre>
 <p>Represents a class definition.</p>
+<p><a id="docspec.Class.Semantic"></a></p>
+<h2 id="semantic-objects_2">Semantic Objects</h2>
+<pre><code class="language-python">class Semantic(enum.Enum)
+</code></pre>
+<p>A list of well-known properties and behaviour that can be attributed to a class.</p>
+<p><a id="docspec.Class.Semantic.Interface"></a></p>
+<h4 id="interface">Interface</h4>
+<p>The class describes an interface.</p>
+<p><a id="docspec.Class.Semantic.Abstract"></a></p>
+<h4 id="abstract_1">Abstract</h4>
+<p>The class is abstract.</p>
+<p><a id="docspec.Class.Semantic.Final"></a></p>
+<h4 id="final_1">Final</h4>
+<p>The class is final.</p>
+<p><a id="docspec.Class.Semantic.Enum"></a></p>
+<h4 id="enum">Enum</h4>
+<p>The class is an enumeration.</p>
 <p><a id="docspec.Class.metaclass"></a></p>
 <h4 id="metaclass">metaclass</h4>
 <p>The metaclass used in the class definition as a code string.</p>
@@ -421,6 +547,12 @@ class Class(HasMembers)
 <h4 id="members_1">members</h4>
 <p>A list of the classes members. <a href="#docspec.Function"><code>Functions</code></a> in a class are to be considered instance methods of
 that class unless some information about the <a href="#docspec.Function"><code>Function</code></a> indicates otherwise.</p>
+<p><a id="docspec.Class.modifiers"></a></p>
+<h4 id="modifiers_2">modifiers</h4>
+<p>A list of language-specific modifiers that were used to declare this <a href="#docspec.Data"><code>Data</code></a> object.</p>
+<p><a id="docspec.Class.semantic_hints"></a></p>
+<h4 id="semantic_hints_2">semantic_hints</h4>
+<p>A list of hints that describe the object.</p>
 <p><a id="docspec.Module"></a></p>
 <h2 id="module-objects">Module Objects</h2>
 <pre><code class="language-python">@dataclasses.dataclass
