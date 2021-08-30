@@ -75,6 +75,9 @@ _Fields_
 * `datatype` (Optional[str]) &ndash; The datatype of the value.
 * `value` (Optional[str]) &ndash; The value in the form of the definition
   in the source.
+* `modifiers` (List[str]) &ndash; A list of modifiers used to declare the this object.
+* `semantic_hints` (List[Semantic]) &ndash; A list of well-known `Semantic`s that describe the object beyond
+  what is derivable from the context. Valid values are `InstanceVariable`, `ClassVariable` and `Constant`.
 
 ### Function
 
