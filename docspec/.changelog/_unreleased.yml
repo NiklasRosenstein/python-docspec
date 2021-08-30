@@ -11,3 +11,8 @@ changes:
     to latest specification (full backwards compatibility, including deserializing
     JSON payloads with the old argument type names)
   fixes: []
+- type: feature
+  component: general
+  description: add `Argument.location` and `Decoration.location` properties
+  fixes:
+  - '#28'

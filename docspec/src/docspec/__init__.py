@@ -103,6 +103,9 @@ class Decoration:
   #: `None` when the decorator does not have call arguments.
   args: t.Optional[str] = None
 
+  #: The location of the decoration in the source code.
+  location: t.Optional[Location] = None
+
 
 @dataclasses.dataclass
 class Argument:
@@ -161,6 +164,9 @@ class Argument:
 
   #: The default value of the argument as a code string.
   default_value: t.Optional[str] = None
+
+  #: The location of the argument in the source code.
+  location: t.Optional[Location] = None
 
 
 @dataclasses.dataclass
