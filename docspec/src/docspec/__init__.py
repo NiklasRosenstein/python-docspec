@@ -118,20 +118,20 @@ class Argument:
     """
 
     #: A positional only argument. Such arguments are denoted in Python like this: `def foo(a, b, /): ...`
-    POSITIONAL_ONLY = 0
+    POSITIONAL_ONLY: te.Annotated[int, alias('POSITIONAL_ONLY', 'PositionalOnly')] = 0
 
     #: A positional argument, which may also be given as a keyword argument. Basically that is just a normal
     #: argument as you would see most commonly in Python function definitions.
-    POSITIONAL = 1
+    POSITIONAL: te.Annotated[int, alias('POSITIONAL', 'Positional')] = 1
 
     #: An argument that denotes the capture of additional positional arguments, aka. "args" or "varags".
-    POSITIONAL_REMAINDER = 2
+    POSITIONAL_REMAINDER: te.Annotated[int, alias('POSITIONAL_REMAINDER', 'PositionalRemainder')] = 2
 
     #: A keyword-only argument is denoted in Python like thisL `def foo(*, kwonly): ...`
-    KEYWORD_ONLY = 3
+    KEYWORD_ONLY: te.Annotated[int, alias('KEYWORD_ONLY', 'KeywordOnly')] = 3
 
     #: An argument that captures additional keyword arguments, aka. "kwargs".
-    KEYWORD_REMAINDER = 4
+    KEYWORD_REMAINDER: te.Annotated[int, alias('KEYWORD_REMAINDER', 'KeywordRemainder')] = 4
 
     # backwards compatibility, < 1.2.0
     PositionalOnly: t.ClassVar['Argument.Type']

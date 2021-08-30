@@ -115,3 +115,51 @@ def test_serialize_deserialize(module: docspec.Module):
         _deep_comparison(a[i], b[i], path + [i], seen)
 
   _deep_comparison(deser, module, ['$'], set())
+
+
+def test_deserialize_old_function_argument_types():
+  payload = {
+    'name': 'a',
+    'location': None,
+    'docstring': None,
+    'members': [
+      {
+        'type': 'function',
+        'name': 'bar',
+        'location': None,
+        'docstring': None,
+        'modifiers': None,
+        'return_type': None,
+        'decorations': None,
+        'args': [
+          {
+            'name': 'n',
+            'datatype': 'int',
+            'type': 'Positional'
+          }
+        ]
+      }
+    ]
+  }
+  assert docspec.load_module(payload) == docspec.Module(
+    name='a',
+    location=None,
+    docstring=None,
+    members=[
+      docspec.Function(
+        name='bar',
+        location=None,
+        docstring=None,
+        modifiers=None,
+        return_type=None,
+        decorations=None,
+        args=[
+          docspec.Argument(
+            name='n',
+            datatype='int',
+            type=docspec.Argument.Type.POSITIONAL
+          )
+        ]
+      )
+    ]
+  )
