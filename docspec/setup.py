@@ -41,6 +41,7 @@ requirements = [
 test_requirements = [
   'types-Deprecated',
   'types-termcolor',
+  'databind.core >=1.2.1,<2.0.0',
 ]
 extras_require = {}
 extras_require['test'] = test_requirements

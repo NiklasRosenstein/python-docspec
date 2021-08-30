@@ -13,6 +13,7 @@ requirements:
 test-requirements:
 - types-Deprecated
 - types-termcolor
+- databind.core ^1.2.1
 test-drivers:
 - type: pytest
 - type: mypy
