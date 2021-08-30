@@ -63,6 +63,10 @@
                     <li class="toctree-l1 current"><a class="reference internal current" href="./">docspec</a>
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#location-objects">Location Objects</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#endlineno">endlineno</a>
+    </li>
+        </ul>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#docstring-objects">Docstring Objects</a>
         <ul>
@@ -291,6 +295,10 @@
 class Location()
 </code></pre>
 <p>Represents the location of an <a href="#docspec.ApiObject"><code>ApiObject</code></a> by a filename and line number.</p>
+<p><a id="docspec.Location.endlineno"></a></p>
+<h4 id="endlineno">endlineno</h4>
+<p>If the location of an entity spans over multiple lines, it can be indicated by specifying at
+which line it ends with this property.</p>
 <p><a id="docspec.Docstring"></a></p>
 <h2 id="docstring-objects">Docstring Objects</h2>
 <pre><code class="language-python">@dataclasses.dataclass(init=False, frozen=True)
