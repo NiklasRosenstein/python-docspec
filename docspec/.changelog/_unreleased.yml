@@ -16,3 +16,8 @@ changes:
   description: add `Argument.location` and `Decoration.location` properties
   fixes:
   - '#28'
+- type: feature
+  component: general
+  description: add `Location.endlineno` property to spec
+  fixes:
+  - '#32'

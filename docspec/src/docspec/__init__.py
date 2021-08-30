@@ -65,6 +65,10 @@ class Location:
   filename: t.Optional[str]
   lineno: int
 
+  #: If the location of an entity spans over multiple lines, it can be indicated by specifying at
+  #: which line it ends with this property.
+  endlineno: t.Optional[int] = None
+
 
 @dataclasses.dataclass(init=False, frozen=True)
 class Docstring(str):
