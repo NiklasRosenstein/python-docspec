@@ -361,21 +361,15 @@
 <tbody>
 <tr>
 <td><code>name</code></td>
-<td><code>Optional[str]</code></td>
+<td><code>str</code></td>
 <td>Yes</td>
-<td>The name of the decorator used in this decoration. This may be <code>null</code> if the decorator can not be represented simply by a name, e.g. in Python 3.9 where decorators can be full fledged expressions. In that case the <code>name_expression</code> field is used instead.</td>
+<td>The name of the decorator used in this decoration. This may be a piece of code in languages that support complex decoration syntax. (e.g. in Python, <code>@(decorator_factory().dec)(a, b, c)</code> should be represented as <code>"(decorator_factory().dec)"</code> for the <code>name</code> and <code>["a", "b", "c"]</code> for the <code>args</code>).</td>
 </tr>
 <tr>
 <td><code>args</code></td>
 <td><code>Optional[List[str]]</code></td>
 <td>No</td>
 <td>A list of the raw source code for each argument of the decorator. If this is not set, that means the decorator is not called. If the list is empty, the decorator is called without arguments.</td>
-</tr>
-<tr>
-<td><code>name_expression</code></td>
-<td><code>Optional[List[str]]</code></td>
-<td>No</td>
-<td>The raw code string that represents the decorator that is used for this expression. This is used if the decorator can not be represented by just a <code>name</code>. The <code>args</code> may still be used if the expression gets called (e.g. in the case of <code>@(decorator_factory().dec)(a, b, c)</code>, the <code>name_expression</code> should be <code>"(decorator_factory().dec)"</code> whereas the <code>args</code> should be <code>["a", "b", "c"]</code>.</td>
 </tr>
 <tr>
 <td><code>location</code></td>
