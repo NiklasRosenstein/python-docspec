@@ -49,6 +49,10 @@
                 <ul class="current">
                     <li class="toctree-l1 current"><a class="reference internal current" href=".">Home</a>
     <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#what-is">What is...?</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#projects-using-docspec">Projects using docspec</a>
+    </li>
     </ul>
                     </li>
                 </ul>
@@ -104,22 +108,22 @@
             <div class="section">
               
                 <h1 id="docspec">Docspec</h1>
-<p>Docspec is a JSON object specification for representing API documentation of
-programming languages. While in it's current form it is targeting Python APIs,
-it was designed so that it can be extended to cover a more generalized set of
-languages in the future.</p>
-<p><strong>Contents</strong></p>
-<ul>
-<li><code>docspec</code>: Python library to (de-) serialize Docspec JSON data and CLI.</li>
-<li><code>docspec-python</code>: Python library to parse Python source code into Docspec
-  compatible JSON data using <code>lib2to3</code>.</li>
-</ul>
-<p><strong>Projects using Docspec</strong></p>
+<p>Docspec is a JSON object specification for representing API documentation of programming languages. While in
+it's current form it is targeting Python APIs, it is intended to be able to represent other programming
+languages in the future as well</p>
+<h2 id="what-is">What is...?</h2>
+<p><strong>docspec</strong></p>
+<p>The reference implementation for reading/writing the JSON format and API for representing API objects in memory.</p>
+<p><a href="https://niklasrosenstein.github.io/docspec/specification/">&gt;&gt; View the Specification</a>.</p>
+<p><strong>docspec-python</strong></p>
+<p>A parser for Python packages and modules based on <code>lib2to3</code> producing <code>docspec</code> API object representations.</p>
+<p><a href="https://niklasrosenstein.github.io/docspec/api-documentation/docspec_python/">&gt;&gt; View the Documentation</a></p>
+<h2 id="projects-using-docspec">Projects using <code>docspec</code></h2>
 <ul>
 <li><a href="https://github.com/NiklasRosenstein/pydoc-markdown">Pydoc-Markdown</a> &ndash; The original spark for Docspec.</li>
 </ul>
 <hr />
-<p align="center">Copyright &copy; 2020, Niklas Rosenstein</p>
+<p align="center">Copyright &copy; 2021, Niklas Rosenstein</p>
               
             </div>
           </div>
@@ -178,5 +182,5 @@ languages in the future.</p>
 
 <!--
 MkDocs version : 1.2.2
-Build Date UTC : 2021-08-30 23:57:08.359972+00:00
+Build Date UTC : 2021-08-31 00:04:29.461414+00:00
 -->
