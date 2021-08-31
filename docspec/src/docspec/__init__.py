@@ -100,16 +100,13 @@ class Decoration:
   Represents a decorator on a #Class or #Function.
   """
 
-  #: The name of the decorator (i.e. the text between the `@` and `(`).
+  #: The name of the decorator (i.e. the text between the `@` and `(`). In languages that support it,
+  #: this may be a piece of code.
   name: t.Optional[str]
 
   #: Decorator arguments as plain code (including the leading and trailing parentheses). This is
   #: `None` when the decorator does not have call arguments.
   args: t.Optional[str] = None
-
-  #: This field should be used instead of #name if the decorator is not just a simple name but
-  #: a complex expression.
-  name_expression: t.Optional[str] = None
 
   #: The location of the decoration in the source code.
   location: t.Optional[Location] = None
