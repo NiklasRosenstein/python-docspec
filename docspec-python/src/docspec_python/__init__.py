@@ -55,13 +55,16 @@ def load_python_modules(
   names. It combines #find_module(), #iter_package_files() and #parse_python_module() in a
   convenient way.
 
-  :param modules: A list of module names to load and parse.
-  :param packages: A list of package names to load and parse.
-  :param files: A list of (module_name, filename) to parse. The filename may also be a
+  # Arguments
+  modules: A list of module names to load and parse.
+  packages: A list of package names to load and parse.
+  files: A list of (module_name, filename) to parse. The filename may also be a
     file-like object. The module name may be None.
-  :param search_path: The Python module search path. Falls back to #sys.path if omitted.
-  :param options: Options for the Python module parser.
-  :return: Iterable of #Module.
+  search_path: The Python module search path. Falls back to #sys.path if omitted.
+  options: Options for the Python module parser.
+
+  # Returns
+  Iterable of #Module.
   """
 
   files = list(files) if files else []

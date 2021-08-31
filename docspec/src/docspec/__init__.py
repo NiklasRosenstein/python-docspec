@@ -439,11 +439,15 @@ def load_module(
   Loads a #Module from the specified *source*, which may be either a filename,
   a file-like object to read from or plain structured data.
 
-  :param source: The JSON source to load the module from.
-  :param filename: The name of the source. This will be displayed in error
+  # Arguments
+  source: The JSON source to load the module from.
+  filename: The name of the source. This will be displayed in error
     messages if the deserialization fails.
-  :param loader: A function for loading plain structured data from a file-like
+  loader: A function for loading plain structured data from a file-like
     object. Defaults to #json.load().
+
+  # Returns
+  The loaded `Module` object.
   """
 
   filename = filename or getattr(source, 'name', None)
