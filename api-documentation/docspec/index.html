@@ -82,6 +82,8 @@
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#args">args</a>
     </li>
+    <li class="toctree-l3"><a class="reference internal" href="#name_expression">name_expression</a>
+    </li>
     <li class="toctree-l3"><a class="reference internal" href="#location_1">location</a>
     </li>
         </ul>
@@ -329,6 +331,10 @@ class Decoration()
 <h4 id="args">args</h4>
 <p>Decorator arguments as plain code (including the leading and trailing parentheses). This is
 <code>None</code> when the decorator does not have call arguments.</p>
+<p><a id="docspec.Decoration.name_expression"></a></p>
+<h4 id="name_expression">name_expression</h4>
+<p>This field should be used instead of <a href="#docspec.Decoration.name"><code>name</code></a> if the decorator is not just a simple name but
+a complex expression.</p>
 <p><a id="docspec.Decoration.location"></a></p>
 <h4 id="location_1">location</h4>
 <p>The location of the decoration in the source code.</p>
