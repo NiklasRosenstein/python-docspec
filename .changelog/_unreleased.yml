@@ -1,0 +1,6 @@
+changes:
+- type: feature
+  component: general
+  description: add `Decoration.name_expression` field, `Decoration.name` is now optional
+    (i.e. nullable)
+  fixes: []

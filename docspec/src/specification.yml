@@ -139,20 +139,20 @@ Decoration:
       type: Optional[str]
       docs: The name of the decorator used in this decoration. This may be `null` if the decorator
         can not be represented simply by a name, e.g. in Python 3.9 where decorators can be full
-        fledged expressions. In that case the `raw_expression` field is used instead.
+        fledged expressions. In that case the `name_expression` field is used instead.
     args:
       type: Optional[List[str]]
       required: false
       docs: A list of the raw source code for each argument of the decorator. If this is not set,
         that means the decorator is not called. If the list is empty, the decorator is called without
         arguments.
-    raw_expression:
+    name_expression:
       type: Optional[List[str]]
       required: false
       docs: The raw code string that represents the decorator that is used for this expression. This
         is used if the decorator can not be represented by just a `name`. The `args` may still be used
         if the expression gets called (e.g. in the case of `@(decorator_factory().dec)(a, b, c)`, the
-        `raw_expression` should be `"(decorator_factory().dec)"` whereas the `args` should be
+        `name_expression` should be `"(decorator_factory().dec)"` whereas the `args` should be
         `["a", "b", "c"]`.
     location:
       type: Optional[List[str]]
