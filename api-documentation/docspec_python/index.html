@@ -128,14 +128,16 @@
 <p>Utility function for loading multiple <code>Modules</code> from a list of Python module and package
 names. It combines <a href="#docspec_python.find_module"><code>find_module()</code></a>, <a href="#docspec_python.iter_package_files"><code>iter_package_files()</code></a> and <a href="#docspec_python.parse_python_module"><code>parse_python_module()</code></a> in a
 convenient way.</p>
-<p><strong>Arguments</strong>:</p>
-<p>file-like object. The module name may be None.
-- <code>modules</code>: A list of module names to load and parse.
-- <code>packages</code>: A list of package names to load and parse.
-- <code>files</code>: A list of (module_name, filename) to parse. The filename may also be a
-- <code>search_path</code>: The Python module search path. Falls back to <code>sys.path</code> if omitted.
-- <code>options</code>: Options for the Python module parser.</p>
-<p><strong>Returns</strong>:</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><strong>modules</strong>: A list of module names to load and parse.</li>
+<li><strong>packages</strong>: A list of package names to load and parse.</li>
+<li><strong>files</strong>: A list of (module_name, filename) to parse. The filename may also be a
+  file-like object. The module name may be None.</li>
+<li><strong>search_path</strong>: The Python module search path. Falls back to <code>sys.path</code> if omitted.</li>
+<li><strong>options</strong>: Options for the Python module parser.</li>
+</ul>
+<p><strong>Returns</strong></p>
 <p>Iterable of <code>Module</code>.</p>
 <p><a id="docspec_python.parse_python_module"></a></p>
 <h4 id="parse_python_module">parse_python_module</h4>

@@ -588,12 +588,16 @@ even if nesting would be appropriate (and instead the <code>Module.name</code> s
 </code></pre>
 <p>Loads a <a href="#docspec.Module"><code>Module</code></a> from the specified <em>source</em>, which may be either a filename,
 a file-like object to read from or plain structured data.</p>
-<p><strong>Arguments</strong>:</p>
-<p>messages if the deserialization fails.
-object. Defaults to <code>json.load()</code>.
-- <code>source</code>: The JSON source to load the module from.
-- <code>filename</code>: The name of the source. This will be displayed in error
-- <code>loader</code>: A function for loading plain structured data from a file-like</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><strong>source</strong>: The JSON source to load the module from.</li>
+<li><strong>filename</strong>: The name of the source. This will be displayed in error
+  messages if the deserialization fails.</li>
+<li><strong>loader</strong>: A function for loading plain structured data from a file-like
+  object. Defaults to <code>json.load()</code>.</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p>The loaded <code>Module</code> object.</p>
 <p><a id="docspec.load_modules"></a></p>
 <h4 id="load_modules">load_modules</h4>
 <pre><code class="language-python">load_modules(source: t.Union[str, t.TextIO, t.Iterable[t.Any]], filename: t.Optional[str] = None, loader: t.Callable[[t.IO[str]], t.Any] = json.load) -&gt; t.Iterable[Module]
