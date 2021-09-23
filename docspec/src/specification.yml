@@ -136,28 +136,26 @@ Decoration:
   docs: Represents a decoration that can be applied to a function or class.
   fields:
     name:
-      type: Optional[str]
-      docs: The name of the decorator used in this decoration. This may be `null` if the decorator
-        can not be represented simply by a name, e.g. in Python 3.9 where decorators can be full
-        fledged expressions. In that case the `name_expression` field is used instead.
+      type: str
+      docs: The name of the decorator used in this decoration. This may be more than just an identifer if the
+        decorator is actually an expression, which is valid since Python 3.9. For example if the full decoration
+        code is `@(decorator_factory().dec)(a, b, c)`, this field's value would be `"(decorator_factory().dec)"`.
     args:
-      type: Optional[List[str]]
+      type: Optional[str]
       required: false
-      docs: A list of the raw source code for each argument of the decorator. If this is not set,
-        that means the decorator is not called. If the list is empty, the decorator is called without
-        arguments.
-    name_expression:
-      type: Optional[List[str]]
-      required: false
-      docs: The raw code string that represents the decorator that is used for this expression. This
-        is used if the decorator can not be represented by just a `name`. The `args` may still be used
-        if the expression gets called (e.g. in the case of `@(decorator_factory().dec)(a, b, c)`, the
-        `name_expression` should be `"(decorator_factory().dec)"` whereas the `args` should be
-        `["a", "b", "c"]`.
+      docs: Deprecated in favor of `arglist`. A single string that represents the entirety of the argument list
+        for the decorator, excluding the surroinding parentheses.
     location:
       type: Optional[List[str]]
       required: false
       docs: The location of the decoration in the source code.
+    arglist:
+      type: Optional[List[str]]
+      required: false
+      docs: A list of the raw source code for each argument of the decorator. If this is not set,
+        that means the decorator is not called. If the list is empty, the decorator is called without
+        arguments. For example if the full decoration code is `@(decorator_factory().dec)(a, b, c)`, this
+        field's value would be `["a", "b", "c"]`.
 
 Function:
   type: struct

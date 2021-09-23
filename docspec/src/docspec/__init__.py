@@ -101,18 +101,19 @@ class Decoration:
   """
 
   #: The name of the decorator (i.e. the text between the `@` and `(`).
-  name: t.Optional[str]
+  name: str
 
   #: Decorator arguments as plain code (including the leading and trailing parentheses). This is
-  #: `None` when the decorator does not have call arguments.
+  #: `None` when the decorator does not have call arguments. This is deprecated in favor of #arglist.
+  #: For backwards compatibility, loaders may populate both the #args and #arglist fields.
   args: t.Optional[str] = None
-
-  #: This field should be used instead of #name if the decorator is not just a simple name but
-  #: a complex expression.
-  name_expression: t.Optional[str] = None
 
   #: The location of the decoration in the source code.
   location: t.Optional[Location] = None
+
+  #: Decorator arguments, one item per argument. For keyword arguments, the keyword name and equals
+  #: sign preceed the argument value expression code.
+  arglist: t.Optional[t.List[str]] = None
 
 
 @dataclasses.dataclass
