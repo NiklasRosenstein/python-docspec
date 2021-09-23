@@ -137,9 +137,9 @@ Decoration:
   fields:
     name:
       type: str
-      docs: The name of the decorator used in this decoration. This may be more than just an identifer if the
-        decorator is actually an expression, which is valid since Python 3.9. For example if the full decoration
-        code is `@(decorator_factory().dec)(a, b, c)`, this field's value would be `"(decorator_factory().dec)"`.
+      docs: The name of the decorator used in this decoration. This may be a piece of code in languages
+        that support complex decoration syntax. (e.g. in Python, `@(decorator_factory().dec)(a, b, c)` should
+        be represented as `"(decorator_factory().dec)"` for the `name` and `["a", "b", "c"]` for the `args`).
     args:
       type: Optional[str]
       required: false
