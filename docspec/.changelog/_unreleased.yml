@@ -10,7 +10,6 @@ changes:
   description: rename `Argument.Type` enumeration values to `UPPER_CASE` format according
     to latest specification (full backwards compatibility, including deserializing
     JSON payloads with the old argument type names)
-  fixes: []
 - type: feature
   component: general
   description: add `Argument.location` and `Decoration.location` properties
@@ -21,3 +20,6 @@ changes:
   description: add `Location.endlineno` property to spec
   fixes:
   - '#32'
+- type: change
+  component: general
+  description: add `Decoration.arglist`, document that `Decoration.args` is deprecated

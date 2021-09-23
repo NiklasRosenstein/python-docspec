@@ -141,15 +141,21 @@ Decoration:
         that support complex decoration syntax. (e.g. in Python, `@(decorator_factory().dec)(a, b, c)` should
         be represented as `"(decorator_factory().dec)"` for the `name` and `["a", "b", "c"]` for the `args`).
     args:
-      type: Optional[List[str]]
+      type: Optional[str]
       required: false
-      docs: A list of the raw source code for each argument of the decorator. If this is not set,
-        that means the decorator is not called. If the list is empty, the decorator is called without
-        arguments.
+      docs: Deprecated in favor of `arglist`. A single string that represents the entirety of the argument list
+        for the decorator, excluding the surroinding parentheses.
     location:
       type: Optional[List[str]]
       required: false
       docs: The location of the decoration in the source code.
+    arglist:
+      type: Optional[List[str]]
+      required: false
+      docs: A list of the raw source code for each argument of the decorator. If this is not set,
+        that means the decorator is not called. If the list is empty, the decorator is called without
+        arguments. For example if the full decoration code is `@(decorator_factory().dec)(a, b, c)`, this
+        field's value would be `["a", "b", "c"]`.
 
 Function:
   type: struct
