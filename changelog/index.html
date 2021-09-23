@@ -121,8 +121,78 @@
 </li>
 </ul>
 <h1 id="docspec-changelog"><code>docspec</code> Changelog</h1>
+<h2 id="120-2021-09-24">1.2.0 (2021-09-24)</h2>
+<ul>
+<li><strong>general</strong><ul>
+<li><strong>feature</strong>: add <code>Data.modifiers</code>, <code>Data.semantic_hints</code>, <code>Class.modifiers</code>,
+  <code>Class.semantic_hints</code> and <code>Function.semantic_hints</code> (#30)</li>
+<li><strong>change</strong>: rename <code>Argument.Type</code> enumeration values to <code>UPPER_CASE</code> format
+  according to latest specification (full backwards compatibility, including
+  deserializing JSON payloads with the old argument type names)</li>
+<li><strong>feature</strong>: add <code>Argument.location</code> and <code>Decoration.location</code> properties (#28)</li>
+<li><strong>feature</strong>: add <code>Location.endlineno</code> property to spec (#32)</li>
+<li><strong>change</strong>: add <code>Decoration.arglist</code>, document that <code>Decoration.args</code> is
+  deprecated</li>
+</ul>
+</li>
+</ul>
+<h2 id="110-2021-08-27">1.1.0 (2021-08-27)</h2>
+<ul>
+<li><strong>general</strong><ul>
+<li><strong>feature</strong>: add <code>ApiObject.parent</code> and <code>ApiObject.path</code> to deprecate
+  <code>ReverseMap</code> class</li>
+<li><strong>feature</strong>: add <code>ApiObject.sync_hierarchy()</code> method</li>
+<li><strong>feature</strong>: introduce <code>HasMembers</code> base class for <code>Class</code> and <code>Module</code>,
+  <code>Module.members</code> can now container other modules (#15)</li>
+<li><strong>change</strong>: <code>get_member()</code> and <code>filter_visit()</code> have been updated to make use of
+  the <code>HasMembers</code> base class instead of relying on <code>hasattr()</code>/<code>getattr()</code></li>
+<li><strong>feature</strong>: add <code>Indirection</code> class to keep track of imports and resolve names
+  correctly. (@tristanlatr)</li>
+<li><strong>feature</strong>: add <code>Docstring</code> class which represents the docstring, plus the
+  location of the docstring</li>
+</ul>
+</li>
+</ul>
+<h2 id="102-2021-07-29">1.0.2 (2021-07-29)</h2>
+<ul>
+<li><strong>general</strong><ul>
+<li><strong>fix</strong>: Add some type annotations (@tristanlatr) (#14)</li>
+</ul>
+</li>
+</ul>
+<h2 id="101-2021-07-22">1.0.1 (2021-07-22)</h2>
+<ul>
+<li><strong>general</strong><ul>
+<li><strong>fix</strong>: <code>docspec.get_members()</code> access object members wrong</li>
+</ul>
+</li>
+</ul>
+<h2 id="100-2021-07-21">1.0.0 (2021-07-21)</h2>
+<ul>
+<li><strong>general</strong><ul>
+<li><strong>breaking_change</strong>: Migrate to using <code>databind.core 1.x</code> and <code>databind.json
+  1.x</code> from <code>nr.databind.core</code> and <code>nr.databind.json</code>.</li>
+</ul>
+</li>
+</ul>
+<h2 id="021-2021-02-21">0.2.1 (2021-02-21)</h2>
+<ul>
+<li><strong>general</strong><ul>
+<li><strong>fix</strong>: fix dependencies</li>
+</ul>
+</li>
+</ul>
+<h2 id="020-2020-07-06">0.2.0 (2020-07-06)</h2>
+<ul>
+<li><strong>general</strong><ul>
+<li><strong>change</strong>: <code>ApiObject</code> constructors now accept keyword arguments only</li>
+<li><strong>change</strong>: All <code>nullable</code> fields now have <code>default=None</code></li>
+<li><strong>change</strong>: Many serializable classes are now decorated with <code>SkipDefaults()</code></li>
+</ul>
+</li>
+</ul>
 <h1 id="docspec_python-changelog"><code>docspec_python</code> Changelog</h1>
-<h2 id="unreleased-no-release-date">Unreleased (no release date)</h2>
+<h2 id="120-2021-09-24_1">1.2.0 (2021-09-24)</h2>
 <ul>
 <li><strong>general</strong><ul>
 <li><strong>feature</strong>: add <code>format_arglist(render_type_hints)</code> argument</li>
@@ -136,7 +206,7 @@
 </ul>
 </li>
 </ul>
-<h2 id="110-2021-08-27">1.1.0 (2021-08-27)</h2>
+<h2 id="110-2021-08-27_1">1.1.0 (2021-08-27)</h2>
 <ul>
 <li><strong>general</strong><ul>
 <li><strong>feature</strong>: add support for the <code>Docstring</code> class now used in
@@ -145,7 +215,7 @@
 </ul>
 </li>
 </ul>
-<h2 id="100-2021-07-21">1.0.0 (2021-07-21)</h2>
+<h2 id="100-2021-07-21_1">1.0.0 (2021-07-21)</h2>
 <ul>
 <li><strong>general</strong><ul>
 <li><strong>breaking_change</strong>: Migrate to using <code>databind.core 1.x</code> and <code>databind.json
