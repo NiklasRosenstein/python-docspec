@@ -2,4 +2,4 @@ changes:
 - type: feature
   component: general
   description: add `format_arglist(render_type_hints)` argument
-  fixes: []
+release_date: '2021-09-24'
