@@ -70,7 +70,7 @@ class Location:
   endlineno: t.Optional[int] = None
 
 
-@dataclasses.dataclass(init=False, frozen=True)
+@dataclasses.dataclass(init=False)
 class Docstring(str):
   """
   Represents a docstring for an #APIObject, i.e. it's content and location. This class is a subclass of `str`
