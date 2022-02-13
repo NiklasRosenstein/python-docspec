@@ -337,7 +337,7 @@ class Function(ApiObject):
     #: The function is a property deleter.
     PROPERTY_DELETER = 9
 
-  #: A list of modifiers used in the function definition. For example, the only valid modified in
+  #: A list of modifiers used in the function definition. For example, the only valid modifier in
   #: Python is "async".
   modifiers: t.Optional[t.List[str]]
 

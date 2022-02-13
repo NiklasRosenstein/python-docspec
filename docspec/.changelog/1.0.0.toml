@@ -1,0 +1,7 @@
+release-date = "2021-07-21"
+
+[[entries]]
+id = "56f48acf-c782-4217-b4de-ba106d2819c3"
+type = "breaking change"
+description = "Migrate to using `databind.core 1.x` and `databind.json 1.x` from `nr.databind.core` and `nr.databind.json`."
+author = "@NiklasRosenstein"

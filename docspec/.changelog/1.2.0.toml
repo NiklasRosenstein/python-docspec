@@ -1,0 +1,40 @@
+release-date = "2021-09-24"
+
+[[entries]]
+id = "5ea419a6-7812-472d-a9ff-1c3712e03052"
+type = "feature"
+description = "add `Data.modifiers`, `Data.semantic_hints`, `Class.modifiers`, `Class.semantic_hints` and `Function.semantic_hints`"
+author = "@NiklasRosenstein"
+issues = [
+    "https://github.com/NiklasRosenstein/docspec/issues/30",
+]
+
+[[entries]]
+id = "bd703a65-ac7b-40ca-82ee-05389bc83e65"
+type = "improvement"
+description = "rename `Argument.Type` enumeration values to `UPPER_CASE` format according to latest specification (full backwards compatibility, including deserializing JSON payloads with the old argument type names)"
+author = "@NiklasRosenstein"
+
+[[entries]]
+id = "d154ccd2-4bf5-4179-856f-ec76ab424b7b"
+type = "feature"
+description = "add `Argument.location` and `Decoration.location` properties"
+author = "@NiklasRosenstein"
+issues = [
+    "https://github.com/NiklasRosenstein/docspec/issues/28",
+]
+
+[[entries]]
+id = "5b04794e-c685-4471-b2a8-d043fecf30fd"
+type = "feature"
+description = "add `Location.endlineno` property to spec"
+author = "@NiklasRosenstein"
+issues = [
+    "https://github.com/NiklasRosenstein/docspec/issues/32",
+]
+
+[[entries]]
+id = "e8ab1135-3cc6-4312-b2c8-982526755c51"
+type = "improvement"
+description = "add `Decoration.arglist`, document that `Decoration.args` is deprecated"
+author = "@NiklasRosenstein"

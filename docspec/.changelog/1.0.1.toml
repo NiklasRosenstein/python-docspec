@@ -1,0 +1,7 @@
+release-date = "2021-07-22"
+
+[[entries]]
+id = "2af08e6b-0d74-4a0c-aa39-f3639b48c311"
+type = "fix"
+description = "`docspec.get_members()` access object members wrong"
+author = "@NiklasRosenstein"

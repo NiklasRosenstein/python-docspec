@@ -1,0 +1,7 @@
+release-date = "2021-02-21"
+
+[[entries]]
+id = "0e28a249-3e4f-4a27-a71e-566686316a3c"
+type = "fix"
+description = "fix dependencies"
+author = "@NiklasRosenstein"

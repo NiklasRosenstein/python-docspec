@@ -1,0 +1,10 @@
+release-date = "2021-07-29"
+
+[[entries]]
+id = "972ae012-8d3a-46e2-be70-5a34503e1738"
+type = "fix"
+description = "Add some type annotations"
+author = "@tristanlatr"
+issues = [
+    "https://github.com/NiklasRosenstein/docspec/issues/14",
+]

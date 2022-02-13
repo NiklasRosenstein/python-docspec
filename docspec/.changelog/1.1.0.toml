@@ -1,0 +1,40 @@
+release-date = "2021-08-27"
+
+[[entries]]
+id = "30498e89-71b7-4ae4-9099-01a67275dda8"
+type = "feature"
+description = "add `ApiObject.parent` and `ApiObject.path` to deprecate `ReverseMap` class"
+author = "@NiklasRosenstein"
+
+[[entries]]
+id = "787d377f-b2b9-4797-8261-fb213107ba1d"
+type = "feature"
+description = "add `ApiObject.sync_hierarchy()` method"
+author = "@NiklasRosenstein"
+
+[[entries]]
+id = "0c527d2f-97b6-4171-97e4-70dbe1638693"
+type = "feature"
+description = "introduce `HasMembers` base class for `Class` and `Module`, `Module.members` can now container other modules"
+author = "@NiklasRosenstein"
+issues = [
+    "https://github.com/NiklasRosenstein/docspec/issues/15",
+]
+
+[[entries]]
+id = "e53522b9-725f-4307-86f7-a503ba7d678b"
+type = "improvement"
+description = "`get_member()` and `filter_visit()` have been updated to make use of the `HasMembers` base class instead of relying on `hasattr()`/`getattr()`"
+author = "@NiklasRosenstein"
+
+[[entries]]
+id = "d0e2adff-4327-4956-b255-233a34e05f35"
+type = "feature"
+description = "add `Indirection` class to keep track of imports and resolve names correctly."
+author = "@tristanlatr"
+
+[[entries]]
+id = "c1951174-9a5a-4e90-b03f-3c10219559c9"
+type = "feature"
+description = "add `Docstring` class which represents the docstring, plus the location of the docstring"
+author = "@NiklasRosenstein"

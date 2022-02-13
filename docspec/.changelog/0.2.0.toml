@@ -1,0 +1,19 @@
+release-date = "2020-07-06"
+
+[[entries]]
+id = "85dee980-a399-4566-9fc9-f31812cc77e3"
+type = "improvement"
+description = "`ApiObject` constructors now accept keyword arguments only"
+author = "@NiklasRosenstein"
+
+[[entries]]
+id = "8ba1b730-c869-44fb-971e-fe196a495fb6"
+type = "improvement"
+description = "All `nullable` fields now have `default=None`"
+author = "@NiklasRosenstein"
+
+[[entries]]
+id = "6d53f317-a8e9-4e6d-80dc-c714f24af96e"
+type = "improvement"
+description = "Many serializable classes are now decorated with `SkipDefaults()`"
+author = "@NiklasRosenstein"

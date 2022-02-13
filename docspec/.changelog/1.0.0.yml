@@ -1,7 +1,0 @@
-release_date: '2021-07-21'
-changes:
-- type: breaking_change
-  component: general
-  description: Migrate to using `databind.core 1.x` and `databind.json 1.x` from `nr.databind.core`
-    and `nr.databind.json`.
-  fixes: []
