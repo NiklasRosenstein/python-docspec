@@ -1,0 +1,8 @@
+[[entries]]
+id = "da68f360-f675-4f64-bce4-457963de4809"
+type = "fix"
+description = "strip whitespace around `Class.bases`"
+author = "@NiklasRosenstein"
+issues = [
+    "https://github.com/NiklasRosenstein/docspec/issues/53",
+]
