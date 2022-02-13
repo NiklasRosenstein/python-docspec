@@ -1,0 +1,7 @@
+release-date = "2021-09-24"
+
+[[entries]]
+id = "5a76bf89-00e4-4340-a839-25b530866bbc"
+type = "feature"
+description = "add `format_arglist(render_type_hints)` argument"
+author = "@NiklasRosenstein"

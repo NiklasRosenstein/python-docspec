@@ -1,7 +1,0 @@
-release_date: '2020-07-16'
-changes:
-- type: fix
-  component: general
-  description: fix `iter_package_files()` which would not respect the `search_path`
-    argument
-  fixes: []

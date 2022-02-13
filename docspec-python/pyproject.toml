@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "docspec-python"
+version = "1.2.0"
+description = "A parser based on lib2to3 producing docspec data from Python source code."
+authors = ["Niklas Rosenstein <rosensteinniklas@gmail.com>"]
+license = "MIT"
+readme = "readme.md"
+homepage = "https://github.com/NiklasRosenstein/docspec/"
+packages = [{include = "docspec_python", from="src"}]
+
+  [tool.poetry.dependencies]
+  python = "^3.7"
+  docspec = "^1.2.0"
+
+  [tool.poetry.dev-dependencies]
+  types-Deprecated = "*"
+  pytest = "*"
+  mypy = "*"
+
+  [tool.poetry.scripts]
+  docspec-python = "docspec_python.__main__:main"
+
+[tool.slam]
+typed = true
+
+  [tool.slam.test]
+  pytest = "pytest test/"
+  mypy = "mypy src/"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

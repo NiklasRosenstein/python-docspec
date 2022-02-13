@@ -1,0 +1,10 @@
+release-date = "2021-08-27"
+
+[[entries]]
+id = "4ca2cd58-a280-4983-9d44-7f7afda93f71"
+type = "fix"
+description = "support imports on the class-level"
+author = "@NiklasRosenstein"
+issues = [
+    "https://github.com/NiklasRosenstein/docspec/issues/34",
+]

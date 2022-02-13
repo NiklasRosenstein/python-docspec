@@ -1,0 +1,13 @@
+release-date = "2020-07-06"
+
+[[entries]]
+id = "0a1bc990-7c55-4d46-a4ad-426d74026648"
+type = "improvement"
+description = "Update calls to `ApiObject` subclasses to pass keyword arguments only (as is required in `docspec >=0.2.0`)"
+author = "@NiklasRosenstein"
+
+[[entries]]
+id = "35645f74-4720-4ca1-b15d-94f63a8fe4a8"
+type = "fix"
+description = "Fix derivation of Python module name from name of file on disk (before it would accidentally strip trailing p's or y's from the name)."
+author = "@NiklasRosenstein"

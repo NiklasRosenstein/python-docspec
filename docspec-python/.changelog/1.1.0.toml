@@ -1,0 +1,13 @@
+release-date = "2021-08-27"
+
+[[entries]]
+id = "8daf7dd8-f03e-4f75-b11f-7c0b3e3a74af"
+type = "feature"
+description = "add support for the `Docstring` class now used in `ApiObject.docstring` since `docspec 1.1.0`"
+author = "@NiklasRosenstein"
+
+[[entries]]
+id = "dd4f2051-f33c-4120-9fc1-29d95be43a38"
+type = "feature"
+description = "add support for `Indirection`s (from parsed Python imports)"
+author = "@NiklasRosenstein"

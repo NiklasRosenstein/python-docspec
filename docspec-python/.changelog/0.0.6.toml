@@ -1,0 +1,7 @@
+release-date = "2020-07-16"
+
+[[entries]]
+id = "900c66ef-ec86-48c4-a9d1-aeb3eb85d0f0"
+type = "fix"
+description = "fix `iter_package_files()` which would not respect the `search_path` argument"
+author = "@NiklasRosenstein"

@@ -1,0 +1,13 @@
+release-date = "2021-07-21"
+
+[[entries]]
+id = "8ba6eae4-a4c0-4768-835f-86c96c1fe717"
+type = "breaking change"
+description = "Migrate to using `databind.core 1.x` and `databind.json 1.x` from `nr.databind.core` and `nr.databind.json`."
+author = "@NiklasRosenstein"
+
+[[entries]]
+id = "96c82cdb-5956-4f4c-b82a-20a37bb31144"
+type = "fix"
+description = "fix parsing of lib2to3 syntax tree if class does not have a suite (e.g., \"pass\" on the same line as the class definition)"
+author = "@NiklasRosenstein"

@@ -1,0 +1,25 @@
+release-date = "2020-07-16"
+
+[[entries]]
+id = "242ab83f-10a2-4850-8094-74dec7da895e"
+type = "tests"
+description = "fix test cases"
+author = "@NiklasRosenstein"
+
+[[entries]]
+id = "87683c2e-2060-417d-94d9-c838a2f1de59"
+type = "improvement"
+description = "no longer use `pkgutil.find_loader()` to find Python modules as it prefers modules that are already in `sys.modules` even if that instance of the module would not occurr in the specified `search_path`. `docspec_python.find_module()` now re-implements the search mechanism"
+author = "@NiklasRosenstein"
+
+[[entries]]
+id = "936b50ea-f597-404f-82ac-d29b2963c001"
+type = "tests"
+description = "add tests for Python module loader logic"
+author = "@NiklasRosenstein"
+
+[[entries]]
+id = "23a36b2f-7cad-4eb8-9709-b2adbf270fd4"
+type = "fix"
+description = "fix support for Python 3.5"
+author = "@NiklasRosenstein"

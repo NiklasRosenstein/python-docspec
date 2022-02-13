@@ -1,0 +1,13 @@
+release-date = "2021-02-20"
+
+[[entries]]
+id = "1255a320-a7b9-4deb-aad6-cd9f6f509f37"
+type = "fix"
+description = "Fix `NameError` in function type annotation"
+author = "@NiklasRosenstein"
+
+[[entries]]
+id = "ab9f1070-c89a-4ccb-a431-ff7b2f53d00c"
+type = "feature"
+description = "add `encoding` parameter to `load_python_modules()` and `parse_python_module()`"
+author = "@NiklasRosenstein"
