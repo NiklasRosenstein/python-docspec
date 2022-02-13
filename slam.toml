@@ -1,0 +1,5 @@
+[release]
+include = [ "docspec/", "docspec-python/" ]
+references = [
+  { file="docspec-python/pyproject.toml", pattern="  docspec = \"\\^{version}\""}
+]

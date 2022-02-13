@@ -28,4 +28,5 @@ renderer:
   mkdocs_config:
     site_name: docspec
     theme: readthedocs
+    edit_url: ''
     repo_url: https://github.com/NiklasRosenstein/docspec

@@ -2,6 +2,5 @@ release_date: '2021-07-22'
 changes:
 - type: change
   component: general
-  description: Bump minimum Python version to 3.7 (databind.core 1.x also requires
-    3.7 minimum)
+  description: Bump minimum Python version to 3.7 (databind.core 1.x also requires 3.7 minimum)
   fixes: []
