@@ -6,7 +6,7 @@ authors = ["Niklas Rosenstein <rosensteinniklas@gmail.com>"]
 license = "MIT"
 readme = "readme.md"
 homepage = "https://github.com/NiklasRosenstein/docspec/"
-packages = [{include = "docspec_python", from="src"}]
+packages = [{ include = "docspec_python", from="src" }]
 
   [tool.poetry.dependencies]
   python = "^3.7"
@@ -18,6 +18,7 @@ packages = [{include = "docspec_python", from="src"}]
   mypy = "*"
 
   [tool.poetry.scripts]
+
   docspec-python = "docspec_python.__main__:main"
 
 [tool.slam]
@@ -26,6 +27,9 @@ typed = true
   [tool.slam.test]
   pytest = "pytest test/"
   mypy = "mypy src/"
+
+  [tool.slam.release]
+  references = [{ file="pyproject.toml", pattern="  docspec = \"\\^{version}\""}]
 
 [build-system]
 requires = ["poetry-core"]

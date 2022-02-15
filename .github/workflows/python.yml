@@ -24,9 +24,13 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
-      run: python -m pip install poetry==1.2.0a2 slam-cli & poetry install
+      run: |
+        python -m pip install poetry==1.2.0a2 slam-cli==1.0.0a4 mypy pytest ./docspec ./docspec-python types-deprecated types-termcolor
     - name: Run tests
-      run: poetry run slam test
+      run: slam test
+    - name: Update PR
+      if: ${{contains(github.base_ref, 'refs/pulls/')}}
+      run: slam changelog update-pr ${{github.base_ref}} ${{github.event.number}}
 
   # documentation:
   #   runs-on: ubuntu-latest
