@@ -25,14 +25,18 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
-        python -m pip install poetry==1.2.0a2 slam-cli==1.0.0a6 mypy pytest ./docspec ./docspec-python types-deprecated types-termcolor
+        # slam-cli==1.0.0a6
+        python -m pip install \
+          poetry==1.2.0a2 \
+          git+https://github.com/NiklasRosenstein/slam.git \
+          mypy pytest \
+          types-deprecated types-termcolor \
+          ./docspec ./docspec-python
     - name: Run tests
       run: slam test
-    - name: Update PR
+    - name: Update PR numbers
       if: github.event_name == 'pull_request'
-      run: |
-        git fetch
-        slam changelog update-pr ${{github.base_ref}} ${{github.event.number}}
+      run: git fetch && slam changelog update-pr remotes/origin/${{github.base_ref}} ${{github.event.number}} --commit --push
 
   # documentation:
   #   runs-on: ubuntu-latest
