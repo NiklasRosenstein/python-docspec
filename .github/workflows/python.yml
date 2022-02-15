@@ -11,32 +11,45 @@ on:
     branches: [ develop ]
 
 jobs:
-  test:
+  # test:
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       #python-version: ['3.7', '3.8', '3.9', '3.10', '3.x']
+  #       python-version: ['3.10', '3.x']
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - name: Set up Python ${{ matrix.python-version }}
+  #     uses: actions/setup-python@v2
+  #     with:
+  #       python-version: ${{ matrix.python-version }}
+  #   - name: Install dependencies
+  #     run: |
+  #       # slam-cli==1.0.0a6
+  #       python -m pip install \
+  #         poetry==1.2.0a2 \
+  #         git+https://github.com/NiklasRosenstein/slam.git \
+  #         mypy pytest \
+  #         types-deprecated types-termcolor \
+  #         ./docspec ./docspec-python
+  #   - name: Run tests
+  #     run: slam test
+
+  update-pr-numbers:
+    if: github.event_name == 'pull_request'
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        #python-version: ['3.7', '3.8', '3.9', '3.10', '3.x']
-        python-version: ['3.10', '3.x']
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install dependencies
-      run: |
-        # slam-cli==1.0.0a6
-        python -m pip install \
-          poetry==1.2.0a2 \
-          git+https://github.com/NiklasRosenstein/slam.git \
-          mypy pytest \
-          types-deprecated types-termcolor \
-          ./docspec ./docspec-python
-    - name: Run tests
-      run: slam test
-    - name: Update PR numbers
-      if: github.event_name == 'pull_request'
-      run: git fetch && slam changelog update-pr remotes/origin/${{github.base_ref}} ${{github.event.number}} --commit --push
+        python-version: '3.10'
+    - name: Install Slam
+      run: pip install git+https://github.com/NiklasRosenstein/slam.git
+    - name: Update PR references in changelogs
+      run: slam -vv changelog update-pr --use github-actions
 
   # documentation:
   #   runs-on: ubuntu-latest
