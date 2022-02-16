@@ -28,9 +28,9 @@ jobs:
 
     - uses: gabrielfalcao/pyenv-action@v9
       if: steps.cache.outputs.cache-hit != 'true'
-      with: &pyenv-config
+      with:
         default: 3.10.2
-        command: pip install -U pip && pip install pipx -q && which pip && which pipx && pipx install poetry && pipx install slam-cli==1.0.0a9
+        command: &pyenv-config pip install -U pip && pip install pipx -q && which pip && which pipx && pipx install poetry && pipx install slam-cli==1.0.0a9
 
     - name: Test tooling
       run: |
