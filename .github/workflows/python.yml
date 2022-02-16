@@ -30,9 +30,8 @@ jobs:
       run: |
         pyenv install ${{ matrix.python-tooling-version }} -s
         pyenv local ${{ matrix.python-tooling-version }}
-        pip install pipx -q
-        #pipx install slam-cli==1.0.0a12
-        pipx install git+https://github.com/NiklasRosenstein/slam.git
+        pip install -U pip pipx -q
+        pipx install slam-cli==1.0.0a13 -q
         pyenv local ${{ matrix.python-version }}
 
     - uses: actions/checkout@v2
@@ -49,13 +48,16 @@ jobs:
       contents: write
     runs-on: ubuntu-latest
     steps:
+
     - uses: actions/checkout@v2
+
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
-      with:
-        python-version: '3.10'
+      with: { python-version: '3.10' }
+
     - name: Install Slam
-      run: pip install slam-cli==1.0.0a12
+      run: pip install slam-cli==1.0.0a13
+
     - name: Update PR references in changelogs
       run: slam -vv changelog update-pr --use github-actions
 
