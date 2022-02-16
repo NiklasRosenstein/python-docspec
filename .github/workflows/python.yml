@@ -22,7 +22,7 @@ jobs:
     - name: Set up Python ${{ matrix.python-version }}
       uses: gabrielfalcao/pyenv-action@v9
       with:
-        default: "${{ matrix.python-version }}"code dot
+        default: "${{ matrix.python-version }}"
         versions: [ "3.10" ]
         command: pip install -U pip
 
