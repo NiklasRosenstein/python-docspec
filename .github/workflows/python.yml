@@ -104,7 +104,7 @@ jobs:
         which pip
         pyenv which pip
         pip install ./docspec
-        pushd "${{ matrix.project }}" && poetry install --dev-only && popd
+        pushd "${{ matrix.project }}" && poetry install --only=dev && popd
 
     - name: Slam test
       run: slam test
