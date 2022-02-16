@@ -12,74 +12,34 @@ on:
 
 jobs:
 
-  install-tooling:
-    runs-on: ubuntu-latest
-    steps:
-
-    - name: Cache tooling environment
-      id: cache
-      uses: actions/cache@v2
-      with:
-        path: |
-          /opt/pipx_bin
-          /opt/pipx
-          /opt/hostedtoolcache/pyenv_root
-        # NOTE: Same as pyenv config
-        key: 3.10.2 pip install -U pip && pip install pipx -q && which pip && which pipx && pipx install poetry && pipx install slam-cli==1.0.0a9
-
-    - uses: gabrielfalcao/pyenv-action@v9
-      if: steps.cache.outputs.cache-hit != 'true'
-      with:
-        default: 3.10.2
-        command: pip install -U pip && pip install pipx -q && which pip && which pipx && pipx install poetry && pipx install slam-cli==1.0.0a9
-
-    - name: Test tooling
-      run: |
-        poetry --version
-        slam --version
-
-        pyenv which pip
-        pyenv local 3.10.2
-        pyenv which pip
-
-        du -hs /opt/pipx_bin /opt/pipx /opt/hostedtoolcache/pyenv_root
-
-    - name: Cache tooling environment
-      uses: actions/upload-artifact@v2
-      with:
-        name: tooling
-        path: |
-          /opt/pipx_bin
-          /opt/pipx
-          /opt/hostedtoolcache/pyenv_root
-
   test:
-    needs: install-tooling
     runs-on: ubuntu-latest
     strategy:
       matrix:
+        python-tooling-version: ['3.10.2']
         python-version: ['3.7.12', '3.8.12', '3.9.10', '3.10.2']
         project: ['docspec', 'docspec-python']
     steps:
 
-    - name: Materialize tooling environment
-      uses: actions/download-artifact@v2
+    - uses: gabrielfalcao/pyenv-action@v9
+      if: steps.cache.outputs.cache-hit != 'true'
       with:
-        name: tooling
+        default: "${{ matrix.python-version }}"
+        versions: "${{ matrix.python-tooling-version }}"
+        command: pip install -U pip
 
-    - name: Test tooling environment
+    - name: Install tooling
       run: |
+        which pip
+        pyenv local ${{ matrix.python-tooling-version }}
+        which pip
+        pip install pipx -q
+        pipx install poetry
+        pipx install slam-cli==1.0.0a9
         poetry --version
         slam --version
 
     - uses: actions/checkout@v2
-
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: gabrielfalcao/pyenv-action@v9
-      with:
-        default: "${{ matrix.python-version }}"
-        versions: 3.10.2
-        command: pip install -U pip
 
     - name: Install ${{ matrix.project }}
       run: |
