@@ -24,10 +24,23 @@ from docspec_python import parse_python_module, ParserOptions
 from functools import wraps
 from io import StringIO
 from json import dumps
+from nr.util.inspect import get_callsite
 from textwrap import dedent
 from typing import List, Optional
 import pytest
 import sys
+
+
+def mkfunc(name: str, docstring: Optional[str], lineno: int, args: List[Argument]) -> Function:
+  return Function(
+    name=name,
+    location=None,
+    docstring=Docstring(docstring, Location(get_callsite().code_name, lineno)) if docstring else None,
+    modifiers=None,
+    args=args,
+    return_type=None,
+    decorations=[],
+  )
 
 
 def unset_location(obj: ApiObject):
@@ -183,22 +196,12 @@ def test_funcdef_5_single_stmt():
     return self.foo
   """
 
-  def mkfunc(name: str, docstring: Optional[str], lineno: int) -> Function:
-    return Function(
-      name=name,
-      location=None,
-      docstring=Docstring(docstring, Location('test_funcdef_5_single_stmt', lineno)) if docstring else None,
-      modifiers=None,
-      args=[Argument('self', Argument.Type.POSITIONAL, None, None, None)],
-      return_type=None,
-      decorations=[],
-    )
-
+  args = [Argument('self', Argument.Type.POSITIONAL, None, None, None)]
   return [
-    mkfunc('func1', None, 1),
-    mkfunc('func2', 'ABC\nDEF', 4),
-    mkfunc('func3', 'ABC\nDEF', 9),
-    mkfunc('func4', 'ABC\n  DEF', 14),
+    mkfunc('func1', None, 1, args),
+    mkfunc('func2', 'ABC\nDEF', 4, args),
+    mkfunc('func3', 'ABC\nDEF', 9, args),
+    mkfunc('func4', 'ABC\n  DEF', 14, args),
   ]
 
 
@@ -220,17 +223,6 @@ def test_funcdef_6_starred_args():
   def func5(abc, *, kwonly):
     '''Docstring goes here'''
   """
-
-  def mkfunc(name: str, docstring: Optional[str], lineno: int, args: List[Argument]) -> Function:
-    return Function(
-      name=name,
-      location=None,
-      docstring=Docstring(docstring, Location('test_funcdef_6_starred_args', lineno)) if docstring else None,
-      modifiers=None,
-      args=args,
-      return_type=None,
-      decorations=[],
-    )
 
   return [
     mkfunc('func1', None, 0, [
@@ -254,6 +246,36 @@ def test_funcdef_6_starred_args():
     ]),
   ]
 
+
+@pytest.mark.skipif(sys.version_info < (3, 8), reason="requires python3.8 or higher")
+@docspec_test()
+def test_funcdef_7_posonly_args():
+  """
+  def func1(x, y=3, /, z=5, w=7): pass
+  def func2(x, /, *v, a=1, b=2): pass
+  def func3(x, /, *, a=1, b=2, **kwargs): pass
+  """
+
+  return [
+    mkfunc('func1', None, 1, [
+      Argument('x', Argument.Type.POSITIONAL_ONLY),
+      Argument('y', Argument.Type.POSITIONAL_ONLY, default_value='3'),
+      Argument('z', Argument.Type.POSITIONAL, default_value='5'),
+      Argument('w', Argument.Type.POSITIONAL, default_value='7'),
+    ]),
+    mkfunc('func2', None, 2, [
+      Argument('x', Argument.Type.POSITIONAL_ONLY),
+      Argument('v', Argument.Type.POSITIONAL_REMAINDER),
+      Argument('a', Argument.Type.KEYWORD_ONLY, default_value='1'),
+      Argument('b', Argument.Type.KEYWORD_ONLY, default_value='2'),
+    ]),
+    mkfunc('func3', None, 3, [
+      Argument('x', Argument.Type.POSITIONAL_ONLY),
+      Argument('a', Argument.Type.KEYWORD_ONLY, default_value='1'),
+      Argument('b', Argument.Type.KEYWORD_ONLY, default_value='2'),
+      Argument('kwargs', Argument.Type.KEYWORD_REMAINDER),
+    ]),
+  ]
 
 @docspec_test()
 def test_classdef_1_exceptions():

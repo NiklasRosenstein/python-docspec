@@ -7,3 +7,15 @@ pr = "https://github.com/NiklasRosenstein/docspec/pulls/55"
 issues = [
     "https://github.com/NiklasRosenstein/docspec/issues/53",
 ]
+
+[[entries]]
+id = "2aa754a8-829e-40b0-947d-ebcb1d72284d"
+type = "tests"
+description = "add `test_funcdef_7_posonly_args` unit test to test various more combinations of function arguments, including `POSITIONAL_ONLY`)"
+authors = [
+    "@NiklasRosenstein",
+    "@tristanlatr",
+]
+issues = [
+    "https://github.com/NiklasRosenstein/docspec/issues/57"
+]
