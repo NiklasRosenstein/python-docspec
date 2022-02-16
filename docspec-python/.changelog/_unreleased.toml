@@ -16,7 +16,6 @@ authors = [
     "@NiklasRosenstein",
     "@tristanlatr",
 ]
-pr = "https://github.com/NiklasRosenstein/docspec/pulls/58"
 issues = [
     "https://github.com/NiklasRosenstein/docspec/issues/57",
 ]
