@@ -19,10 +19,7 @@ jobs:
     - uses: gabrielfalcao/pyenv-action@v9
       with:
         default: 3.10.2
-        command: pip install -U pip
-
-    - name: Install tooling
-      run: pyenv local 3.10.2 && pyenv exec pip install pipx -q && pipx install poetry && pipx install slam-cli==1.0.0a9
+        command: pip install -U pip && pip install pipx -q && which pip && which pipx && pipx install poetry && pipx install slam-cli==1.0.0a9
 
     - name: Test tooling
       run: |
@@ -31,17 +28,35 @@ jobs:
         which poetry
         which slam
         which pipx
+        which python
         penv which pip
         penv local 3.10.2
         penv which pip
+        penv which python
+
+        echo
+        echo ls ~/
+        ls ~/
+
+        echo
+        echo ls ~/.local
+        ls ~/.local
+
+        echo
+        echo ls /opt
+        ls ~/opt
+
+        echo
+        echo ls /hostedtoolcache
+        ls ~/hostedtoolcache
 
     - name: Cache tooling environment
       uses: actions/upload-artifact@v2
       with:
         name: tooling
         path: |
-          ~/.local
-          ~/.pyenv
+          /opt/pipx_bin
+          /hostedtoolcache/pyenv_root
 
   test:
     needs: install-tooling
