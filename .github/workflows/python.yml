@@ -21,8 +21,8 @@ jobs:
       uses: actions/cache@v2
       with:
         path: |
-          /opt/pipx
           /opt/pipx_bin
+          /opt/pipx
           /opt/hostedtoolcache/pyenv_root
         # NOTE: Same as pyenv config
         key: 3.10.2 pip install -U pip && pip install pipx -q && which pip && which pipx && pipx install poetry && pipx install slam-cli==1.0.0a9
@@ -65,7 +65,7 @@ jobs:
         path: |
           /opt/pipx_bin
           /opt/pipx
-          /hostedtoolcache/pyenv_root
+          /opt/hostedtoolcache/pyenv_root
 
   test:
     needs: install-tooling
