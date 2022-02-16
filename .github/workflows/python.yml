@@ -16,7 +16,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
+    - name: Cache tooling environment
+      id: cache
+      uses: actions/cache@v2
+      with:
+        path: |
+          /opt/pipx
+          /opt/pipx_bin
+          /opt/hostedtoolcache/pyenv_root
+        key: cache-tooling
+
     - uses: gabrielfalcao/pyenv-action@v9
+      if: steps.cache.outputs.cache-hit != 'true'
       with:
         default: 3.10.2
         command: pip install -U pip && pip install pipx -q && which pip && which pipx && pipx install poetry && pipx install slam-cli==1.0.0a9
@@ -29,10 +40,10 @@ jobs:
         which slam
         which pipx
         which python
-        penv which pip
-        penv local 3.10.2
-        penv which pip
-        penv which python
+        pyenv which pip
+        pyenv local 3.10.2
+        pyenv which pip
+        pyenv which python
 
         echo
         echo ls ~/
@@ -56,6 +67,7 @@ jobs:
         name: tooling
         path: |
           /opt/pipx_bin
+          /opt/pipx
           /hostedtoolcache/pyenv_root
 
   test:
