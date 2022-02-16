@@ -51,16 +51,7 @@ jobs:
     - name: Install Slam
       run: pip install slam-cli==1.0.0a8
     - name: Update PR references in changelogs
-      run: |
-
-        echo "GITHUB_BASE_REF=$GITHUB_BASE_REF"
-        echo "GITHUB_HEAD_REF=$GITHUB_HEAD_REF"
-
-        git fetch 1>/dev/null 2>/dev/null
-        echo "'docspec-python/.changelog/_unreleased.toml' from develop:"
-        git show origin/develop:docspec-python/.changelog/_unreleased.toml
-        echo ------------------------------------------------------------
-        GIT_SHOW_DIFF=1 slam -vv changelog update-pr --use github-actions
+      run: slam -vv changelog update-pr --use github-actions
 
   # documentation:
   #   runs-on: ubuntu-latest
