@@ -22,7 +22,18 @@ jobs:
         command: pip install -U pip
 
     - name: Install tooling
-      run: pyenv local 3.10.2 && pyenv exec pip install pipx && pipx install poetry && pipx install slam-cli==1.0.0a9
+      run: pyenv local 3.10.2 && pyenv exec pip install pipx && pipx install poetry -q && pipx install slam-cli==1.0.0a9 -q
+
+    - name: Test tooling
+      run: |
+        poetry --version
+        slam --version
+        which poetry
+        which slam
+        which pipx
+        penv which pip
+        penv local 3.10.2
+        penv which pip
 
     - name: Cache tooling environment
       uses: actions/upload-artifact@v2
