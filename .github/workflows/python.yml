@@ -11,6 +11,27 @@ on:
     branches: [ develop ]
 
 jobs:
+
+  install-tooling:
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: gabrielfalcao/pyenv-action@v9
+      with:
+        default: 3.10.2
+        command: pip install -U pip
+
+    - name: Install tooling
+      run: pyenv local 3.10.2 && pyenv exec pip install pipx && pipx install poetry==1.2.0a2 slam-cli==1.0.0a9
+
+    - name: Cache tooling environment
+      uses: actions/upload-artifact@v2
+      with:
+        name: tooling
+        path: |
+          ~/.local
+          ~/.pyenv
+
   test:
     runs-on: ubuntu-latest
     strategy:
@@ -18,16 +39,25 @@ jobs:
         python-version: ['3.7.12', '3.8.12', '3.9.10', '3.10.2']
         project: ['docspec', 'docspec-python']
     steps:
+
+    - name: Materialize tooling environment
+      uses: actions/download-artifact@v2
+      with:
+        name: tooling
+
+    - name: Test tooling environment
+      run: |
+        poetry --version
+        slam --version
+
     - uses: actions/checkout@v2
+
     - name: Set up Python ${{ matrix.python-version }}
       uses: gabrielfalcao/pyenv-action@v9
       with:
         default: "${{ matrix.python-version }}"
         versions: 3.10.2
         command: pip install -U pip
-
-    - name: Install tooling
-      run: pyenv local 3.10.2 && pyenv exec pip install poetry==1.2.0a2 slam-cli==1.0.0a9
 
     - name: Install ${{ matrix.project }}
       run: |
