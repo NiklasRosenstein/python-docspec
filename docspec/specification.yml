@@ -114,7 +114,7 @@ Argument:
       required: false
       docs: The default value of the argument as a code string.
     location:
-      type: Optional[List[str]]
+      type: Optional[Location]
       required: false
       docs: The location of the decoration in the source code.
 
@@ -146,7 +146,7 @@ Decoration:
       docs: Deprecated in favor of `arglist`. A single string that represents the entirety of the argument list
         for the decorator, excluding the surroinding parentheses.
     location:
-      type: Optional[List[str]]
+      type: Optional[Location]
       required: false
       docs: The location of the decoration in the source code.
     arglist:
@@ -268,7 +268,7 @@ Module:
       type: str
       docs: The name of the module. The name is supposed to be relative to the parent.
     location:
-      type: Optional[Docstring]
+      type: Optional[Location]
       required: false
       docs: The location of the module. Usually the line number will be `0`.
     docstring:
