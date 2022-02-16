@@ -23,7 +23,7 @@ jobs:
       uses: gabrielfalcao/pyenv-action@v9
       with:
         default: "${{ matrix.python-version }}"
-        versions: [ "3.10" ]
+        versions: 3.10.0
         command: pip install -U pip
 
     - name: Install tooling
