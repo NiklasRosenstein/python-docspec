@@ -37,26 +37,12 @@ jobs:
       run: |
         poetry --version
         slam --version
-        which poetry
-        which slam
-        which pipx
-        which python
+
         pyenv which pip
         pyenv local 3.10.2
         pyenv which pip
-        pyenv which python
 
-        echo
-        echo ls ~/
-        ls ~/
-
-        echo
-        echo ls /opt
-        ls /opt
-
-        echo
-        echo ls /opt/hostedtoolcache
-        ls /opt/hostedtoolcache
+        du -hs /opt/pipx_bin /opt/pipx /opt/hostedtoolcache/pyenv_root
 
     - name: Cache tooling environment
       uses: actions/upload-artifact@v2
