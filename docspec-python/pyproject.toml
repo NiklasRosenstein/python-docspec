@@ -11,6 +11,7 @@ packages = [{ include = "docspec_python", from="src" }]
   [tool.poetry.dependencies]
   python = "^3.7"
   docspec = "^1.2.0"
+  "nr.util" = "^0.6.4"
 
   [tool.poetry.dev-dependencies]
   types-Deprecated = "*"
