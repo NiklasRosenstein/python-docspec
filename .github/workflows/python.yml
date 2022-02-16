@@ -29,24 +29,16 @@ jobs:
     - name: Install tooling
       run: |
         pyenv install ${{ matrix.python-tooling-version }} -s
-        which pip
         pyenv local ${{ matrix.python-tooling-version }}
-        which pip
         pip install pipx -q
-        pipx install poetry
-        pipx install slam-cli==1.0.0a12
-        poetry --version
-        slam --version
+        #pipx install slam-cli==1.0.0a12
+        pipx install git+https://github.com/NiklasRosenstein/slam.git
+        pyenv local ${{ matrix.python-version }}
 
     - uses: actions/checkout@v2
 
     - name: Install ${{ matrix.project }}
-      run: |
-        pyenv local "${{ matrix.python-version }}"
-        which pip
-        pyenv which pip
-        pip install ./docspec
-        pushd "${{ matrix.project }}" && poetry install --no-root --E dev && popd
+      run: slam install --only ${{ matrix.project }} --no-venv-check
 
     - name: Slam test
       run: slam test
