@@ -397,7 +397,7 @@ class Parser:
       location=self.location_from(node),
       docstring=docstring,
       metaclass=metaclass,
-      bases=bases,
+      bases=[b.strip() for b in bases],
       decorations=decorations,
       members=[])
 

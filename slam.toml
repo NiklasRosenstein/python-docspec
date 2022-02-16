@@ -1,9 +1,0 @@
-[release]
-include = [ "docspec/", "docspec-python/" ]
-references = [
-  { file="docspec-python/pyproject.toml", pattern="  docspec = \"\\^{version}\""}
-]
-
-[test]
-docspec = "SLAM_DIR=docspec/ slam test"
-docspec-python = "SLAM_DIR=docspec-python/ slam test"

@@ -267,7 +267,7 @@ def test_classdef_1_exceptions():
   class MyError3(RuntimeError):
     pass
 
-  class MyError4(RuntimeError, metaclass=ABCMeta):
+  class MyError4(RuntimeError, object, metaclass=ABCMeta):
     pass
 
   class MyError5(metaclass=ABCMeta):
@@ -310,7 +310,7 @@ def test_classdef_1_exceptions():
       location=None,
       docstring=None,
       metaclass='ABCMeta',
-      bases=['RuntimeError'],
+      bases=['RuntimeError', 'object'],
       decorations=None,
       members=[]
     ),
