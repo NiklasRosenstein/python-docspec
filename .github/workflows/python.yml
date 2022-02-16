@@ -52,11 +52,11 @@ jobs:
 
         echo
         echo ls /opt
-        ls ~/opt
+        ls /opt
 
         echo
         echo ls /hostedtoolcache
-        ls ~/hostedtoolcache
+        ls /hostedtoolcache
 
     - name: Cache tooling environment
       uses: actions/upload-artifact@v2
