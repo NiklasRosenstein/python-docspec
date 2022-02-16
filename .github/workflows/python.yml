@@ -50,10 +50,6 @@ jobs:
         ls ~/
 
         echo
-        echo ls ~/.local
-        ls ~/.local
-
-        echo
         echo ls /opt
         ls ~/opt
 
