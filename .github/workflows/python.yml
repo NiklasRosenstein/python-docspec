@@ -24,11 +24,11 @@ jobs:
           /opt/pipx
           /opt/pipx_bin
           /opt/hostedtoolcache/pyenv_root
-        key: cache-tooling
+        key: *pyenv-config
 
     - uses: gabrielfalcao/pyenv-action@v9
       if: steps.cache.outputs.cache-hit != 'true'
-      with:
+      with: &pyenv-config
         default: 3.10.2
         command: pip install -U pip && pip install pipx -q && which pip && which pipx && pipx install poetry && pipx install slam-cli==1.0.0a9
 
