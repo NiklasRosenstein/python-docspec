@@ -16,26 +16,25 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-tooling-version: ['3.10.2']
         python-version: ['3.7.12', '3.8.12', '3.9.10', '3.10.2']
+        python-tooling-version: ['3.10.2']
         project: ['docspec', 'docspec-python']
     steps:
 
     - uses: gabrielfalcao/pyenv-action@v9
-      if: steps.cache.outputs.cache-hit != 'true'
       with:
         default: "${{ matrix.python-version }}"
-        versions: "${{ matrix.python-tooling-version }}"
         command: pip install -U pip
 
     - name: Install tooling
       run: |
+        pyenv install ${{ matrix.python-tooling-version }} -s
         which pip
         pyenv local ${{ matrix.python-tooling-version }}
         which pip
         pip install pipx -q
         pipx install poetry
-        pipx install slam-cli==1.0.0a9
+        pipx install slam-cli==1.0.0a12
         poetry --version
         slam --version
 
@@ -64,7 +63,7 @@ jobs:
       with:
         python-version: '3.10'
     - name: Install Slam
-      run: pip install slam-cli==1.0.0a9
+      run: pip install slam-cli==1.0.0a12
     - name: Update PR references in changelogs
       run: slam -vv changelog update-pr --use github-actions
 
