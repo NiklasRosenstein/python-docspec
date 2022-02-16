@@ -23,11 +23,11 @@ jobs:
       uses: gabrielfalcao/pyenv-action@v9
       with:
         default: "${{ matrix.python-version }}"
-        versions: 3.10.0
+        versions: 3.10.2
         command: pip install -U pip
 
     - name: Install tooling
-      run: pyenv local 3.10 && pyenv exec pip install poetry==1.2.0a2 slam-cli==1.0.0a9
+      run: pyenv local 3.10.2 && pyenv exec pip install poetry==1.2.0a2 slam-cli==1.0.0a9
 
     - name: Install ${{ matrix.project }}
       run: |
