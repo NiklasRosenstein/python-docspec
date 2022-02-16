@@ -15,26 +15,29 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        #python-version: ['3.7', '3.8', '3.9', '3.10', '3.x']
-        python-version: ['3.10', '3.x']
+        python-version: ['3.7', '3.8', '3.9', '3.10']
+        project: ['docspec', 'docspec-python']
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
+      uses: gabrielfalcao/pyenv-action@v9
       with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install dependencies
+        default: "${{ matrix.python-version }}"code dot
+        versions: [ "3.10" ]
+        command: pip install -U pip
+
+    - name: Install tooling
+      run: pyenv local 3.10 && pyenv exec pip install poetry==1.2.0a2 slam-cli==1.0.0a8
+
+    - name: Install ${{ matrix.project }}
       run: |
-        python -m pip install \
-          poetry==1.2.0a2 \
-          slam-cli==1.0.0a8 \
-          mypy \
-          pytest \
-          types-deprecated \
-          types-termcolor \
-          ./docspec \
-          ./docspec-python
-    - name: Run tests
+        pyenv local "${{ matrix.python-version }}"
+        which pip
+        pyenv which pip
+        pip install ./docspec
+        pushd "${{ matrix.project }}" && poetry install --dev-only && popd
+
+    - name: Slam test
       run: slam test
 
   update-pr-numbers:
