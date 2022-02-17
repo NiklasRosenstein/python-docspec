@@ -41,7 +41,7 @@ jobs:
       run: slam install --only ${{ matrix.project }} --no-venv-check
 
     - name: Slam test
-      run: slam test
+      run: slam test ${{ matrix.project }}
 
   update-pr-numbers:
     if: github.event_name == 'pull_request'
