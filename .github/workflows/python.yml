@@ -33,6 +33,7 @@ jobs:
         pip install -U pip pipx -q
         pipx install slam-cli==1.0.0a13
         pyenv local ${{ matrix.python-version }}
+        pip install -U pip -q
 
     - uses: actions/checkout@v2
 
