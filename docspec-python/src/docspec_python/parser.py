@@ -271,7 +271,7 @@ class Parser:
       return_type=return_,
       decorations=decorations)
 
-  def parse_argument(self, node: t.Union[Leaf, Node], argtype: Argument.Type, scanner: 'Scanner[Leaf | Node]') -> Argument:
+  def parse_argument(self, node: t.Union[Leaf, Node, None], argtype: Argument.Type, scanner: 'Scanner[Leaf | Node]') -> Argument:
     """
     Parses an argument from the AST. *node* must be the current node at
     the current position of the *scanner*. The scanner is used to extract
@@ -293,6 +293,7 @@ class Parser:
         raise RuntimeError('unexpected node: {!r}'.format(node))
       return (name, annotation)
 
+    assert node is not None
     name, annotation = parse_annotated_name(node)
     assert name not in '/*', repr(node)
 
