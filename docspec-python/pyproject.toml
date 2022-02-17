@@ -14,9 +14,9 @@ packages = [{ include = "docspec_python", from="src" }]
   "nr.util" = "^0.6.6"
 
   [tool.poetry.dev-dependencies]
-  types-Deprecated = "*"
-  pytest = "*"
   mypy = "*"
+  pytest = "*"
+  types-Deprecated = "*"
 
   [tool.poetry.scripts]
   docspec-python = "docspec_python.__main__:main"
