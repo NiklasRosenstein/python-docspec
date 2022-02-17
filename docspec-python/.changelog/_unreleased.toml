@@ -7,3 +7,33 @@ pr = "https://github.com/NiklasRosenstein/docspec/pulls/55"
 issues = [
     "https://github.com/NiklasRosenstein/docspec/issues/53",
 ]
+
+[[entries]]
+id = "2aa754a8-829e-40b0-947d-ebcb1d72284d"
+type = "tests"
+description = "add `test_funcdef_7_posonly_args` unit test to test various more combinations of function arguments, including `POSITIONAL_ONLY`)"
+authors = [
+    "@NiklasRosenstein",
+    "@tristanlatr",
+]
+pr = "https://github.com/NiklasRosenstein/docspec/pulls/58"
+issues = [
+    "https://github.com/NiklasRosenstein/docspec/issues/57",
+]
+
+[[entries]]
+id = "baf461c7-737f-4cda-b2fd-1213b7637281"
+type = "refactor"
+description = "use `nr.util.scanner.Scanner` instead of homebrew `ListScanner` class"
+author = "@NiklasRosenstein"
+pr = "https://github.com/NiklasRosenstein/docspec/pulls/58"
+
+[[entries]]
+id = "0338523c-6ec7-42f0-aba6-7cf9266302f0"
+type = "fix"
+description = "fix parsing of positional only arguments"
+author = "@NiklasRosenstein"
+pr = "https://github.com/NiklasRosenstein/docspec/pulls/58"
+issues = [
+    "https://github.com/NiklasRosenstein/docspec/issues/57",
+]

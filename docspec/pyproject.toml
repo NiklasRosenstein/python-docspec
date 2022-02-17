@@ -15,9 +15,11 @@ packages = [{include="docspec", from="src"}]
   Deprecated = "^1.2.12"
 
   [tool.poetry.dev-dependencies]
+  "databind.core" = "^1.2.1"
+  mypy = "*"
+  pytest = "*"
   types-Deprecated = "*"
   types-termcolor = "*"
-  "databind.core" = "^1.2.1"
 
   [tool.poetry.scripts]
   docspec = "docspec.__main__:main"

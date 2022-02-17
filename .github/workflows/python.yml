@@ -11,31 +11,38 @@ on:
     branches: [ develop ]
 
 jobs:
+
   test:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        #python-version: ['3.7', '3.8', '3.9', '3.10', '3.x']
-        python-version: ['3.10', '3.x']
+        python-version: ['3.7.12', '3.8.12', '3.9.10', '3.10.2']
+        python-tooling-version: ['3.10.2']
+        project: ['docspec', 'docspec-python']
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
+
+    - uses: gabrielfalcao/pyenv-action@v9
       with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install dependencies
+        default: "${{ matrix.python-version }}"
+        command: pip install -U pip
+
+    - name: Install tooling
       run: |
-        python -m pip install \
-          poetry==1.2.0a2 \
-          slam-cli==1.0.0a8 \
-          mypy \
-          pytest \
-          types-deprecated \
-          types-termcolor \
-          ./docspec \
-          ./docspec-python
-    - name: Run tests
-      run: slam test
+        pyenv install ${{ matrix.python-tooling-version }} -s
+        pyenv local ${{ matrix.python-tooling-version }}
+        pip install -U pip pipx -q
+        pipx install slam-cli==1.0.0a14
+        pyenv local ${{ matrix.python-version }}
+        pip install -U pip -q
+
+    - uses: actions/checkout@v2
+
+    - name: Install ${{ matrix.project }}
+      run: slam install --only ${{ matrix.project }} --no-venv-check -v
+
+    - name: Slam test
+      run: slam test ${{ matrix.project }}
 
   update-pr-numbers:
     if: github.event_name == 'pull_request'
@@ -43,13 +50,16 @@ jobs:
       contents: write
     runs-on: ubuntu-latest
     steps:
+
     - uses: actions/checkout@v2
+
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
-      with:
-        python-version: '3.10'
+      with: { python-version: '3.10' }
+
     - name: Install Slam
-      run: pip install slam-cli==1.0.0a8
+      run: pip install slam-cli==1.0.0a14
+
     - name: Update PR references in changelogs
       run: slam -vv changelog update-pr --use github-actions
 

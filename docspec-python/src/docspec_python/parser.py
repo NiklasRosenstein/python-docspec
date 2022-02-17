@@ -29,6 +29,8 @@ import re
 import textwrap
 import typing as t
 
+from nr.util.scanner import Scanner
+
 from docspec import (
   ApiObject,
   Argument,
@@ -269,7 +271,7 @@ class Parser:
       return_type=return_,
       decorations=decorations)
 
-  def parse_argument(self, node: t.Union[Leaf, Node], argtype: Argument.Type, scanner: 'ListScanner') -> Argument:
+  def parse_argument(self, node: t.Union[Leaf, Node, None], argtype: Argument.Type, scanner: 'Scanner[Leaf | Node]') -> Argument:
     """
     Parses an argument from the AST. *node* must be the current node at
     the current position of the *scanner*. The scanner is used to extract
@@ -278,11 +280,11 @@ class Parser:
 
     def parse_annotated_name(node):
       if node.type == syms.tname:
-        scanner = ListScanner(node.children)
+        scanner = Scanner(node.children)
         name = scanner.current.value
-        node = scanner.advance()
+        node = scanner.next()
         assert node.type == token.COLON, node.parent
-        node = scanner.advance()
+        node = scanner.next()
         annotation = self.nodes_to_string([node])
       elif node:
         name = node.value
@@ -291,7 +293,9 @@ class Parser:
         raise RuntimeError('unexpected node: {!r}'.format(node))
       return (name, annotation)
 
+    assert node is not None
     name, annotation = parse_annotated_name(node)
+    assert name not in '/*', repr(node)
 
     node = scanner.advance()
     default = None
@@ -304,7 +308,7 @@ class Parser:
 
   def parse_parameters(self, parameters):
     assert parameters.type == syms.parameters, parameters.type
-    result = []
+    result: t.List[Argument] = []
 
     arglist = find(lambda x: x.type == syms.typedargslist, parameters.children)
     if not arglist:
@@ -312,7 +316,7 @@ class Parser:
       #   not get wrapped in a `typedargslist`, but in a single `tname`.
       tname = find(lambda x: x.type == syms.tname, parameters.children)
       if tname:
-        scanner = ListScanner(parameters.children, parameters.children.index(tname))
+        scanner = Scanner(parameters.children, parameters.children.index(tname))
         result.append(self.parse_argument(tname, Argument.Type.POSITIONAL, scanner))
       else:
         # This must be either ["(", ")"] or ["(", "argname", ")"].
@@ -323,22 +327,34 @@ class Parser:
 
     argtype = Argument.Type.POSITIONAL
 
-    index = ListScanner(arglist.children)
-    for node in index.safe_iter(auto_advance=False):
+    index = Scanner(arglist.children)
+    for node in index.safe_iter():
       node = index.current
-      if node.type == token.STAR:
-        node = index.advance()
-        if node.type != token.COMMA:
+
+      if node.type == token.SLASH:
+        assert argtype == Argument.Type.POSITIONAL
+        # We need to retrospectively change the argument type of previous parsed arguments to POSITIONAL_ONLY.
+        for arg in result:
+          assert arg.type == Argument.Type.POSITIONAL, arg
+          arg.type = Argument.Type.POSITIONAL_ONLY
+        node = index.next()
+        if node.type == token.COMMA:
+          index.advance()
+
+      elif node.type == token.STAR:
+        node = index.next()
+        if node and node.type != token.COMMA:
           result.append(self.parse_argument(node, Argument.Type.POSITIONAL_REMAINDER, index))
         index.advance()
         argtype = Argument.Type.KEYWORD_ONLY
-        continue
-      elif node.type == token.DOUBLESTAR:
-        node = index.advance()
+
+      elif node and node.type == token.DOUBLESTAR:
+        node = index.next()
         result.append(self.parse_argument(node, Argument.Type.KEYWORD_REMAINDER, index))
-        continue
-      result.append(self.parse_argument(node, argtype, index))
-      index.advance()
+
+      else:
+        result.append(self.parse_argument(node, argtype, index))
+        index.advance()
 
     return result
 
@@ -360,9 +376,9 @@ class Parser:
   def parse_classdef_rawargs(self, classdef):
     metaclass = None
     bases = []
-    index = ListScanner(classdef.children, 2)
+    index = Scanner(classdef.children, 2)
     if index.current.type == token.LPAR:
-      index.advance()
+      index.next()
       while index.current.type != token.RPAR:
         if index.current.type == syms.argument:
           key = index.current.children[0].value
@@ -374,7 +390,7 @@ class Parser:
             pass
         else:
           bases.append(str(index.current))
-        index.advance()
+        index.next()
     return metaclass, bases
 
   def parse_classdef(self, parent, node, decorations):
@@ -550,80 +566,3 @@ class Parser:
       return ''.join(x.value for x in node.children)
     else:
       return node.value
-
-
-class ListScanner:
-  """
-  A helper class to navigate through a list. This is useful if you would
-  usually iterate over the list by index to be able to acces the next
-  element during the iteration.
-
-  Example:
-
-  ```py
-  scanner = ListScanner(lst)
-  for value in scanner.safe_iter():
-    if some_condition(value):
-      value = scanner.advance()
-  ```
-  """
-
-  def __init__(self, lst, index=0):
-    self._list = lst
-    self._index = index
-
-  def __bool__(self):
-    return self._index < len(self._list)
-
-  __nonzero__ = __bool__
-
-  @property
-  def current(self):
-    """
-    Returns the current list element.
-    """
-
-    return self._list[self._index]
-
-  def can_advance(self):
-    """
-    Returns `True` if there is a next element in the list.
-    """
-
-    return self._index < (len(self._list) - 1)
-
-  def advance(self, expect=False):
-    """
-    Advances the scanner to the next element in the list. If *expect* is set
-    to `True`, an #IndexError will be raised when there is no next element.
-    Otherwise, `None` will be returned.
-    """
-
-    self._index += 1
-    try:
-      return self.current
-    except IndexError:
-      if expect:
-        raise
-      return None
-
-  def safe_iter(self, auto_advance=True):
-    """
-    A useful generator function that iterates over every element in the list.
-    You may call #advance() during the iteration to retrieve the next
-    element in the list within a single iteration.
-
-    If *auto_advance* is `True` (default), the function generator will
-    always advance to the next element automatically. If it is set to `False`,
-    #advance() must be called manually in every iteration to ensure that
-    the scanner has advanced at least to the next element, or a
-    #RuntimeError will be raised.
-    """
-
-    index = self._index
-    while self:
-      yield self.current
-      if auto_advance:
-        self.advance()
-      elif self._index == index:
-        raise RuntimeError('next() has not been called on the ListScanner')
