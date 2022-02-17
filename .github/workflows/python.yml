@@ -39,7 +39,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Install ${{ matrix.project }}
-      run: slam install --only ${{ matrix.project }} --no-venv-check
+      run: slam install --only ${{ matrix.project }} --no-venv-check -v
 
     - name: Slam test
       run: slam test ${{ matrix.project }}
