@@ -50,6 +50,7 @@ jobs:
       run: pip install slam-cli==1.0.2
     - name: Update PR references in changelogs
       run: |
+        env | grep GITHUB
         git fetch
         git checkout docs
         slam -vv changelog update-pr --use github-actions
