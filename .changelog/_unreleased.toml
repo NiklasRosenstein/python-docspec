@@ -5,5 +5,11 @@ description = "rename `Data` to `Variable`"
 author = "@NiklasRosenstein"
 pr = "https://github.com/NiklasRosenstein/docspec/pull/68"
 issues = [
-  "https://github.com/NiklasRosenstein/docspec/issues/67"
+    "https://github.com/NiklasRosenstein/docspec/issues/67",
 ]
+
+[[entries]]
+id = "300029d9-3c6f-43b6-989b-44603803c623"
+type = "hygiene"
+description = "move `VariableSemantic`, `FunctionSemantic` and `ClassSemantic` into global scope"
+author = "@NiklasRosenstein"
