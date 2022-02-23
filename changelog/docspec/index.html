@@ -344,9 +344,89 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Docspec Changelog
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         Docspec Changelog
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#unreleased" class="md-nav__link">
+    Unreleased
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#120-2021-09-24" class="md-nav__link">
+    1.2.0 (2021-09-24)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#110-2021-08-27" class="md-nav__link">
+    1.1.0 (2021-08-27)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#102-2021-07-29" class="md-nav__link">
+    1.0.2 (2021-07-29)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#101-2021-07-22" class="md-nav__link">
+    1.0.1 (2021-07-22)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-2021-07-21" class="md-nav__link">
+    1.0.0 (2021-07-21)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#021-2021-02-21" class="md-nav__link">
+    0.2.1 (2021-02-21)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#020-2020-07-06" class="md-nav__link">
+    0.2.0 (2020-07-06)
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -379,6 +459,70 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#unreleased" class="md-nav__link">
+    Unreleased
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#120-2021-09-24" class="md-nav__link">
+    1.2.0 (2021-09-24)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#110-2021-08-27" class="md-nav__link">
+    1.1.0 (2021-08-27)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#102-2021-07-29" class="md-nav__link">
+    1.0.2 (2021-07-29)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#101-2021-07-22" class="md-nav__link">
+    1.0.1 (2021-07-22)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-2021-07-21" class="md-nav__link">
+    1.0.0 (2021-07-21)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#021-2021-02-21" class="md-nav__link">
+    0.2.1 (2021-02-21)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#020-2020-07-06" class="md-nav__link">
+    0.2.0 (2020-07-06)
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -396,9 +540,94 @@
 
 
 <h1 id="docspec-changelog">Docspec Changelog</h1>
-<div class="highlight"><pre><span></span><code>$ cd ../docspec &amp;&amp; slam changelog format --all --markdown  # exited with return code 127
-/bin/sh: 1: slam: not found
-</code></pre></div>
+<h2 id="unreleased">Unreleased</h2>
+<table><tr><th>Type</th><th>Description</th><th>PR</th><th>Issues</th><th>Author</th></tr>
+  <tr><td>Fix</td><td>
+
+update `specification.yml` to show correct types of `Argument.location`, `Decoration.location` and `Module.location`</td><td><a href="https://github.com/NiklasRosenstein/docspec/pulls/56">56</a></td><td><a href="https://github.com/NiklasRosenstein/docspec/issues/52">52</a></td><td>@NiklasRosenstein</td></tr>
+</table>
+
+<h2 id="120-2021-09-24">1.2.0 (2021-09-24)</h2>
+<table><tr><th>Type</th><th>Description</th><th>PR</th><th>Issues</th><th>Author</th></tr>
+  <tr><td>Feature</td><td>
+
+add `Data.modifiers`, `Data.semantic_hints`, `Class.modifiers`, `Class.semantic_hints` and `Function.semantic_hints`</td><td></td><td><a href="https://github.com/NiklasRosenstein/docspec/issues/30">30</a></td><td>@NiklasRosenstein</td></tr>
+  <tr><td>Improvement</td><td>
+
+rename `Argument.Type` enumeration values to `UPPER_CASE` format according to latest specification (full backwards compatibility, including deserializing JSON payloads with the old argument type names)</td><td></td><td></td><td>@NiklasRosenstein</td></tr>
+  <tr><td>Feature</td><td>
+
+add `Argument.location` and `Decoration.location` properties</td><td></td><td><a href="https://github.com/NiklasRosenstein/docspec/issues/28">28</a></td><td>@NiklasRosenstein</td></tr>
+  <tr><td>Feature</td><td>
+
+add `Location.endlineno` property to spec</td><td></td><td><a href="https://github.com/NiklasRosenstein/docspec/issues/32">32</a></td><td>@NiklasRosenstein</td></tr>
+  <tr><td>Improvement</td><td>
+
+add `Decoration.arglist`, document that `Decoration.args` is deprecated</td><td></td><td></td><td>@NiklasRosenstein</td></tr>
+</table>
+
+<h2 id="110-2021-08-27">1.1.0 (2021-08-27)</h2>
+<table><tr><th>Type</th><th>Description</th><th>PR</th><th>Issues</th><th>Author</th></tr>
+  <tr><td>Feature</td><td>
+
+add `ApiObject.parent` and `ApiObject.path` to deprecate `ReverseMap` class</td><td></td><td></td><td>@NiklasRosenstein</td></tr>
+  <tr><td>Feature</td><td>
+
+add `ApiObject.sync_hierarchy()` method</td><td></td><td></td><td>@NiklasRosenstein</td></tr>
+  <tr><td>Feature</td><td>
+
+introduce `HasMembers` base class for `Class` and `Module`, `Module.members` can now container other modules</td><td></td><td><a href="https://github.com/NiklasRosenstein/docspec/issues/15">15</a></td><td>@NiklasRosenstein</td></tr>
+  <tr><td>Improvement</td><td>
+
+`get_member()` and `filter_visit()` have been updated to make use of the `HasMembers` base class instead of relying on `hasattr()`/`getattr()`</td><td></td><td></td><td>@NiklasRosenstein</td></tr>
+  <tr><td>Feature</td><td>
+
+add `Indirection` class to keep track of imports and resolve names correctly.</td><td></td><td></td><td>@tristanlatr</td></tr>
+  <tr><td>Feature</td><td>
+
+add `Docstring` class which represents the docstring, plus the location of the docstring</td><td></td><td></td><td>@NiklasRosenstein</td></tr>
+</table>
+
+<h2 id="102-2021-07-29">1.0.2 (2021-07-29)</h2>
+<table><tr><th>Type</th><th>Description</th><th>PR</th><th>Issues</th><th>Author</th></tr>
+  <tr><td>Fix</td><td>
+
+Add some type annotations</td><td></td><td><a href="https://github.com/NiklasRosenstein/docspec/issues/14">14</a></td><td>@tristanlatr</td></tr>
+</table>
+
+<h2 id="101-2021-07-22">1.0.1 (2021-07-22)</h2>
+<table><tr><th>Type</th><th>Description</th><th>PR</th><th>Issues</th><th>Author</th></tr>
+  <tr><td>Fix</td><td>
+
+`docspec.get_members()` access object members wrong</td><td></td><td></td><td>@NiklasRosenstein</td></tr>
+</table>
+
+<h2 id="100-2021-07-21">1.0.0 (2021-07-21)</h2>
+<table><tr><th>Type</th><th>Description</th><th>PR</th><th>Issues</th><th>Author</th></tr>
+  <tr><td>Breaking change</td><td>
+
+Migrate to using `databind.core 1.x` and `databind.json 1.x` from `nr.databind.core` and `nr.databind.json`.</td><td></td><td></td><td>@NiklasRosenstein</td></tr>
+</table>
+
+<h2 id="021-2021-02-21">0.2.1 (2021-02-21)</h2>
+<table><tr><th>Type</th><th>Description</th><th>PR</th><th>Issues</th><th>Author</th></tr>
+  <tr><td>Fix</td><td>
+
+fix dependencies</td><td></td><td></td><td>@NiklasRosenstein</td></tr>
+</table>
+
+<h2 id="020-2020-07-06">0.2.0 (2020-07-06)</h2>
+<table><tr><th>Type</th><th>Description</th><th>PR</th><th>Issues</th><th>Author</th></tr>
+  <tr><td>Improvement</td><td>
+
+`ApiObject` constructors now accept keyword arguments only</td><td></td><td></td><td>@NiklasRosenstein</td></tr>
+  <tr><td>Improvement</td><td>
+
+All `nullable` fields now have `default=None`</td><td></td><td></td><td>@NiklasRosenstein</td></tr>
+  <tr><td>Improvement</td><td>
+
+Many serializable classes are now decorated with `SkipDefaults()`</td><td></td><td></td><td>@NiklasRosenstein</td></tr>
+</table>
 
               
             </article>
