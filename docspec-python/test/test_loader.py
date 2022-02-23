@@ -19,47 +19,74 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 # IN THE SOFTWARE.
 
-"""
-Tests the loading mechanism. Expects that the `docspec` and `docspec_python` modules
-are installed. For a full test, they need to be installed as usual (not in develop
-mode).
+""" Tests the docspec loading mechanism. Expects that the `docspec` and `docspec_python` modules are installed.
+For a full test, they need to be installed as usual (not in develop mode).
 """
 
-from typing import List
-import docspec
-import docspec_python
 import os
+from pathlib import Path
+from unittest import mock
 import pytest
 import site
+import typing as t
+
+import docspec
+import docspec_python
 
 
-def _assert_modules_loaded(modules: List[docspec.Module]):
-  assert modules[0].name == 'docspec_python'
-  assert any(x.name == 'docspec_python.parser' for x in modules)
+def _assert_is_docspec_python_module(modules: t.List[docspec.Module]) -> None:
+  assert sorted(m.name for m in modules) == ['docspec_python', 'docspec_python.__main__', 'docspec_python.parser']
 
 
-def test_discovery_from_sys_path():
+def test_discovery_from_sys_path() -> None:
+  """ Tests that the `docspec_python` module can be loaded from `sys.path`. """
+
   modules = list(docspec_python.load_python_modules(packages=['docspec_python']))
-  _assert_modules_loaded(modules)
+  _assert_is_docspec_python_module(modules)
 
 
 def test_discovery_search_path_overrides():
+  """ Tests that the `docspec_python` module will not be loaded if an empty search path is supplied. """
+
   modules = list(docspec_python.load_python_modules(
     packages=['docspec_python'], search_path=[], raise_=False))
   assert not modules
 
 
 @pytest.mark.skipif(
-  os.getenv('TEST_NO_DEVELOP') != 'true',
-  reason='TEST_NO_DEVELOP needs to be set to "true" to test this case')
-def test_discovery_search_path_overrides_docspec_python_in_install_mode():
+  os.getenv('DOCSPEC_TEST_NO_DEVELOP') != 'true',
+  reason='DOCSPEC_TEST_NO_DEVELOP needs to be set to "true" to test this case')
+def test_discovery_search_path_overrides_docspec_python_in_install_mode() -> None:
+  """ Tests that the `docspec_python` module can be loaded separately from the local project source code as well
+  as from the system site-packages independently by supplying the right search path. """
+
   src_dir = os.path.normpath(__file__ + '/../..')
   src_modules = list(docspec_python.load_python_modules(
     packages=['docspec_python'], search_path=[src_dir]))
-  _assert_modules_loaded(src_modules)
+  _assert_is_docspec_python_module(src_modules)
 
   site_modules = list(docspec_python.load_python_modules(
     packages=['docspec_python'], search_path=site.getsitepackages()))
-  _assert_modules_loaded(site_modules)
+  _assert_is_docspec_python_module(site_modules)
 
   assert site_modules[0].location.filename != src_modules[0].location.filename  # type: ignore
+
+
+def test_pep420_namespace_package() -> None:
+  """ Tests that PEP 420 namespace packages can be loaded. """
+
+  src_dir = Path(__file__).parent / 'src'
+
+  # Test that the module can be loaded explicitly.
+  src_modules = list(docspec_python.load_python_modules(
+    modules=['pep420_namespace_package.module'], search_path=[src_dir]))
+
+  assert len(src_modules) == 1
+  assert src_modules[0].name == 'pep420_namespace_package.module'
+
+  # Test that the module can be loaded implicitly.
+  src_modules = list(docspec_python.load_python_modules(
+    packages=['pep420_namespace_package'], search_path=[src_dir]))
+
+  assert len(src_modules) == 1
+  assert src_modules[0].name == 'pep420_namespace_package.module'
