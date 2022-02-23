@@ -60,7 +60,7 @@ def test_discovery_search_path_overrides_docspec_python_in_install_mode() -> Non
   """ Tests that the `docspec_python` module can be loaded separately from the local project source code as well
   as from the system site-packages independently by supplying the right search path. """
 
-  src_dir = os.path.normpath(__file__ + '/../..')
+  src_dir = os.path.normpath(__file__ + '/../../src')
   src_modules = list(docspec_python.load_python_modules(
     packages=['docspec_python'], search_path=[src_dir]))
   _assert_is_docspec_python_module(src_modules)
