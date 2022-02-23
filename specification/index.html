@@ -271,15 +271,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#struct-data" class="md-nav__link">
-    Struct Data
+  <a href="#struct-variable" class="md-nav__link">
+    Struct Variable
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#enumeration-datasemantic" class="md-nav__link">
-    Enumeration DataSemantic
+  <a href="#enumeration-variablesemantic" class="md-nav__link">
+    Enumeration VariableSemantic
   </a>
   
 </li>
@@ -520,15 +520,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#struct-data" class="md-nav__link">
-    Struct Data
+  <a href="#struct-variable" class="md-nav__link">
+    Struct Variable
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#enumeration-datasemantic" class="md-nav__link">
-    Enumeration DataSemantic
+  <a href="#enumeration-variablesemantic" class="md-nav__link">
+    Enumeration VariableSemantic
   </a>
   
 </li>
@@ -704,8 +704,8 @@
 </tr>
 </tbody>
 </table>
-<h2 id="struct-data">Struct <code>Data</code></h2>
-<p>A <code>Data</code> object represents a variable or constant.</p>
+<h2 id="struct-variable">Struct <code>Variable</code></h2>
+<p>A <code>Variable</code> object represents a variable or constant.</p>
 <table>
 <thead>
 <tr>
@@ -760,13 +760,13 @@
 </tr>
 <tr>
 <td><code>semantic_hints</code></td>
-<td><code>List[DataSemantic]</code></td>
+<td><code>List[VariableSemantic]</code></td>
 <td>No</td>
 <td>A list of behavioral properties for this variable or constant.</td>
 </tr>
 </tbody>
 </table>
-<h2 id="enumeration-datasemantic">Enumeration <code>DataSemantic</code></h2>
+<h2 id="enumeration-variablesemantic">Enumeration <code>VariableSemantic</code></h2>
 <p>Describes possible behavioral properties of a variable or constant.</p>
 <ul>
 <li><code>INSTANCE_VARIABLE</code> &ndash; </li>
@@ -994,7 +994,7 @@
 </tr>
 <tr>
 <td><code>members</code></td>
-<td><code>List[Data | Function | Class]</code></td>
+<td><code>List[Variable | Function | Class]</code></td>
 <td>Yes</td>
 <td>A list of the members of the class.</td>
 </tr>
@@ -1063,7 +1063,7 @@
 </tr>
 <tr>
 <td><code>members</code></td>
-<td><code>List[Class | Data | Function | Module]</code></td>
+<td><code>List[Class | Variable | Function | Module]</code></td>
 <td>Yes</td>
 <td>A list of the module members.</td>
 </tr>
