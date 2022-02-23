@@ -70,3 +70,9 @@ id = "db9fab76-4f70-40f0-ad53-afe3a0ddcedb"
 type = "breaking change"
 description = "harden requirements of spec by requiring a `location` even on `Decoration` and `Argument` objects, and the location is no longer optional. Rearrange the argument the Python classes such that the `location` argument comes first, always"
 author = "@NiklasRosenstein"
+
+[[entries]]
+id = "eebe19e0-6339-4d9f-acdc-838c0b29ffe2"
+type = "breaking change"
+description = "remove `file` argument from `docspec-python` CLI"
+author = "@NiklasRosenstein"
