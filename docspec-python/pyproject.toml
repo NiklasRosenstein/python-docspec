@@ -11,7 +11,7 @@ packages = [{ include = "docspec_python", from="src" }]
   [tool.poetry.dependencies]
   python = "^3.7"
   docspec = "^1.3.0"
-  "nr.util" = "^0.6.6"
+  "nr.util" = ">=0.7.0"
 
   [tool.poetry.dev-dependencies]
   mypy = "*"

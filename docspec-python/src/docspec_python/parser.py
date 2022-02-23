@@ -29,7 +29,7 @@ import re
 import textwrap
 import typing as t
 
-from nr.util.scanner import Scanner
+from nr.util.iter import SequenceWalker
 
 from docspec import (
   Argument,
@@ -267,7 +267,7 @@ class Parser:
       return_type=return_,
       decorations=decorations)
 
-  def parse_argument(self, node: t.Union[Leaf, Node, None], argtype: Argument.Type, scanner: 'Scanner[Leaf | Node]') -> Argument:
+  def parse_argument(self, node: t.Union[Leaf, Node, None], argtype: Argument.Type, scanner: 'SequenceWalker[Leaf | Node]') -> Argument:
     """
     Parses an argument from the AST. *node* must be the current node at
     the current position of the *scanner*. The scanner is used to extract
@@ -276,7 +276,7 @@ class Parser:
 
     def parse_annotated_name(node):
       if node.type == syms.tname:
-        scanner = Scanner(node.children)
+        scanner = SequenceWalker(node.children)
         name = scanner.current.value
         node = scanner.next()
         assert node.type == token.COLON, node.parent
@@ -312,7 +312,7 @@ class Parser:
       #   not get wrapped in a `typedargslist`, but in a single `tname`.
       tname = find(lambda x: x.type == syms.tname, parameters.children)
       if tname:
-        scanner = Scanner(parameters.children, parameters.children.index(tname))
+        scanner = SequenceWalker(parameters.children, parameters.children.index(tname))
         result.append(self.parse_argument(tname, Argument.Type.POSITIONAL, scanner))
       else:
         # This must be either ["(", ")"] or ["(", "argname", ")"].
@@ -323,7 +323,7 @@ class Parser:
 
     argtype = Argument.Type.POSITIONAL
 
-    index = Scanner(arglist.children)
+    index = SequenceWalker(arglist.children)
     for node in index.safe_iter():
       node = index.current
 
@@ -372,7 +372,7 @@ class Parser:
   def parse_classdef_rawargs(self, classdef):
     metaclass = None
     bases = []
-    index = Scanner(classdef.children, 2)
+    index = SequenceWalker(classdef.children, 2)
     if index.current.type == token.LPAR:
       index.next()
       while index.current.type != token.RPAR:
