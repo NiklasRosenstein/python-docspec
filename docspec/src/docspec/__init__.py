@@ -79,13 +79,13 @@ class Docstring:
   #Docstring value directory.
   """
 
+  #: The location of where the docstring is defined.
+  location: Location = dataclasses.field(repr=False)
+
   #: The content of the docstring. While the #Docstring class is a subclass of `str` and holds
   #: the same value as *content*, using the #content property should be preferred as the inheritance
   #: from the `str` class may be removed in future versions.
   content: str
-
-  #: The location of where the docstring is defined.
-  location: t.Optional[Location]
 
 
 @dataclasses.dataclass
@@ -93,6 +93,9 @@ class Decoration:
   """
   Represents a decorator on a #Class or #Function.
   """
+
+  #: The location of the decoration in the source code.
+  location: Location = dataclasses.field(repr=False)
 
   #: The name of the decorator (i.e. the text between the `@` and `(`). In languages that support it,
   #: this may be a piece of code.
@@ -102,9 +105,6 @@ class Decoration:
   #: `None` when the decorator does not have call arguments. This is deprecated in favor of #arglist.
   #: For backwards compatibility, loaders may populate both the #args and #arglist fields.
   args: t.Optional[str] = None
-
-  #: The location of the decoration in the source code.
-  location: t.Optional[Location] = None
 
   #: Decorator arguments, one item per argument. For keyword arguments, the keyword name and equals
   #: sign preceed the argument value expression code.
@@ -153,6 +153,9 @@ class Argument:
   Type.KeywordOnly = Type.KEYWORD_ONLY
   Type.KeywordRemainder = Type.KEYWORD_REMAINDER
 
+  #: The location of the argument in the source code.
+  location: Location = dataclasses.field(repr=False)
+
   #: The name of the argument.
   name: str
 
@@ -169,9 +172,6 @@ class Argument:
   #: The default value of the argument as a code string.
   default_value: t.Optional[str] = None
 
-  #: The location of the argument in the source code.
-  location: t.Optional[Location] = None
-
 
 @dataclasses.dataclass
 class ApiObject:
@@ -180,14 +180,14 @@ class ApiObject:
   be that a variable/constant, function, class or module.
   """
 
+  #: The location of the API object, i.e. where it is sourced from/defined in the code.
+  location: Location = dataclasses.field(repr=False)
+
   #: The name of the entity. This is usually relative to the respective parent of the entity,
   #: as opposed to it's fully qualified name/absolute name. However, that is more of a
   #: recommendation than rule. For example the #docspec_python loader by default returns
   #: #Module objects with their full module name (and does not create a module hierarchy).
   name: str
-
-  #: The location of the API object, i.e. where it is sourced from/defined in the code.
-  location: t.Optional[Location] = dataclasses.field(repr=False)
 
   #: The documentation string of the API object.
   docstring: t.Optional[Docstring] = dataclasses.field(repr=False)

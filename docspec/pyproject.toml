@@ -28,8 +28,8 @@ packages = [{include="docspec", from="src"}]
 typed = true
 
   [tool.slam.test]
-  pytest = "pytest test/"
-  mypy = "mypy src/"
+  pytest = "pytest test/ -vv"
+  mypy = "mypy src/ test/ --check-untyped-defs"
 
 [build-system]
 requires = ["poetry-core"]

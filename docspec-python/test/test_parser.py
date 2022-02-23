@@ -30,12 +30,14 @@ from typing import List, Optional
 import pytest
 import sys
 
+loc = Location('<string>', 0, None)
+
 
 def mkfunc(name: str, docstring: Optional[str], lineno: int, args: List[Argument]) -> Function:
   return Function(
     name=name,
-    location=None,
-    docstring=Docstring(docstring, Location(get_callsite().code_name, lineno)) if docstring else None,
+    location=loc,
+    docstring=Docstring(Location(get_callsite().code_name, lineno), docstring) if docstring else None,
     modifiers=None,
     args=args,
     return_type=None,
@@ -44,12 +46,15 @@ def mkfunc(name: str, docstring: Optional[str], lineno: int, args: List[Argument
 
 
 def unset_location(obj: ApiObject):
-  obj.location = None
+  obj.location = loc
   #if obj.docstring:
   #  obj.docstring = Docstring(obj.docstring.content, None)
   if isinstance(obj, HasMembers):
     for member in obj.members:
       unset_location(member)
+  if isinstance(obj, Function):
+    for arg in obj.args:
+      arg.location = loc
 
 
 def docspec_test(module_name=None, parser_options=None, strip_locations: bool = True):
@@ -66,10 +71,10 @@ def docspec_test(module_name=None, parser_options=None, strip_locations: bool = 
         options=parser_options,
         filename=func.__name__,
       )
-      parsed_module.location = None
+      parsed_module.location = loc
       if strip_locations:
         unset_location(parsed_module)
-      reference_module = Module(name=parsed_module.name, location=None, docstring=None, members=func(*args, **kwargs))
+      reference_module = Module(name=parsed_module.name, location=loc, docstring=None, members=func(*args, **kwargs))
       assert dumps(dump_module(reference_module), indent=2) == dumps(dump_module(parsed_module), indent=2)
     return wrapper
   return decorator
@@ -85,8 +90,8 @@ def test_funcdef_1():
   return [
     Function(
       name='a',
-      location=None,
-      docstring=Docstring('A simple function.', Location('test_funcdef_1', 2)),
+      location=loc,
+      docstring=Docstring(Location('test_funcdef_1', 2), 'A simple function.'),
       modifiers=None,
       args=[],
       return_type=None,
@@ -104,13 +109,13 @@ def test_funcdef_2():
   return [
     Function(
       name='b',
-      location=None,
-      docstring=Docstring('This uses annotations and keyword-only arguments.', Location('test_funcdef_2', 2)),
+      location=loc,
+      docstring=Docstring(Location('test_funcdef_2', 2), 'This uses annotations and keyword-only arguments.'),
       modifiers=None,
       args=[
-        Argument('a', Argument.Type.POSITIONAL, None, 'int', None),
-        Argument('c', Argument.Type.KEYWORD_ONLY, None, 'str', None),
-        Argument('opts', Argument.Type.KEYWORD_REMAINDER, None, 'Any', None),
+        Argument(loc, 'a', Argument.Type.POSITIONAL, None, 'int', None),
+        Argument(loc, 'c', Argument.Type.KEYWORD_ONLY, None, 'str', None),
+        Argument(loc, 'opts', Argument.Type.KEYWORD_REMAINDER, None, 'Any', None),
       ],
       return_type='None',
       decorations=[],
@@ -130,20 +135,20 @@ def test_funcdef_3():
   return [
     Function(
       name='c',
-      location=None,
-      docstring=Docstring('More arg variations.', Location('test_funcdef_3', 4)),
+      location=loc,
+      docstring=Docstring(Location('test_funcdef_3', 4), 'More arg variations.'),
       modifiers=None,
       args=[
-        Argument('self', Argument.Type.POSITIONAL, None, None, None),
-        Argument('a', Argument.Type.POSITIONAL, None, 'int', None),
-        Argument('b', Argument.Type.POSITIONAL, None, None, None),
-        Argument('args', Argument.Type.POSITIONAL_REMAINDER, None, None, None),
-        Argument('opt', Argument.Type.KEYWORD_ONLY, None, 'str', None),
+        Argument(loc, 'self', Argument.Type.POSITIONAL, None, None, None),
+        Argument(loc, 'a', Argument.Type.POSITIONAL, None, 'int', None),
+        Argument(loc, 'b', Argument.Type.POSITIONAL, None, None, None),
+        Argument(loc, 'args', Argument.Type.POSITIONAL_REMAINDER, None, None, None),
+        Argument(loc, 'opt', Argument.Type.KEYWORD_ONLY, None, 'str', None),
       ],
       return_type='Optional[int]',
       decorations=[
-        Decoration('classmethod', None),
-        Decoration('db_session', '(sql_debug=True)'),
+        Decoration(Location('test_funcdef_3', 2), 'classmethod', None),
+        Decoration(Location('test_funcdef_3', 3), 'db_session', '(sql_debug=True)'),
       ],
     )
   ]
@@ -159,13 +164,13 @@ def test_funcdef_4():
   return [
     Function(
       name='fun',
-      location=None,
+      location=loc,
       docstring=None,
       modifiers=None,
       args=[
-        Argument('project_name', Argument.Type.POSITIONAL, None, None, None),
-        Argument('project_type', Argument.Type.POSITIONAL, None, None, None),
-        Argument('port', Argument.Type.POSITIONAL, None, None, '8001'),
+        Argument(loc, 'project_name', Argument.Type.POSITIONAL, None, None, None),
+        Argument(loc, 'project_type', Argument.Type.POSITIONAL, None, None, None),
+        Argument(loc, 'port', Argument.Type.POSITIONAL, None, None, '8001'),
       ],
       return_type=None,
       decorations=[],
@@ -196,7 +201,7 @@ def test_funcdef_5_single_stmt():
     return self.foo
   """
 
-  args = [Argument('self', Argument.Type.POSITIONAL, None, None, None)]
+  args = [Argument(loc, 'self', Argument.Type.POSITIONAL, None, None, None)]
   return [
     mkfunc('func1', None, 1, args),
     mkfunc('func2', 'ABC\nDEF', 4, args),
@@ -226,23 +231,23 @@ def test_funcdef_6_starred_args():
 
   return [
     mkfunc('func1', None, 0, [
-      Argument('a', Argument.Type.POSITIONAL, None, None, None),
-      Argument('b', Argument.Type.KEYWORD_ONLY, None, None, None),
-      Argument('c', Argument.Type.KEYWORD_REMAINDER, None, None, None),
+      Argument(loc, 'a', Argument.Type.POSITIONAL, None, None, None),
+      Argument(loc, 'b', Argument.Type.KEYWORD_ONLY, None, None, None),
+      Argument(loc, 'c', Argument.Type.KEYWORD_REMAINDER, None, None, None),
     ]),
     mkfunc('func2', 'Docstring goes here.', 4, [
-      Argument('args', Argument.Type.POSITIONAL_REMAINDER, None, None, None),
-      Argument('kwargs', Argument.Type.KEYWORD_REMAINDER, None, None, None),
+      Argument(loc, 'args', Argument.Type.POSITIONAL_REMAINDER, None, None, None),
+      Argument(loc, 'kwargs', Argument.Type.KEYWORD_REMAINDER, None, None, None),
     ]),
     mkfunc('func3', 'Docstring goes here.', 7, [
-      Argument('kwargs', Argument.Type.KEYWORD_REMAINDER, None, None, None),
+      Argument(loc, 'kwargs', Argument.Type.KEYWORD_REMAINDER, None, None, None),
     ]),
     mkfunc('func4', 'Docstring goes here', 10, [
-      Argument('abc', Argument.Type.POSITIONAL, None, None, None),
+      Argument(loc, 'abc', Argument.Type.POSITIONAL, None, None, None),
     ]),
     mkfunc('func5', 'Docstring goes here', 13, [
-      Argument('abc', Argument.Type.POSITIONAL, None, None, None),
-      Argument('kwonly', Argument.Type.KEYWORD_ONLY, None, None, None),
+      Argument(loc, 'abc', Argument.Type.POSITIONAL, None, None, None),
+      Argument(loc, 'kwonly', Argument.Type.KEYWORD_ONLY, None, None, None),
     ]),
   ]
 
@@ -258,22 +263,22 @@ def test_funcdef_7_posonly_args():
 
   return [
     mkfunc('func1', None, 1, [
-      Argument('x', Argument.Type.POSITIONAL_ONLY),
-      Argument('y', Argument.Type.POSITIONAL_ONLY, default_value='3'),
-      Argument('z', Argument.Type.POSITIONAL, default_value='5'),
-      Argument('w', Argument.Type.POSITIONAL, default_value='7'),
+      Argument(loc, 'x', Argument.Type.POSITIONAL_ONLY),
+      Argument(loc, 'y', Argument.Type.POSITIONAL_ONLY, default_value='3'),
+      Argument(loc, 'z', Argument.Type.POSITIONAL, default_value='5'),
+      Argument(loc, 'w', Argument.Type.POSITIONAL, default_value='7'),
     ]),
     mkfunc('func2', None, 2, [
-      Argument('x', Argument.Type.POSITIONAL_ONLY),
-      Argument('v', Argument.Type.POSITIONAL_REMAINDER),
-      Argument('a', Argument.Type.KEYWORD_ONLY, default_value='1'),
-      Argument('b', Argument.Type.KEYWORD_ONLY, default_value='2'),
+      Argument(loc, 'x', Argument.Type.POSITIONAL_ONLY),
+      Argument(loc, 'v', Argument.Type.POSITIONAL_REMAINDER),
+      Argument(loc, 'a', Argument.Type.KEYWORD_ONLY, default_value='1'),
+      Argument(loc, 'b', Argument.Type.KEYWORD_ONLY, default_value='2'),
     ]),
     mkfunc('func3', None, 3, [
-      Argument('x', Argument.Type.POSITIONAL_ONLY),
-      Argument('a', Argument.Type.KEYWORD_ONLY, default_value='1'),
-      Argument('b', Argument.Type.KEYWORD_ONLY, default_value='2'),
-      Argument('kwargs', Argument.Type.KEYWORD_REMAINDER),
+      Argument(loc, 'x', Argument.Type.POSITIONAL_ONLY),
+      Argument(loc, 'a', Argument.Type.KEYWORD_ONLY, default_value='1'),
+      Argument(loc, 'b', Argument.Type.KEYWORD_ONLY, default_value='2'),
+      Argument(loc, 'kwargs', Argument.Type.KEYWORD_REMAINDER),
     ]),
   ]
 
@@ -302,7 +307,7 @@ def test_classdef_1_exceptions():
   return [
     Class(
       name='MyError1',
-      location=None,
+      location=loc,
       docstring=None,
       metaclass=None,
       bases=[],
@@ -311,7 +316,7 @@ def test_classdef_1_exceptions():
     ),
     Class(
       name='MyError2',
-      location=None,
+      location=loc,
       docstring=None,
       metaclass=None,
       bases=[],
@@ -320,7 +325,7 @@ def test_classdef_1_exceptions():
     ),
     Class(
       name='MyError3',
-      location=None,
+      location=loc,
       docstring=None,
       metaclass=None,
       bases=['RuntimeError'],
@@ -329,7 +334,7 @@ def test_classdef_1_exceptions():
     ),
     Class(
       name='MyError4',
-      location=None,
+      location=loc,
       docstring=None,
       metaclass='ABCMeta',
       bases=['RuntimeError', 'object'],
@@ -338,7 +343,7 @@ def test_classdef_1_exceptions():
     ),
     Class(
       name='MyError5',
-      location=None,
+      location=loc,
       docstring=None,
       metaclass='ABCMeta',
       bases=[],
@@ -347,7 +352,7 @@ def test_classdef_1_exceptions():
     ),
     Class(
       name='MyError6',
-      location=None,
+      location=loc,
       docstring=None,
       metaclass='ABCMeta',
       bases=['RuntimeError'],
@@ -382,25 +387,25 @@ def test_indirections():
   """
 
   return [
-    Indirection('os', Location('test_indirections', 2), None, 'os'),
-    Indirection('r', Location('test_indirections', 3), None, 'urllib.request'),
-    Indirection('path', Location('test_indirections', 4), None, 'os.path'),
-    Indirection('sys', Location('test_indirections', 4), None, 'sys'),
-    Indirection('P', Location('test_indirections', 4), None, 'pathlib'),
-    Indirection('platform', Location('test_indirections', 5), None, 'sys.platform'),
-    Indirection('EXE', Location('test_indirections', 5), None, 'sys.executable'),
-    Indirection('*', Location('test_indirections', 6), None, 'os.path.*'),
-    Indirection('PP', Location('test_indirections', 8), None, 'pathlib.PurePath'),
-    Indirection('PosixPath', Location('test_indirections', 9), None, 'pathlib.PosixPath'),
-    Indirection('core', Location('test_indirections', 11), None, '..core'),
-    Indirection('Widget', Location('test_indirections', 12), None, '..core.Widget'),
-    Indirection('View', Location('test_indirections', 12), None, '..core.View'),
-    Indirection('pkg_resources', Location('test_indirections', 13), None, '.vendor.pkg_resources'),
-    Indirection('six', Location('test_indirections', 13), None, '.vendor.six'),
-    Indirection('*', Location('test_indirections', 14), None, '...api.*'),
-    Function('foo', Location('test_indirections', 15), None, None, [], None, []),
-    Class('bar', Location('test_indirections', 17), None, None, [], None, [
-      Indirection('os', Location('test_indirections', 18), None, 'os'),
-      Indirection('dirname', Location('test_indirections', 19), None, 'os.path.dirname'),
+    Indirection(Location('test_indirections', 2), 'os', None, 'os'),
+    Indirection(Location('test_indirections', 3), 'r', None, 'urllib.request'),
+    Indirection(Location('test_indirections', 4), 'path', None, 'os.path'),
+    Indirection(Location('test_indirections', 4), 'sys', None, 'sys'),
+    Indirection(Location('test_indirections', 4), 'P', None, 'pathlib'),
+    Indirection(Location('test_indirections', 5), 'platform', None, 'sys.platform'),
+    Indirection(Location('test_indirections', 5), 'EXE', None, 'sys.executable'),
+    Indirection(Location('test_indirections', 6), '*', None, 'os.path.*'),
+    Indirection(Location('test_indirections', 8), 'PP', None, 'pathlib.PurePath'),
+    Indirection(Location('test_indirections', 9), 'PosixPath', None, 'pathlib.PosixPath'),
+    Indirection(Location('test_indirections', 11), 'core', None, '..core'),
+    Indirection(Location('test_indirections', 12), 'Widget', None, '..core.Widget'),
+    Indirection(Location('test_indirections', 12), 'View', None, '..core.View'),
+    Indirection(Location('test_indirections', 13), 'pkg_resources', None, '.vendor.pkg_resources'),
+    Indirection(Location('test_indirections', 13), 'six', None, '.vendor.six'),
+    Indirection(Location('test_indirections', 14), '*', None, '...api.*'),
+    Function(Location('test_indirections', 15), 'foo', None, None, [], None, []),
+    Class(Location('test_indirections', 17), 'bar', None, None, [], None, [
+      Indirection(Location('test_indirections', 18), 'os', None, 'os'),
+      Indirection(Location('test_indirections', 19), 'dirname', None, 'os.path.dirname'),
     ])
   ]

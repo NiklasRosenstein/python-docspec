@@ -4,66 +4,105 @@ import typing as t
 import weakref
 from .fixtures import module, typed_module
 
+loc = docspec.Location('<string>', 0)
+s_loc = {'filename': '<string>', 'lineno': 0}
+
 
 def test_serialize_typed(typed_module: docspec.Module):
   assert docspec.dump_module(typed_module) == {
-    'docstring': None,
-    'location': {'filename': 'test.py',
-                  'lineno': 0},
-    'members': [{'docstring': None,
-                  'location': {'filename': 'test.py',
-                              'lineno': 1},
-                  'name': 'Union',
-                  'target': 'typing.Union',
-                  'type': 'indirection'},
-                {'bases': None,
-                  'decorations': None,
-                  'docstring': { 'content': 'This is class foo.', 'location': { 'filename': 'test.py', 'lineno': 3 } },
-                  'location': {'filename': 'test.py',
-                              'lineno': 2},
-                  'members': [{'datatype': 'Union[int, float]',
-                              'docstring': None,
-                              'location': {'filename': 'test.py',
-                                            'lineno': 4},
-                              'name': 'val',
-                              'type': 'data',
-                              'value': '42'},
-                              {'args': [{'name': 'self',
-                                        'type': 'POSITIONAL'}],
-                              'decorations': None,
-                              'docstring': None,
-                              'location': {'filename': 'test.py',
-                                            'lineno': 5},
-                              'modifiers': None,
-                              'name': '__init__',
-                              'return_type': None,
-                              'type': 'function'}],
-                  'metaclass': None,
-                  'name': 'foo',
-                  'type': 'class'}],
-    'name': 'a',
+    "docstring": None,
+    "location": {
+      "filename": "test.py",
+      "lineno": 0
+    },
+    "members": [
+      {
+        "docstring": None,
+        "location": {
+          "filename": "test.py",
+          "lineno": 1
+        },
+        "name": "Union",
+        "target": "typing.Union",
+        "type": "indirection"
+      },
+      {
+        "bases": None,
+        "decorations": None,
+        "docstring": {
+          "content": "This is class foo.",
+          "location": {
+            "filename": "test.py",
+            "lineno": 3
+          }
+        },
+        "location": {
+          "filename": "test.py",
+          "lineno": 2
+        },
+        "members": [
+          {
+            "datatype": "Union[int, float]",
+            "docstring": None,
+            "location": {
+              "filename": "test.py",
+              "lineno": 4
+            },
+            "name": "val",
+            "type": "data",
+            "value": "42"
+          },
+          {
+            "args": [
+              {
+                "name": "self",
+                "type": "POSITIONAL",
+                "location": {
+                  "filename": "test.py",
+                  "lineno": 5
+                }
+              }
+            ],
+            "decorations": None,
+            "docstring": None,
+            "location": {
+              "filename": "test.py",
+              "lineno": 5
+            },
+            "modifiers": None,
+            "name": "__init__",
+            "return_type": None,
+            "type": "function"
+          }
+        ],
+        "metaclass": None,
+        "name": "foo",
+        "type": "class"
+      }
+    ],
+    "name": "a"
   }
 
 
 def test_serialize(module: docspec.Module):
   assert docspec.dump_module(module) == {
     'name': 'a',
-    'location': None,
+    'location': s_loc,
     'docstring': None,
     'members': [
       {
         'type': 'class',
         'name': 'foo',
-        'location': None,
+        'location': s_loc,
         'docstring': {
           'content': 'This is class foo.',
-          'location': None,
+          'location': s_loc,
         },
         'members': [
           {
             'type': 'data',
             'name': 'val',
-            'location': None,
+            'location': s_loc,
             'docstring': None,
             'datatype': 'int',
             'value': '42',
@@ -71,11 +110,12 @@ def test_serialize(module: docspec.Module):
           {
             'type': 'function',
             'name': '__init__',
-            'location': None,
+            'location': s_loc,
             'docstring': None,
             'modifiers': None,
             'args': [
               {
+                'location': s_loc,
                 'name': 'self',
                 'type': 'POSITIONAL',
               }
@@ -120,19 +160,20 @@ def test_serialize_deserialize(module: docspec.Module):
 def test_deserialize_old_function_argument_types():
   payload = {
     'name': 'a',
-    'location': None,
+    'location': s_loc,
     'docstring': None,
     'members': [
       {
         'type': 'function',
         'name': 'bar',
-        'location': None,
+        'location': s_loc,
         'docstring': None,
         'modifiers': None,
         'return_type': None,
         'decorations': None,
         'args': [
           {
+            'location': s_loc,
             'name': 'n',
             'datatype': 'int',
             'type': 'Positional'
@@ -143,18 +184,19 @@ def test_deserialize_old_function_argument_types():
   }
   assert docspec.load_module(payload) == docspec.Module(
     name='a',
-    location=None,
+    location=loc,
     docstring=None,
     members=[
       docspec.Function(
         name='bar',
-        location=None,
+        location=loc,
         docstring=None,
         modifiers=None,
         return_type=None,
         decorations=None,
         args=[
           docspec.Argument(
+            location=loc,
             name='n',
             datatype='int',
             type=docspec.Argument.Type.POSITIONAL

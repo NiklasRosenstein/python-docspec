@@ -21,14 +21,13 @@ Docstring:
   type: struct
   docs: Represents the documentation string of an API object.
   fields:
+    location:
+      type: Location
+      docs: The location where the docstring is defined. This points at the position of
+        the first character in the *content* field.
     content:
       type: str
       docs: The content of the docstring.
-    location:
-      type: Optional[Location]
-      required: false
-      docs: The location where the docstring is defined. This points at the position of
-        the first character in the *content* field.
 
 Indirection:
   type: struct
@@ -38,13 +37,12 @@ Indirection:
     type:
       type: str
       docs: The value is `"indirection"`.
+    location:
+      type: Location
+      docs: The location where the indirection is defined.
     name:
       type: str
       docs: The name that is made available in the scope of the parent object.
-    location:
-      type: Optional[Location]
-      required: false
-      docs: The location where the indirection is defined.
     target:
       type: str
       docs: The target to which the name points. In the case of Python for example this
@@ -58,13 +56,12 @@ Variable:
     type:
       type: str
       docs: The value is `"data"`.
+    location:
+      type: Location
+      docs: The location where the variable or constant is defined.
     name:
       type: str
       docs: The name of the variable or constant.
-    location:
-      type: Optional[Location]
-      required: false
-      docs: The location where the variable or constant is defined.
     docstring:
       type: Optional[Docstring]
       required: false
@@ -99,12 +96,15 @@ Argument:
   type: struct
   docs: Represents a function argument.
   fields:
-    type:
-      type: ArgumentType
-      docs: The type of argument.
+    location:
+      type: Location
+      docs: The location of the decoration in the source code.
     name:
       type: str
       docs: The name of the argument.
+    type:
+      type: ArgumentType
+      docs: The type of argument.
     datatype:
       type: Optional[str]
       required: false
@@ -113,10 +113,6 @@ Argument:
       type: Optional[str]
       required: false
       docs: The default value of the argument as a code string.
-    location:
-      type: Optional[Location]
-      required: false
-      docs: The location of the decoration in the source code.
 
 ArgumentType:
   type: enum
@@ -135,6 +131,9 @@ Decoration:
   type: struct
   docs: Represents a decoration that can be applied to a function or class.
   fields:
+    location:
+      type: Location
+      docs: The location of the decoration in the source code.
     name:
       type: str
       docs: The name of the decorator used in this decoration. This may be a piece of code in languages
@@ -145,10 +144,6 @@ Decoration:
       required: false
       docs: Deprecated in favor of `arglist`. A single string that represents the entirety of the argument list
         for the decorator, excluding the surroinding parentheses.
-    location:
-      type: Optional[Location]
-      required: false
-      docs: The location of the decoration in the source code.
     arglist:
       type: Optional[List[str]]
       required: false
@@ -164,12 +159,11 @@ Function:
     type:
       type: str
       docs: Value is `"function"`
+    location:
+      type: Location
     name:
       type: str
       docs: The name of the function.
-    location:
-      type: Optional[Location]
-      required: false
     docstring:
       type: Optional[Docstring]
       required: false
@@ -214,12 +208,11 @@ Class:
     type:
       type: str
       docs: The value is `"class"`.
+    location:
+      type: Location
     name:
       type: str
       docs: The name of the class.
-    location:
-      type: Optional[Location]
-      required: false
     docstring:
       type: Optional[Docstring]
       required: false
@@ -264,13 +257,12 @@ Module:
     type:
       type: str
       docs: The value is `"module"`.
+    location:
+      type: Location
+      docs: The location of the module. Usually the line number will be `0`.
     name:
       type: str
       docs: The name of the module. The name is supposed to be relative to the parent.
-    location:
-      type: Optional[Location]
-      required: false
-      docs: The location of the module. Usually the line number will be `0`.
     docstring:
       type: Optional[Docstring]
       required: false

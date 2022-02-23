@@ -64,3 +64,9 @@ id = "a313a23b-5ddb-4057-a251-bc4ccb6d32c4"
 type = "breaking change"
 description = "`Location.filename` is no longer optional as per the specification"
 author = "@NiklasRosenstein"
+
+[[entries]]
+id = "db9fab76-4f70-40f0-ad53-afe3a0ddcedb"
+type = "breaking change"
+description = "harden requirements of spec by requiring a `location` even on `Decoration` and `Argument` objects, and the location is no longer optional. Rearrange the argument the Python classes such that the `location` argument comes first, always"
+author = "@NiklasRosenstein"

@@ -179,12 +179,12 @@ class Parser:
       if node.type == syms.dotted_as_name:  # example: urllib.request as r
         target = self.name_to_string(node.children[0])
         name = self.name_to_string(node.children[2])
-        return Indirection(name, self.location_from(node), None, target)
+        return Indirection(self.location_from(node),name, None, target)
       elif node.type == syms.dotted_name:  # example os.path
         name = self.name_to_string(node)
-        return Indirection(name.split('.')[-1], self.location_from(node), None, name)
+        return Indirection(self.location_from(node), name.split('.')[-1], None, name)
       elif isinstance(node, Leaf):
-        return Indirection(node.value, self.location_from(node), None, node.value)
+        return Indirection(self.location_from(node), node.value, None, node.value)
       else:
         raise RuntimeError(f'cannot handle {node!r}')
 
@@ -192,12 +192,12 @@ class Parser:
       if node.type == syms.import_as_name:  # example: Widget as W
         target = self.name_to_string(node.children[0])
         name = self.name_to_string(node.children[2])
-        return Indirection(name, self.location_from(node), None, prefix + '.' + target)
+        return Indirection(self.location_from(node), name, None, prefix + '.' + target)
       elif isinstance(node, Leaf):  # example: Widget
         name = self.name_to_string(node)
         if not prefix.endswith('.'):
           prefix += '.'
-        return Indirection(name, self.location_from(node), None, prefix + name)
+        return Indirection(self.location_from(node), name, None, prefix + name)
       else:
         raise RuntimeError(f'cannot handle {node!r}')
 
@@ -245,7 +245,7 @@ class Parser:
     assert node.children[0].value == '@'
     name = self.name_to_string(node.children[1])
     call_expr = self.nodes_to_string(node.children[2:]).strip()
-    return Decoration(name=name, args=call_expr or None)
+    return Decoration(location=self.location_from(node), name=name, args=call_expr or None)
 
   def parse_funcdef(self, parent, node, is_async, decorations):
     parameters = find(lambda x: x.type == syms.parameters, node.children)
@@ -290,6 +290,7 @@ class Parser:
       return (name, annotation)
 
     assert node is not None
+    location = self.location_from(node)
     name, annotation = parse_annotated_name(node)
     assert name not in '/*', repr(node)
 
@@ -300,7 +301,13 @@ class Parser:
       default = self.nodes_to_string([node])
       scanner.advance()
 
-    return Argument(name, argtype, None, annotation, default)
+    return Argument(
+      location=location,
+      name=name,
+      type=argtype,
+      datatype=annotation,
+      default_value=default,
+    )
 
   def parse_parameters(self, parameters):
     assert parameters.type == syms.parameters, parameters.type
@@ -318,7 +325,14 @@ class Parser:
         # This must be either ["(", ")"] or ["(", "argname", ")"].
         assert len(parameters.children) in (2, 3), parameters.children
         if len(parameters.children) == 3:
-          result.append(Argument(parameters.children[1].value, Argument.Type.POSITIONAL, None, None, None))
+          result.append(Argument(
+            location=self.location_from(parameters.children[1]),
+            name=parameters.children[1].value,
+            type=Argument.Type.POSITIONAL,
+            decorations=None,
+            datatype=None,
+            default_value=None,
+          ))
       return result
 
     argtype = Argument.Type.POSITIONAL
@@ -534,11 +548,11 @@ class Parser:
         else:
           line = line[1:]
         lines.append(line.lstrip())
-      return Docstring('\n'.join(lines).strip(), location)
+      return Docstring(location, '\n'.join(lines).strip())
     if s.startswith('"""') or s.startswith("'''"):
-      return Docstring(dedent_docstring(s[3:-3]).strip(), location)
+      return Docstring(location, dedent_docstring(s[3:-3]).strip())
     if s.startswith('"') or s.startswith("'"):
-      return Docstring(dedent_docstring(s[1:-1]).strip(), location)
+      return Docstring(location, dedent_docstring(s[1:-1]).strip())
     return None
 
   def nodes_to_string(self, nodes):

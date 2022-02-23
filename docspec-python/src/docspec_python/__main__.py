@@ -30,7 +30,6 @@ def main():
     formatter_class=lambda prog: argparse.HelpFormatter(prog, max_help_position=34, width=100),
   )
   group = parser.add_argument_group('input options')
-  group.add_argument('file', nargs='*', help='python source file to parse (pass "-" for stdin).')
   group.add_argument('-m', '--module', action='append', metavar='MODULE', help='parse the specified module.')
   group.add_argument('-p', '--package', action='append', metavar='MODULE', help='parse the specified module and submodules.')
   group.add_argument('-I', '--search-path', metavar='PATH', action='append', help='override the module search path. defaults to sys.path.')
@@ -75,7 +74,7 @@ def main():
     print_function=not args.python2,
     treat_singleline_comment_blocks_as_docstrings=args.treat_singleline_comment_blocks_as_docstrings,
   )
-  modules = load_python_modules(args.module, args.package, args.file, args.search_path, options)
+  modules = load_python_modules(args.module, args.package, args.search_path, options)
 
   if args.list:
     for module in sorted(modules, key=lambda x: x.name):

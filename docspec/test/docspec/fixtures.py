@@ -2,14 +2,16 @@
 import docspec
 import pytest
 
+loc = docspec.Location('<string>', 0, None)
+
 
 @pytest.fixture
 def module() -> docspec.Module:
-  module = docspec.Module('a', None, None, [
-    docspec.Class('foo', None, docspec.Docstring('This is class foo.', None), None, None, None, [
-      docspec.Variable('val', None, None, 'int', '42'),
-      docspec.Function('__init__', None, None, None, [
-        docspec.Argument('self', docspec.Argument.Type.POSITIONAL, None, None, None)
+  module = docspec.Module(loc, 'a', None, [
+    docspec.Class(loc, 'foo', docspec.Docstring(loc, 'This is class foo.'), None, None, None, [
+      docspec.Variable(loc, 'val', None, 'int', '42'),
+      docspec.Function(loc, '__init__', None, None, [
+        docspec.Argument(loc, 'self', docspec.Argument.Type.POSITIONAL)
       ], None, None),
     ]),
   ])
@@ -19,12 +21,12 @@ def module() -> docspec.Module:
 
 @pytest.fixture
 def typed_module() -> docspec.Module:
-  module = docspec.Module('a', docspec.Location('test.py', 0), None, [
-    docspec.Indirection('Union', docspec.Location('test.py', 1), None, 'typing.Union'),
-    docspec.Class('foo', docspec.Location('test.py', 2), docspec.Docstring('This is class foo.', docspec.Location('test.py', 3)), None, None, None, [
-      docspec.Variable('val', docspec.Location('test.py', 4), None, 'Union[int, float]', '42'),
-      docspec.Function('__init__', docspec.Location('test.py', 5), None, None, [
-        docspec.Argument('self', docspec.Argument.Type.POSITIONAL, None, None, None)
+  module = docspec.Module(docspec.Location('test.py', 0), 'a', None, [
+    docspec.Indirection(docspec.Location('test.py', 1), 'Union', None, 'typing.Union'),
+    docspec.Class(docspec.Location('test.py', 2), 'foo', docspec.Docstring(docspec.Location('test.py', 3), 'This is class foo.'), None, None, None, [
+      docspec.Variable(docspec.Location('test.py', 4), 'val', None, 'Union[int, float]', '42'),
+      docspec.Function(docspec.Location('test.py', 5), '__init__', None, None, [
+        docspec.Argument(docspec.Location('test.py', 5), 'self', docspec.Argument.Type.POSITIONAL)
       ], None, None),
     ]),
   ])
