@@ -78,13 +78,13 @@ class Docstring:
   #Docstring value directory.
   """
 
-  #: The location of where the docstring is defined.
-  location: t.Optional[Location]
-
   #: The content of the docstring. While the #Docstring class is a subclass of `str` and holds
   #: the same value as *content*, using the #content property should be preferred as the inheritance
   #: from the `str` class may be removed in future versions.
   content: str
+
+  #: The location of where the docstring is defined.
+  location: t.Optional[Location]
 
 
 @dataclasses.dataclass
