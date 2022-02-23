@@ -29,8 +29,11 @@ __all__ = [
   'ApiObject',
   'Indirection',
   'HasMembers',
+  'VariableSemantic',
   'Variable',
+  'FunctionSemantic',
   'Function',
+  'ClassSemantic',
   'Class',
   'Module',
   'load_module',
@@ -242,25 +245,28 @@ class ApiObject:
     self.parent = parent
 
 
+class VariableSemantic(enum.Enum):
+  """
+  A list of well-known properties and behaviour that can be attributed to a variable/constant.
+  """
+
+  #: The #Variable object is an instance variable of a class.
+  INSTANCE_VARIABLE = 0
+
+  #: The #Variable object is a static variable of a class.
+  CLASS_VARIABLE = 1
+
+  #: The #Variable object represents a constant value.
+  CONSTANT = 2
+
+
 @dataclasses.dataclass
 class Variable(ApiObject):
   """
   Represents a variable assignment (e.g. for global variables (often used as constants) or class members).
   """
 
-  class Semantic(enum.Enum):
-    """
-    A list of well-known properties and behaviour that can be attributed to a variable/constant.
-    """
-
-    #: The #Variable object is an instance variable of a class.
-    INSTANCE_VARIABLE = 0
-
-    #: The #Variable object is a static variable of a class.
-    CLASS_VARIABLE = 1
-
-    #: The #Variable object represents a constant value.
-    CONSTANT = 2
+  Semantic: t.ClassVar = VariableSemantic
 
   #: The datatype associated with the assignment as code.
   datatype: t.Optional[str] = None
@@ -273,7 +279,7 @@ class Variable(ApiObject):
 
   #: A list of hints that express semantics of this #Variable object which are not otherwise
   #: derivable from the context.
-  semantic_hints: t.List[Semantic] = dataclasses.field(default_factory=list)
+  semantic_hints: t.List[VariableSemantic] = dataclasses.field(default_factory=list)
 
 
 @dataclasses.dataclass
@@ -286,6 +292,42 @@ class Indirection(ApiObject):
   target: str
 
 
+class FunctionSemantic(enum.Enum):
+  """
+  A list of well-known properties and behaviour that can be attributed to a function.
+  """
+
+  #: The function is abstract.
+  ABSTRACT = 0
+
+  #: The function is final.
+  FINAL = 1
+
+  #: The function is a coroutine.
+  COROUTINE = 2
+
+  #: The function does not return.
+  NO_RETURN = 3
+
+  #: The function is an instance method.
+  INSTANCE_METHOD = 4
+
+  #: The function is a classmethod.
+  CLASS_METHOD = 5
+
+  #: The function is a staticmethod.
+  STATIC_METHOD = 6
+
+  #: The function is a property getter.
+  PROPERTY_GETTER = 7
+
+  #: The function is a property setter.
+  PROPERTY_SETTER = 8
+
+  #: The function is a property deleter.
+  PROPERTY_DELETER = 9
+
+
 @dataclasses.dataclass
 class Function(ApiObject):
   """
@@ -294,40 +336,7 @@ class Function(ApiObject):
   `@property`, `@classmethod` or `@staticmethod`?).
   """
 
-  class Semantic(enum.Enum):
-    """
-    A list of well-known properties and behaviour that can be attributed to a function.
-    """
-
-    #: The function is abstract.
-    ABSTRACT = 0
-
-    #: The function is final.
-    FINAL = 1
-
-    #: The function is a coroutine.
-    COROUTINE = 2
-
-    #: The function does not return.
-    NO_RETURN = 3
-
-    #: The function is an instance method.
-    INSTANCE_METHOD = 4
-
-    #: The function is a classmethod.
-    CLASS_METHOD = 5
-
-    #: The function is a staticmethod.
-    STATIC_METHOD = 6
-
-    #: The function is a property getter.
-    PROPERTY_GETTER = 7
-
-    #: The function is a property setter.
-    PROPERTY_SETTER = 8
-
-    #: The function is a property deleter.
-    PROPERTY_DELETER = 9
+  Semantic: t.ClassVar = FunctionSemantic
 
   #: A list of modifiers used in the function definition. For example, the only valid modifier in
   #: Python is "async".
@@ -343,7 +352,7 @@ class Function(ApiObject):
   decorations: t.Optional[t.List[Decoration]]
 
   #: A list of hints that describe the object.
-  semantic_hints: t.List[Semantic] = dataclasses.field(default_factory=list)
+  semantic_hints: t.List[FunctionSemantic] = dataclasses.field(default_factory=list)
 
 
 class HasMembers(ApiObject):
@@ -360,28 +369,31 @@ class HasMembers(ApiObject):
       member.sync_hierarchy(self)
 
 
+class ClassSemantic(enum.Enum):
+  """
+  A list of well-known properties and behaviour that can be attributed to a class.
+  """
+
+  #: The class describes an interface.
+  INTERFACE = 0
+
+  #: The class is abstract.
+  ABSTRACT = 1
+
+  #: The class is final.
+  FINAL = 2
+
+  #: The class is an enumeration.
+  ENUM = 3
+
+
 @dataclasses.dataclass
 class Class(HasMembers):
   """
   Represents a class definition.
   """
 
-  class Semantic(enum.Enum):
-    """
-    A list of well-known properties and behaviour that can be attributed to a class.
-    """
-
-    #: The class describes an interface.
-    INTERFACE = 0
-
-    #: The class is abstract.
-    ABSTRACT = 1
-
-    #: The class is final.
-    FINAL = 2
-
-    #: The class is an enumeration.
-    ENUM = 3
+  Semantic: t.ClassVar = ClassSemantic
 
   #: The metaclass used in the class definition as a code string.
   metaclass: t.Optional[str]
@@ -400,7 +412,7 @@ class Class(HasMembers):
   modifiers: t.List[str] = dataclasses.field(default_factory=list)
 
   #: A list of hints that describe the object.
-  semantic_hints: t.List[Semantic] = dataclasses.field(default_factory=list)
+  semantic_hints: t.List[ClassSemantic] = dataclasses.field(default_factory=list)
 
 
 @dataclasses.dataclass
