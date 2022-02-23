@@ -17,3 +17,29 @@ pr = "https://github.com/NiklasRosenstein/docspec/pull/62"
 issues = [
     "https://github.com/NiklasRosenstein/docspec/issues/61",
 ]
+
+[[entries]]
+id = "e3629fc5-e3e3-4c46-a6ab-d5100aa7f72a"
+type = "breaking change"
+description = "`Docstring` class no longer inherits from `str` and is no longer frozen"
+author = "@NiklasRosenstein"
+pr = "https://github.com/NiklasRosenstein/docspec/pull/64"
+issues = [
+    "https://github.com/NiklasRosenstein/docspec/issues/49",
+]
+
+[[entries]]
+id = "c97dec50-a34b-49ad-9dc5-60b693524c03"
+type = "breaking change"
+description = "rename `Data` to `Variable`"
+author = "@NiklasRosenstein"
+pr = "https://github.com/NiklasRosenstein/docspec/pull/68"
+issues = [
+    "https://github.com/NiklasRosenstein/docspec/issues/67",
+]
+
+[[entries]]
+id = "300029d9-3c6f-43b6-989b-44603803c623"
+type = "hygiene"
+description = "move `VariableSemantic`, `FunctionSemantic` and `ClassSemantic` into global scope"
+author = "@NiklasRosenstein"
