@@ -17,7 +17,7 @@ __docspec-python__
 
 A parser for Python packages and modules based on `lib2to3` producing `docspec` API object representations.
 
-[>> View the Documentation](https://niklasrosenstein.github.io/docspec/api-documentation/docspec_python/)
+[>> View the Documentation](https://niklasrosenstein.github.io/docspec/api/docspec-python/)
 
 
 ## Projects using `docspec`
