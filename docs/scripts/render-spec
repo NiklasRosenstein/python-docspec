@@ -40,8 +40,6 @@ ${s.docs or ''}
 % endfor
 </%def>
 
-# Docspec JSON Specification
-
 % for name, obj in config.items():
   % if isinstance(obj, Struct):
 ${struct(name, obj)}
