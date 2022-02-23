@@ -542,10 +542,10 @@ def dump_module(
 
 
 def filter_visit(
-  objects: t.List[ApiObject],
+  objects: t.MutableSequence[ApiObject],
   predicate: t.Callable[[ApiObject], bool],
   order: str = 'pre',
-) -> t.List[ApiObject]:
+) -> t.MutableSequence[ApiObject]:
   """
   Visits all *objects* recursively, applying the *predicate* in the specified *order*. If
   the predicate returrns #False, the object will be removed from it's containing list.
@@ -582,7 +582,7 @@ def filter_visit(
 
 
 def visit(
-  objects: t.List[ApiObject],
+  objects: t.Sequence[ApiObject],
   func: t.Callable[[ApiObject], t.Any],
   order: str = 'pre',
 ) -> None:
@@ -590,7 +590,11 @@ def visit(
   Visits all *objects*, applying *func* in the specified *order*.
   """
 
-  filter_visit(objects, (lambda obj: func(obj) or True), order)
+  filter_visit(
+    t.cast(t.MutableSequence[ApiObject], objects),  # Sequence does not get mutated in this call
+    (lambda obj: func(obj) or True),
+    order,
+  )
 
 
 def get_member(obj: ApiObject, name: str) -> t.Optional[ApiObject]:

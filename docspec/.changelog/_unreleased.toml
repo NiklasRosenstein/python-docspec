@@ -40,3 +40,9 @@ id = "300029d9-3c6f-43b6-989b-44603803c623"
 type = "hygiene"
 description = "move `VariableSemantic`, `FunctionSemantic` and `ClassSemantic` into global scope"
 author = "@NiklasRosenstein"
+
+[[entries]]
+id = "e76db342-38d4-4a06-a664-653f4a73613f"
+type = "improvement"
+description = "`filter_visit()` and `visit()` now expect a `MutableSequence` instead of `List`"
+author = "@NiklasRosenstein"
