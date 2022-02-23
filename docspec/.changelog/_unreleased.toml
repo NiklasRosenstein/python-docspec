@@ -7,3 +7,10 @@ pr = "https://github.com/NiklasRosenstein/docspec/pull/56"
 issues = [
     "https://github.com/NiklasRosenstein/docspec/issues/52",
 ]
+
+[[entries]]
+id = "283442c8-8f22-4236-bc20-fc38de7cd587"
+type = "breaking change"
+description = "remove deprecated class `ReverseMap`"
+author = "@NiklasRosenstein"
+pr = "https://github.com/NiklasRosenstein/docspec/pull/63"
