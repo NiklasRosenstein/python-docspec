@@ -37,15 +37,19 @@ import os
 import sys
 import typing as t
 from dataclasses import dataclass
+from pathlib import Path
+
+from nr.util.fs import recurse_directory
+
 from docspec import Argument, Module
 from .parser import Parser, ParserOptions
 
 
 def load_python_modules(
-  modules: t.List[str] = None,
-  packages: t.List[str] = None,
-  files: t.List[t.Tuple[t.Optional[str], t.Union[t.TextIO, str]]] = None,
-  search_path: t.List[str] = None,
+  modules: t.Sequence[str] = None,
+  packages: t.Sequence[str] = None,
+  files: t.Sequence[t.Tuple[t.Optional[str], t.Union[t.TextIO, str]]] = None,
+  search_path: t.Sequence[t.Union[str, Path]] = None,
   options: ParserOptions = None,
   raise_: bool = True,
   encoding: t.Optional[str] = None,
@@ -89,9 +93,9 @@ def load_python_modules(
 
 def parse_python_module(
     f: t.Union[str, t.TextIO],
-    filename: str = None,
-    module_name: str = None,
-    options: ParserOptions = None,
+    filename: t.Union[str, Path, None] = None,
+    module_name: t.Optional[str] = None,
+    options: t.Optional[ParserOptions] = None,
     encoding: t.Optional[str] = None,
 ) -> Module:
   """
@@ -112,16 +116,16 @@ def parse_python_module(
   return parser.parse(ast, filename, module_name)
 
 
-def find_module(module_name: str, search_path: t.List[str] = None) -> str:
-  """
-  Finds the filename of a module that can be parsed with #parse_python_module().
-  If *search_path* is not set, the default #sys.path is used to search for the
-  module.
+def find_module(module_name: str, search_path: t.Sequence[t.Union[str, Path]] = None) -> str:
+  """ Finds the filename of a module that can be parsed with #parse_python_module(). If *search_path* is not set,
+  the default #sys.path is used to search for the module. If *module_name* is a Python package, it will return the
+  path to the package's `__init__.py` file. If the module does not exist, an #ImportError is raised. This is also
+  true for PEP 420 namespace packages that do not provide an `__init__.py` file.
 
   :raise ImportError: If the module cannot be found.
   """
 
-  # NOTE(NiklasRosenstein): We cannot use #pkgutil.find_loader(), #importlib.find_lodaer()
+  # NOTE(NiklasRosenstein): We cannot use #pkgutil.find_loader(), #importlib.find_loader()
   #   or #importlib.util.find_spec() as they weill prefer returning the module that is already
   #   loaded in #sys.module even if that instance would not be in the specified search_path.
 
@@ -144,39 +148,36 @@ def find_module(module_name: str, search_path: t.List[str] = None) -> str:
 
 def iter_package_files(
   package_name: str,
-  search_path: t.List[str] = None,
+  search_path: t.Sequence[t.Union[str, Path]] = None,
 ) -> t.Iterable[t.Tuple[str, str]]:
+  """ Returns an iterator for the Python source files in the specified package. The items returned
+  by the iterator are tuples of the module name and filename. Supports a PEP 420 namespace package
+  if at least one matching directory with at least one Python source file in it is found.
   """
-  Returns an iterator for the Python source files in the specified package. The items returned
-  by the iterator are tuples of the module name and filename.
-  """
 
-  def _recursive(module_name, path):
-    # pylint: disable=stop-iteration-return
-    if os.path.isfile(path):
-      yield module_name, path
-    elif os.path.isdir(path):
-      yield next(_recursive(module_name, os.path.join(path, '__init__.py')))
-      for item in os.listdir(path):
-        if item == '__init__.py':
-          continue
-        item_abs = os.path.join(path, item)
-        name = module_name + '.' + item
-        if name.endswith('.py'):
-          name = name[:-3]
-        if os.path.isdir(item_abs) and os.path.isfile(os.path.join(item_abs, '__init__.py')):
-          for x in _recursive(name, item_abs):
-            yield x
-        elif os.path.isfile(item_abs) and item_abs.endswith('.py'):
-          yield next(_recursive(name, item_abs))
-    else:
-      raise RuntimeError('path "{}" does not exist'.format(path))
+  encountered: t.Set[str] = set()
 
-  path = find_module(package_name, search_path)
-  if os.path.basename(path).startswith('__init__.'):
-    path = os.path.dirname(path)
+  try:
+    package_entrypoint = find_module(package_name, search_path)
+    encountered.add(package_name)
+    yield package_name, package_entrypoint
+  except ImportError:
+    package_entrypoint = None
 
-    yield from _recursive(package_name, path)
+  # Find files matching the package name, compatible with PEP 420 namespace packages.
+  for path in sys.path if search_path is None else search_path:
+    parent_dir = Path(path, *package_name.split('.'))
+    if not parent_dir.is_dir():
+      continue
+    for item in recurse_directory(parent_dir):
+      if item.suffix == '.py':
+        parts = item.with_suffix('').relative_to(parent_dir).parts
+        if parts[-1] == '__init__':
+          parts = parts[:-1]
+        module_name = '.'.join((package_name,) + parts)
+        if module_name not in encountered:
+          encountered.add(module_name)
+          yield module_name, str(item)
 
 
 @dataclass
@@ -200,7 +201,7 @@ DiscoveryResult.Module = _Module
 DiscoveryResult.Package = _Package
 
 
-def discover(directory: str) -> t.Iterable[DiscoveryResult]:
+def discover(directory: t.Union[str, Path]) -> t.Iterable[DiscoveryResult]:
   """
   Discovers Python modules and packages in the specified *directory*. The returned generated
   returns tuples where the first element of the tuple is the type (either `'module'` or
@@ -222,7 +223,7 @@ def discover(directory: str) -> t.Iterable[DiscoveryResult]:
         yield DiscoveryResult.Package(name, os.path.join(directory, name))
 
 
-def format_arglist(args: t.List[Argument], render_type_hints: bool = True) -> str:
+def format_arglist(args: t.Sequence[Argument], render_type_hints: bool = True) -> str:
   """
   Formats a Python argument list.
   """
