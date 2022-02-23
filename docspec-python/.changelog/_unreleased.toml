@@ -43,6 +43,7 @@ id = "043bf8eb-3804-4de2-8d46-ddef40b30c49"
 type = "feature"
 description = "support PEP 420 namespace packages"
 author = "@NiklasRosenstein"
+pr = "https://github.com/NiklasRosenstein/docspec/pull/62"
 issues = [
     "https://github.com/NiklasRosenstein/docspec/issues/54",
 ]
@@ -52,6 +53,7 @@ id = "f773f5b6-3002-45ad-b784-44aaaeca42ad"
 type = "improvement"
 description = "support Path where a file system path is expected (e.g. `iter_package_files()`, `load_python_modules()`)"
 author = "@NiklasRosenstein"
+pr = "https://github.com/NiklasRosenstein/docspec/pull/62"
 issues = [
     "https://github.com/NiklasRosenstein/docspec/issues/61",
 ]
