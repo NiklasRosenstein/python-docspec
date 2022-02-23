@@ -4,3 +4,6 @@ type = "breaking change"
 description = "rename `Data` to `Variable`"
 author = "@NiklasRosenstein"
 pr = "https://github.com/NiklasRosenstein/docspec/pull/68"
+issues = [
+  "https://github.com/NiklasRosenstein/docspec/issues/67"
+]
