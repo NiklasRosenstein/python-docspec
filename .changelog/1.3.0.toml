@@ -1,11 +1,11 @@
 release-date = "2022-02-23"
 
 [[entries]]
-id = "0fb0c132-6952-4f06-93a6-c285321e812d"
-type = "fix"
-description = "update `specification.yml` to show correct types of `Argument.location`, `Decoration.location` and `Module.location`"
+id = "e3629fc5-e3e3-4c46-a6ab-d5100aa7f72a"
+type = "breaking change"
+description = "`Docstring` class no longer inherits from `str` and is no longer frozen"
 author = "@NiklasRosenstein"
-pr = "https://github.com/NiklasRosenstein/docspec/pulls/56"
+pr = "https://github.com/NiklasRosenstein/docspec/pull/64"
 issues = [
-    "https://github.com/NiklasRosenstein/docspec/issues/52",
+    "https://github.com/NiklasRosenstein/docspec/issues/49",
 ]

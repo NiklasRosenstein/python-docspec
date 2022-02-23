@@ -32,7 +32,6 @@ import typing as t
 from nr.util.scanner import Scanner
 
 from docspec import (
-  ApiObject,
   Argument,
   Class,
   Data,
@@ -48,9 +47,6 @@ from lib2to3.pgen2 import token
 from lib2to3.pgen2.parse import ParseError
 from lib2to3.pygram import python_symbols as syms
 from lib2to3.pytree import Leaf, Node
-
-_REVERSE_SYMS = {v: k for k, v in vars(syms).items() if isinstance(v, int)}
-_REVERSE_TOKEN = {v: k for k, v in vars(token).items() if isinstance(v, int)}
 
 
 def dedent_docstring(s):

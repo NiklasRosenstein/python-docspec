@@ -38,7 +38,6 @@ __all__ = [
   'dump_module',
   'filter_visit',
   'visit',
-  'ReverseMap',
   'get_member',
 ]
 
@@ -70,28 +69,21 @@ class Location:
   endlineno: t.Optional[int] = None
 
 
-@dataclasses.dataclass(init=False, frozen=True)
-class Docstring(str):
+@dataclasses.dataclass
+class Docstring:
   """
   Represents a docstring for an #APIObject, i.e. it's content and location. This class is a subclass of `str`
   for backwards compatibility reasons. Use the #content property to access the docstring content over the
   #Docstring value directory.
-
-  Added in `1.1.0`.
   """
-
-  #: The location of where the docstring is defined.
-  location: t.Optional[Location]
 
   #: The content of the docstring. While the #Docstring class is a subclass of `str` and holds
   #: the same value as *content*, using the #content property should be preferred as the inheritance
   #: from the `str` class may be removed in future versions.
-  content: str = t.cast(str, property(lambda self: str(self)))
+  content: str
 
-  def __new__(cls, content: str, location: t.Optional[Location]) -> 'Docstring':
-    obj = super().__new__(cls, content)
-    obj.__dict__['location'] = location
-    return obj
+  #: The location of where the docstring is defined.
+  location: t.Optional[Location]
 
 
 @dataclasses.dataclass
@@ -587,27 +579,6 @@ def visit(
   """
 
   filter_visit(objects, (lambda obj: func(obj) or True), order)
-
-
-@deprecated.deprecated(
-  version='1.1.0',
-  reason='#docspec.ReverseMap is deprecated and will be removed in a future version, use #ApiObject.parent '
-         'and #ApiObject.path instead')
-class ReverseMap:
-  """
-  Reverse map for finding the parent of an #ApiObject.
-
-  @deprecated 1.1.0 -- Use #ApiObject.parent and #ApiObject.path instead of #get_parent() and #path().
-  """
-
-  def __init__(self, modules: t.List[Module]) -> None:
-    pass  # don't actually need the modules since 1.1.0
-
-  def get_parent(self, obj: ApiObject) -> t.Optional[ApiObject]:
-    return obj.parent
-
-  def path(self, obj: ApiObject) -> t.List[ApiObject]:
-    return obj.path
 
 
 def get_member(obj: ApiObject, name: str) -> t.Optional[ApiObject]:

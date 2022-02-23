@@ -1,0 +1,16 @@
+[[entries]]
+id = "0fb0c132-6952-4f06-93a6-c285321e812d"
+type = "fix"
+description = "update `specification.yml` to show correct types of `Argument.location`, `Decoration.location` and `Module.location`"
+author = "@NiklasRosenstein"
+pr = "https://github.com/NiklasRosenstein/docspec/pull/56"
+issues = [
+    "https://github.com/NiklasRosenstein/docspec/issues/52",
+]
+
+[[entries]]
+id = "283442c8-8f22-4236-bc20-fc38de7cd587"
+type = "breaking change"
+description = "remove deprecated class `ReverseMap`"
+author = "@NiklasRosenstein"
+pr = "https://github.com/NiklasRosenstein/docspec/pull/63"
