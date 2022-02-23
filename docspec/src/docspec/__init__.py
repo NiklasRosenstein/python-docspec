@@ -69,28 +69,21 @@ class Location:
   endlineno: t.Optional[int] = None
 
 
-@dataclasses.dataclass(init=False, frozen=True)
-class Docstring(str):
+@dataclasses.dataclass
+class Docstring:
   """
   Represents a docstring for an #APIObject, i.e. it's content and location. This class is a subclass of `str`
   for backwards compatibility reasons. Use the #content property to access the docstring content over the
   #Docstring value directory.
-
-  Added in `1.1.0`.
   """
-
-  #: The location of where the docstring is defined.
-  location: t.Optional[Location]
 
   #: The content of the docstring. While the #Docstring class is a subclass of `str` and holds
   #: the same value as *content*, using the #content property should be preferred as the inheritance
   #: from the `str` class may be removed in future versions.
-  content: str = t.cast(str, property(lambda self: str(self)))
+  content: str
 
-  def __new__(cls, content: str, location: t.Optional[Location]) -> 'Docstring':
-    obj = super().__new__(cls, content)
-    obj.__dict__['location'] = location
-    return obj
+  #: The location of where the docstring is defined.
+  location: t.Optional[Location]
 
 
 @dataclasses.dataclass
