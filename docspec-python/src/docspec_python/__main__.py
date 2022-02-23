@@ -62,11 +62,7 @@ def main():
         else:
           raise RuntimeError(item)
 
-  for index in range(len(args.file)):
-    module_name, filename = args.file[index].rpartition(':')[::2]
-    args.file[index] = (module_name or None, sys.stdin if filename == '-' else filename)
-
-  if not args.file and not args.module and not args.package:
+  if not args.module and not args.package:
     parser.print_usage()
     sys.exit(1)
 
