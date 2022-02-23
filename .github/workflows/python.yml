@@ -52,7 +52,7 @@ jobs:
       run: |
         env | grep GITHUB
         git fetch
-        git checkout docs
+        git checkout refs/heads/docs
         slam -vv changelog update-pr --use github-actions
 
   build-documentation:
