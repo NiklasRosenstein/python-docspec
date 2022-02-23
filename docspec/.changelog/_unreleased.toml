@@ -46,3 +46,9 @@ id = "e76db342-38d4-4a06-a664-653f4a73613f"
 type = "improvement"
 description = "`filter_visit()` and `visit()` now expect a `MutableSequence` instead of `List`"
 author = "@NiklasRosenstein"
+
+[[entries]]
+id = "d11aef53-f885-469c-b73e-2a056895fb6f"
+type = "hygiene"
+description = "remove `files` argument from `load_python_modules()`"
+author = "@NiklasRosenstein"

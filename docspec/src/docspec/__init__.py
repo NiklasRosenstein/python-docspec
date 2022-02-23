@@ -53,7 +53,6 @@ import typing as t
 import typing_extensions as te
 import weakref
 
-import deprecated
 import databind.json
 from databind.core.annotations import alias, union
 

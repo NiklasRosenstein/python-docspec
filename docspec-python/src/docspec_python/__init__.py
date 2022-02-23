@@ -48,7 +48,6 @@ from .parser import Parser, ParserOptions
 def load_python_modules(
   modules: t.Sequence[str] = None,
   packages: t.Sequence[str] = None,
-  files: t.Sequence[t.Tuple[t.Optional[str], t.Union[t.TextIO, str]]] = None,
   search_path: t.Sequence[t.Union[str, Path]] = None,
   options: ParserOptions = None,
   raise_: bool = True,
@@ -62,8 +61,6 @@ def load_python_modules(
   # Arguments
   modules: A list of module names to load and parse.
   packages: A list of package names to load and parse.
-  files: A list of (module_name, filename) to parse. The filename may also be a
-    file-like object. The module name may be None.
   search_path: The Python module search path. Falls back to #sys.path if omitted.
   options: Options for the Python module parser.
 
@@ -71,8 +68,7 @@ def load_python_modules(
   Iterable of #Module.
   """
 
-  files = list(files) if files else []
-
+  files: t.List[t.Tuple[str, str]] = []
   module_name: t.Optional[str]
   for module_name in modules or []:
     try:
