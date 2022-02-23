@@ -5,10 +5,10 @@ name: Python package
 
 on:
   push:
-    branches: [ develop ]
-    tags: [ '*' ]
+    branches: [ "develop" ]
+    tags: [ "*" ]
   pull_request:
-    branches: [ develop ]
+    branches: [ "develop" ]
 
 jobs:
 
@@ -17,30 +17,22 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ['3.7.12', '3.8.12', '3.9.10', '3.10.2']
-        python-tooling-version: ['3.10.2']
-        project: ['docspec', 'docspec-python']
+        python-version: ["3.7", "3.8", "3.9", "3.10", "3.x"]
+        project: ["docspec", "docspec-python"]
     steps:
-
-    - uses: gabrielfalcao/pyenv-action@v9
-      with:
-        default: "${{ matrix.python-version }}"
-        command: pip install -U pip
-
-    - name: Install tooling
-      run: |
-        pyenv install ${{ matrix.python-tooling-version }} -s
-        pyenv local ${{ matrix.python-tooling-version }}
-        pip install -U pip pipx -q
-        pipx install slam-cli==1.0.0a14
-        pyenv local ${{ matrix.python-version }}
-        pip install -U pip -q
-
     - uses: actions/checkout@v2
 
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with: { python-version: "3.10" }
+    - name: Install Slam
+      run: pip install -U pip pipx -q && pipx install slam-cli==1.0.2
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with: { python-version: "${{ matrix.python-version }}" }
     - name: Install ${{ matrix.project }}
       run: slam install --only ${{ matrix.project }} --no-venv-check -v
-
     - name: Slam test
       run: slam test ${{ matrix.project }}
 
@@ -50,43 +42,33 @@ jobs:
       contents: write
     runs-on: ubuntu-latest
     steps:
-
     - uses: actions/checkout@v2
-
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
-      with: { python-version: '3.10' }
-
+      with: { python-version: "3.10" }
     - name: Install Slam
-      run: pip install slam-cli==1.0.0a14
-
+      run: pip install slam-cli==1.0.2
     - name: Update PR references in changelogs
       run: slam -vv changelog update-pr --use github-actions
 
-  # documentation:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - uses: actions/checkout@v2
-  #   - name: Set up Python ${{ matrix.python-version }}
-  #     uses: actions/setup-python@v2
-  #     with:
-  #       python-version: '3.9'
-  #   - name: Install dependencies
-  #     run: python -m pip install shut==0.21.0 pydoc-markdown==4.2.0 mkdocs mako -q
-  #   - name: Generate docs
-  #     run: pydoc-markdown --build --site-dir "$PWD/_html"
-  #   - name: Store Html
-  #     uses: actions/upload-artifact@v2
-  #     with:
-  #       name: docs
-  #       path: _html
-  #   - name: Publish docs
-  #     uses: JamesIves/github-pages-deploy-action@4.1.4
-  #     if: github.ref == 'refs/heads/develop'
-  #     with:
-  #       branch: gh-pages
-  #       folder: _html
-  #       ssh-key: ${{ secrets.DEPLOY_KEY }}
+  build-documentation:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with: { python-version: "3.10" }
+    - name: Install documentation tools
+      run: pip install novella==0.1.2 mkdocs mkdocs-material mako slam-cli==1.0.2
+    - name: Build documentation
+      run: cd docs && novella
+    - name: Publish docs
+      uses: JamesIves/github-pages-deploy-action@4.1.4
+      if: github.ref == 'refs/heads/develop'
+      with:
+        branch: gh-pages
+        folder: docs/_site
+        ssh-key: ${{ secrets.DEPLOY_KEY }}
 
   # publish:
   #   if: startsWith(github.ref, 'refs/tags/')
