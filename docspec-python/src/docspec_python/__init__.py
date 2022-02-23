@@ -87,8 +87,27 @@ def load_python_modules(
     yield parse_python_module(filename, module_name=module_name, options=options, encoding=encoding)
 
 
+@t.overload
 def parse_python_module(
-    f: t.Union[str, t.TextIO],
+    filename: t.Union[str, Path],
+    module_name: t.Optional[str] = None,
+    options: t.Optional[ParserOptions] = None,
+    encoding: t.Optional[str] = None,
+) -> Module: ...
+
+
+@t.overload
+def parse_python_module(
+    fp: t.TextIO,
+    filename: t.Union[str, Path],
+    module_name: t.Optional[str] = None,
+    options: t.Optional[ParserOptions] = None,
+    encoding: t.Optional[str] = None,
+) -> Module: ...
+
+
+def parse_python_module(  # type: ignore
+    fp: t.Union[str, Path, t.TextIO],
     filename: t.Union[str, Path, None] = None,
     module_name: t.Optional[str] = None,
     options: t.Optional[ParserOptions] = None,
@@ -100,15 +119,17 @@ def parse_python_module(
   #Parser constructor.
   """
 
-  if isinstance(f, str):
+  if isinstance(fp, (str, Path)):
+    if filename:
+      raise TypeError('"fp" and "filename" both provided, and "fp" is a string/path')
     # TODO(NiklasRosenstein): If the file header contains a # coding: <name> comment, we should
     #   use that instead of the specified or system default encoding.
-    with io.open(f, encoding=encoding) as fp:
-      return parse_python_module(fp, filename, module_name, options)
+    with io.open(fp, encoding=encoding) as fpobj:
+      return parse_python_module(fpobj, fp, module_name, options, encoding)
 
-  filename = filename or getattr(f, 'name', None)
+  assert filename is not None
   parser = Parser(options)
-  ast = parser.parse_to_ast(f.read(), filename)
+  ast = parser.parse_to_ast(fp.read(), filename)
   return parser.parse(ast, filename, module_name)
 
 
