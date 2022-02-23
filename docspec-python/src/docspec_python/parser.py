@@ -34,7 +34,7 @@ from nr.util.scanner import Scanner
 from docspec import (
   Argument,
   Class,
-  Data,
+  Variable,
   Docstring,
   Decoration,
   Function,
@@ -231,7 +231,7 @@ class Parser:
       assert names
       for name in names:
         name = self.nodes_to_string([name])
-        data = Data(
+        data = Variable(
           name=name,
           location=self.location_from(stmt),
           docstring=docstring,
@@ -420,7 +420,7 @@ class Parser:
           members = [members]
         for member in members:
           assert not isinstance(member, Module)
-          if metaclass is None and isinstance(member, Data) and \
+          if metaclass is None and isinstance(member, Variable) and \
               member.name == '__metaclass__':
             metaclass = member.value
           elif member:

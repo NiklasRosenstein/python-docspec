@@ -29,7 +29,7 @@ __all__ = [
   'ApiObject',
   'Indirection',
   'HasMembers',
-  'Data',
+  'Variable',
   'Function',
   'Class',
   'Module',
@@ -243,7 +243,7 @@ class ApiObject:
 
 
 @dataclasses.dataclass
-class Data(ApiObject):
+class Variable(ApiObject):
   """
   Represents a variable assignment (e.g. for global variables (often used as constants) or class members).
   """
@@ -253,13 +253,13 @@ class Data(ApiObject):
     A list of well-known properties and behaviour that can be attributed to a variable/constant.
     """
 
-    #: The #Data object is an instance variable of a class.
+    #: The #Variable object is an instance variable of a class.
     INSTANCE_VARIABLE = 0
 
-    #: The #Data object is a static variable of a class.
+    #: The #Variable object is a static variable of a class.
     CLASS_VARIABLE = 1
 
-    #: The #Data object represents a constant value.
+    #: The #Variable object represents a constant value.
     CONSTANT = 2
 
   #: The datatype associated with the assignment as code.
@@ -268,10 +268,10 @@ class Data(ApiObject):
   #: The value of the variable as code.
   value: t.Optional[str] = None
 
-  #: A list of language-specific modifiers that were used to declare this #Data object.
+  #: A list of language-specific modifiers that were used to declare this #Variable object.
   modifiers: t.List[str] = dataclasses.field(default_factory=list)
 
-  #: A list of hints that express semantics of this #Data object which are not otherwise
+  #: A list of hints that express semantics of this #Variable object which are not otherwise
   #: derivable from the context.
   semantic_hints: t.List[Semantic] = dataclasses.field(default_factory=list)
 
@@ -396,7 +396,7 @@ class Class(HasMembers):
   #: that class unless some information about the #Function indicates otherwise.
   members: t.List['_MemberType']
 
-  #: A list of language-specific modifiers that were used to declare this #Data object.
+  #: A list of language-specific modifiers that were used to declare this #Variable object.
   modifiers: t.List[str] = dataclasses.field(default_factory=list)
 
   #: A list of hints that describe the object.
@@ -415,16 +415,16 @@ class Module(HasMembers):
   members: t.List['_ModuleMemberType']
 
 
-_Members = t.Union[Data, Function, Class, Indirection]
+_Members = t.Union[Variable, Function, Class, Indirection]
 _MemberType = te.Annotated[
   _Members,
-  union({ 'data': Data, 'function': Function, 'class': Class, 'indirection': Indirection }, style=union.Style.flat)]
+  union({ 'data': Variable, 'function': Function, 'class': Class, 'indirection': Indirection }, style=union.Style.flat)]
 
 
-_ModuleMembers = t.Union[Data, Function, Class, Module, Indirection]
+_ModuleMembers = t.Union[Variable, Function, Class, Module, Indirection]
 _ModuleMemberType = te.Annotated[
   _ModuleMembers,
-  union({ 'data': Data, 'function': Function, 'class': Class, 'module': Module, 'indirection': Indirection },
+  union({ 'data': Variable, 'function': Function, 'class': Class, 'module': Module, 'indirection': Indirection },
     style=union.Style.flat)]
 
 
@@ -584,7 +584,7 @@ def visit(
 def get_member(obj: ApiObject, name: str) -> t.Optional[ApiObject]:
   """
   Generic function to retrieve a member from an API object. This will always return #None for
-  objects that don't support members (eg. #Function and #Data).
+  objects that don't support members (eg. #Function and #Variable).
   """
 
   if isinstance(obj, HasMembers):
