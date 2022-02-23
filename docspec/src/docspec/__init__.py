@@ -63,7 +63,7 @@ class Location:
   Represents the location of an #ApiObject by a filename and line number.
   """
 
-  filename: t.Optional[str]
+  filename: str
   lineno: int
 
   #: If the location of an entity spans over multiple lines, it can be indicated by specifying at

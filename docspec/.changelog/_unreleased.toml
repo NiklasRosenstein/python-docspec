@@ -58,3 +58,9 @@ id = "6b647706-2391-46ee-99c7-a0af9f77bb34"
 type = "improvement"
 description = "declare two overloads for `parse_python_module()` for reading from a filename or a file-like object"
 author = "@NiklasRosenstein"
+
+[[entries]]
+id = "a313a23b-5ddb-4057-a251-bc4ccb6d32c4"
+type = "breaking change"
+description = "`Location.filename` is no longer optional as per the specification"
+author = "@NiklasRosenstein"
