@@ -33,7 +33,7 @@ _COLOR_MAP = {
   docspec.Module: 'magenta',
   docspec.Class: 'cyan',
   docspec.Function: 'yellow',
-  docspec.Data: 'blue',
+  docspec.Variable: 'blue',
 }
 
 

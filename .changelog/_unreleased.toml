@@ -1,0 +1,5 @@
+[[entries]]
+id = "c97dec50-a34b-49ad-9dc5-60b693524c03"
+type = "breaking change"
+description = "rename `Data` to `Variable`"
+author = "@NiklasRosenstein"

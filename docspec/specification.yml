@@ -51,9 +51,9 @@ Indirection:
         can be a fully qualified name pointing to a member or a member of a module. In
         the case of starred imports, the last part is a star (as in `os.path.*`).
 
-Data:
+Variable:
   type: struct
-  docs: A `Data` object represents a variable or constant.
+  docs: A `Variable` object represents a variable or constant.
   fields:
     type:
       type: str
@@ -83,11 +83,11 @@ Data:
       docs: A list of modifier keywords used in the source code to define this variable or
         constant, like `const`, `static`, `final`, `mut`, etc.
     semantic_hints:
-      type: List[DataSemantic]
+      type: List[VariableSemantic]
       required: false
       docs: A list of behavioral properties for this variable or constant.
 
-DataSemantic:
+VariableSemantic:
   type: enum
   docs: Describes possible behavioral properties of a variable or constant.
   values:
@@ -232,7 +232,7 @@ Class:
       required: false
       docs: A list of the base classes that the class inherits from.
     members:
-      type: List[Data | Function | Class]
+      type: List[Variable | Function | Class]
       docs: A list of the members of the class.
     decorations:
       type: Optional[List[Decoration]]
@@ -276,5 +276,5 @@ Module:
       required: false
       docs: The docstring for the module as parsed from the source.
     members:
-      type: List[Class | Data | Function | Module]
+      type: List[Class | Variable | Function | Module]
       docs: A list of the module members.
