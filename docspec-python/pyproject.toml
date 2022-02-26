@@ -28,9 +28,6 @@ typed = true
   pytest = "pytest test/ -vv"
   mypy = "mypy src/ test/ --check-untyped-defs"
 
-  [tool.slam.release]
-  references = [{ file="pyproject.toml", pattern="  docspec = \"\\^{version}\""}]
-
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
