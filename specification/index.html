@@ -653,16 +653,16 @@
 </thead>
 <tbody>
 <tr>
+<td><code>location</code></td>
+<td><code>Location</code></td>
+<td>Yes</td>
+<td>The location where the docstring is defined. This points at the position of the first character in the <em>content</em> field.</td>
+</tr>
+<tr>
 <td><code>content</code></td>
 <td><code>str</code></td>
 <td>Yes</td>
 <td>The content of the docstring.</td>
-</tr>
-<tr>
-<td><code>location</code></td>
-<td><code>Optional[Location]</code></td>
-<td>No</td>
-<td>The location where the docstring is defined. This points at the position of the first character in the <em>content</em> field.</td>
 </tr>
 </tbody>
 </table>
@@ -685,16 +685,16 @@
 <td>The value is <code>"indirection"</code>.</td>
 </tr>
 <tr>
+<td><code>location</code></td>
+<td><code>Location</code></td>
+<td>Yes</td>
+<td>The location where the indirection is defined.</td>
+</tr>
+<tr>
 <td><code>name</code></td>
 <td><code>str</code></td>
 <td>Yes</td>
 <td>The name that is made available in the scope of the parent object.</td>
-</tr>
-<tr>
-<td><code>location</code></td>
-<td><code>Optional[Location]</code></td>
-<td>No</td>
-<td>The location where the indirection is defined.</td>
 </tr>
 <tr>
 <td><code>target</code></td>
@@ -723,16 +723,16 @@
 <td>The value is <code>"data"</code>.</td>
 </tr>
 <tr>
+<td><code>location</code></td>
+<td><code>Location</code></td>
+<td>Yes</td>
+<td>The location where the variable or constant is defined.</td>
+</tr>
+<tr>
 <td><code>name</code></td>
 <td><code>str</code></td>
 <td>Yes</td>
 <td>The name of the variable or constant.</td>
-</tr>
-<tr>
-<td><code>location</code></td>
-<td><code>Optional[Location]</code></td>
-<td>No</td>
-<td>The location where the variable or constant is defined.</td>
 </tr>
 <tr>
 <td><code>docstring</code></td>
@@ -786,16 +786,22 @@
 </thead>
 <tbody>
 <tr>
-<td><code>type</code></td>
-<td><code>ArgumentType</code></td>
+<td><code>location</code></td>
+<td><code>Location</code></td>
 <td>Yes</td>
-<td>The type of argument.</td>
+<td>The location of the decoration in the source code.</td>
 </tr>
 <tr>
 <td><code>name</code></td>
 <td><code>str</code></td>
 <td>Yes</td>
 <td>The name of the argument.</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>ArgumentType</code></td>
+<td>Yes</td>
+<td>The type of argument.</td>
 </tr>
 <tr>
 <td><code>datatype</code></td>
@@ -808,12 +814,6 @@
 <td><code>Optional[str]</code></td>
 <td>No</td>
 <td>The default value of the argument as a code string.</td>
-</tr>
-<tr>
-<td><code>location</code></td>
-<td><code>Optional[Location]</code></td>
-<td>No</td>
-<td>The location of the decoration in the source code.</td>
 </tr>
 </tbody>
 </table>
@@ -838,6 +838,12 @@
 </thead>
 <tbody>
 <tr>
+<td><code>location</code></td>
+<td><code>Location</code></td>
+<td>Yes</td>
+<td>The location of the decoration in the source code.</td>
+</tr>
+<tr>
 <td><code>name</code></td>
 <td><code>str</code></td>
 <td>Yes</td>
@@ -848,12 +854,6 @@
 <td><code>Optional[str]</code></td>
 <td>No</td>
 <td>Deprecated in favor of <code>arglist</code>. A single string that represents the entirety of the argument list for the decorator, excluding the surroinding parentheses.</td>
-</tr>
-<tr>
-<td><code>location</code></td>
-<td><code>Optional[Location]</code></td>
-<td>No</td>
-<td>The location of the decoration in the source code.</td>
 </tr>
 <tr>
 <td><code>arglist</code></td>
@@ -882,16 +882,16 @@
 <td>Value is <code>"function"</code></td>
 </tr>
 <tr>
+<td><code>location</code></td>
+<td><code>Location</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
 <td><code>name</code></td>
 <td><code>str</code></td>
 <td>Yes</td>
 <td>The name of the function.</td>
-</tr>
-<tr>
-<td><code>location</code></td>
-<td><code>Optional[Location]</code></td>
-<td>No</td>
-<td></td>
 </tr>
 <tr>
 <td><code>docstring</code></td>
@@ -963,16 +963,16 @@
 <td>The value is <code>"class"</code>.</td>
 </tr>
 <tr>
+<td><code>location</code></td>
+<td><code>Location</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
 <td><code>name</code></td>
 <td><code>str</code></td>
 <td>Yes</td>
 <td>The name of the class.</td>
-</tr>
-<tr>
-<td><code>location</code></td>
-<td><code>Optional[Location]</code></td>
-<td>No</td>
-<td></td>
 </tr>
 <tr>
 <td><code>docstring</code></td>
@@ -1044,16 +1044,16 @@
 <td>The value is <code>"module"</code>.</td>
 </tr>
 <tr>
+<td><code>location</code></td>
+<td><code>Location</code></td>
+<td>Yes</td>
+<td>The location of the module. Usually the line number will be <code>0</code>.</td>
+</tr>
+<tr>
 <td><code>name</code></td>
 <td><code>str</code></td>
 <td>Yes</td>
 <td>The name of the module. The name is supposed to be relative to the parent.</td>
-</tr>
-<tr>
-<td><code>location</code></td>
-<td><code>Optional[Location]</code></td>
-<td>No</td>
-<td>The location of the module. Usually the line number will be <code>0</code>.</td>
 </tr>
 <tr>
 <td><code>docstring</code></td>
