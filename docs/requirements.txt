@@ -2,4 +2,4 @@ mako
 mkdocs
 mkdocs-material
 novella==0.1.2
--r ../.ci/slam-cli.txt
+-r ../.github/files/slam-cli.txt
