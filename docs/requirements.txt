@@ -1,6 +1,6 @@
 mako
 mkdocs
 mkdocs-material
-novella==0.1.2
+novella==0.1.11
 -r ../.github/files/slam-cli.txt
 git+https://github.com/NiklasRosenstein/pydoc-markdown
