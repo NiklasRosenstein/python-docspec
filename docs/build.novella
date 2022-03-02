@@ -1,3 +1,25 @@
-template "mkdocs" {
+template "mkdocs"
+
+action "mkdocs-update-config" {
   site_name = "docspec"
+  update '$.theme.features' add: ['navigation.sections']
+  update '$.theme.palette' set: {'scheme': 'slate', 'primary': 'light green', 'accent': 'pink'}
+  update '$.nav' set: [
+    'index.md',
+    'specification.md',
+    { 'API': [
+      { 'docspec': 'api/docspec.md' },
+      { 'docspec-python': 'api/docspec-python.md' },
+    ]},
+    { 'Changelog': [
+      { 'docspec': 'changelog/docspec.md' },
+      { 'docspec-python': 'changelog/docspec-python.md' },
+    ]}
+  ]
+}
+
+action "preprocess-markdown" {
+  use "pydoc" {
+    loader().search_path = [ '../docspec/src', '../docspec-python/src' ]
+  }
 }
