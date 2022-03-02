@@ -9,11 +9,11 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.2">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.3">
     
     
       
-        <title>Docspec - docspec</title>
+        <title>docspec - docspec</title>
       
     
     
@@ -21,6 +21,10 @@
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.e6a45f82.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#8bc34b">
         
       
     
@@ -48,7 +52,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="light-green" data-md-color-accent="pink">
   
     
     
@@ -56,6 +60,11 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
+      
+        
+        <a href="#class-location" class="md-skip">
+          Skip to content
+        </a>
       
     </div>
     <div data-md-component="announce">
@@ -86,7 +95,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Docspec
+              docspec
             
           </span>
         </div>
@@ -228,39 +237,33 @@
   
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
       
       
       
+        
+          
+        
+          
+        
+      
       
         <label class="md-nav__link" for="__nav_3">
-          Api
+          API
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" aria-label="Api" data-md-level="1">
+      <nav class="md-nav" aria-label="API" data-md-level="1">
         <label class="md-nav__title" for="__nav_3">
           <span class="md-nav__icon md-icon"></span>
-          Api
+          API
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../docspec-python/" class="md-nav__link">
-        Docspec python
-      </a>
-    </li>
-  
-
-            
           
             
               
@@ -275,10 +278,677 @@
       
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          docspec
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
-        Docspec
+        docspec
       </a>
       
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#class-location" class="md-nav__link">
+    Class Location
+  </a>
+  
+    <nav class="md-nav" aria-label="Class Location">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#endlineno" class="md-nav__link">
+    endlineno
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class-docstring" class="md-nav__link">
+    Class Docstring
+  </a>
+  
+    <nav class="md-nav" aria-label="Class Docstring">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#location" class="md-nav__link">
+    location
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#content" class="md-nav__link">
+    content
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class-decoration" class="md-nav__link">
+    Class Decoration
+  </a>
+  
+    <nav class="md-nav" aria-label="Class Decoration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#location_1" class="md-nav__link">
+    location
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#name" class="md-nav__link">
+    name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#args" class="md-nav__link">
+    args
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arglist" class="md-nav__link">
+    arglist
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class-argument" class="md-nav__link">
+    Class Argument
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class-type" class="md-nav__link">
+    Class Type
+  </a>
+  
+    <nav class="md-nav" aria-label="Class Type">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#positional_only" class="md-nav__link">
+    POSITIONAL_ONLY
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#positional" class="md-nav__link">
+    POSITIONAL
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#positional_remainder" class="md-nav__link">
+    POSITIONAL_REMAINDER
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keyword_only" class="md-nav__link">
+    KEYWORD_ONLY
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keyword_remainder" class="md-nav__link">
+    KEYWORD_REMAINDER
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#location_2" class="md-nav__link">
+    location
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#name_1" class="md-nav__link">
+    name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#type" class="md-nav__link">
+    type
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#decorations" class="md-nav__link">
+    decorations
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#datatype" class="md-nav__link">
+    datatype
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#default_value" class="md-nav__link">
+    default_value
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class-apiobject" class="md-nav__link">
+    Class ApiObject
+  </a>
+  
+    <nav class="md-nav" aria-label="Class ApiObject">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#location_3" class="md-nav__link">
+    location
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#name_2" class="md-nav__link">
+    name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docstring" class="md-nav__link">
+    docstring
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parent" class="md-nav__link">
+    parent
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#path" class="md-nav__link">
+    path
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sync_hierarchy" class="md-nav__link">
+    sync_hierarchy
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class-variablesemantic" class="md-nav__link">
+    Class VariableSemantic
+  </a>
+  
+    <nav class="md-nav" aria-label="Class VariableSemantic">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#instance_variable" class="md-nav__link">
+    INSTANCE_VARIABLE
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#class_variable" class="md-nav__link">
+    CLASS_VARIABLE
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#constant" class="md-nav__link">
+    CONSTANT
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class-variable" class="md-nav__link">
+    Class Variable
+  </a>
+  
+    <nav class="md-nav" aria-label="Class Variable">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#datatype_1" class="md-nav__link">
+    datatype
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#value" class="md-nav__link">
+    value
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modifiers" class="md-nav__link">
+    modifiers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#semantic_hints" class="md-nav__link">
+    semantic_hints
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class-indirection" class="md-nav__link">
+    Class Indirection
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class-functionsemantic" class="md-nav__link">
+    Class FunctionSemantic
+  </a>
+  
+    <nav class="md-nav" aria-label="Class FunctionSemantic">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#abstract" class="md-nav__link">
+    ABSTRACT
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#final" class="md-nav__link">
+    FINAL
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#coroutine" class="md-nav__link">
+    COROUTINE
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#no_return" class="md-nav__link">
+    NO_RETURN
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instance_method" class="md-nav__link">
+    INSTANCE_METHOD
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#class_method" class="md-nav__link">
+    CLASS_METHOD
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#static_method" class="md-nav__link">
+    STATIC_METHOD
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#property_getter" class="md-nav__link">
+    PROPERTY_GETTER
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#property_setter" class="md-nav__link">
+    PROPERTY_SETTER
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#property_deleter" class="md-nav__link">
+    PROPERTY_DELETER
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class-function" class="md-nav__link">
+    Class Function
+  </a>
+  
+    <nav class="md-nav" aria-label="Class Function">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#modifiers_1" class="md-nav__link">
+    modifiers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#args_1" class="md-nav__link">
+    args
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#return_type" class="md-nav__link">
+    return_type
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#decorations_1" class="md-nav__link">
+    decorations
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#semantic_hints_1" class="md-nav__link">
+    semantic_hints
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class-hasmembers" class="md-nav__link">
+    Class HasMembers
+  </a>
+  
+    <nav class="md-nav" aria-label="Class HasMembers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#members" class="md-nav__link">
+    members
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class-classsemantic" class="md-nav__link">
+    Class ClassSemantic
+  </a>
+  
+    <nav class="md-nav" aria-label="Class ClassSemantic">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#interface" class="md-nav__link">
+    INTERFACE
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#abstract_1" class="md-nav__link">
+    ABSTRACT
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#final_1" class="md-nav__link">
+    FINAL
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enum" class="md-nav__link">
+    ENUM
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class-class" class="md-nav__link">
+    Class Class
+  </a>
+  
+    <nav class="md-nav" aria-label="Class Class">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#metaclass" class="md-nav__link">
+    metaclass
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bases" class="md-nav__link">
+    bases
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#decorations_2" class="md-nav__link">
+    decorations
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#members_1" class="md-nav__link">
+    members
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modifiers_2" class="md-nav__link">
+    modifiers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#semantic_hints_2" class="md-nav__link">
+    semantic_hints
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class-module" class="md-nav__link">
+    Class Module
+  </a>
+  
+    <nav class="md-nav" aria-label="Class Module">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#members_2" class="md-nav__link">
+    members
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#load_module" class="md-nav__link">
+    load_module
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#load_modules" class="md-nav__link">
+    load_modules
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dump_module" class="md-nav__link">
+    dump_module
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filter_visit" class="md-nav__link">
+    filter_visit
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#visit" class="md-nav__link">
+    visit
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_member" class="md-nav__link">
+    get_member
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../docspec-python/" class="md-nav__link">
+        docspec-python
+      </a>
     </li>
   
 
@@ -298,12 +968,20 @@
   
   
     
-    <li class="md-nav__item md-nav__item--nested">
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
       
       
+      
+        
+          
+        
+          
+        
       
       
         <label class="md-nav__link" for="__nav_4">
@@ -324,8 +1002,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../../changelog/docspec-python/" class="md-nav__link">
-        Docspec-Python Changelog
+      <a href="../../changelog/docspec/" class="md-nav__link">
+        docspec
       </a>
     </li>
   
@@ -338,8 +1016,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../../changelog/docspec/" class="md-nav__link">
-        Docspec Changelog
+      <a href="../../changelog/docspec-python/" class="md-nav__link">
+        docspec-python
       </a>
     </li>
   
@@ -359,6 +1037,661 @@
               </div>
             
             
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#class-location" class="md-nav__link">
+    Class Location
+  </a>
+  
+    <nav class="md-nav" aria-label="Class Location">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#endlineno" class="md-nav__link">
+    endlineno
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class-docstring" class="md-nav__link">
+    Class Docstring
+  </a>
+  
+    <nav class="md-nav" aria-label="Class Docstring">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#location" class="md-nav__link">
+    location
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#content" class="md-nav__link">
+    content
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class-decoration" class="md-nav__link">
+    Class Decoration
+  </a>
+  
+    <nav class="md-nav" aria-label="Class Decoration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#location_1" class="md-nav__link">
+    location
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#name" class="md-nav__link">
+    name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#args" class="md-nav__link">
+    args
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arglist" class="md-nav__link">
+    arglist
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class-argument" class="md-nav__link">
+    Class Argument
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class-type" class="md-nav__link">
+    Class Type
+  </a>
+  
+    <nav class="md-nav" aria-label="Class Type">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#positional_only" class="md-nav__link">
+    POSITIONAL_ONLY
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#positional" class="md-nav__link">
+    POSITIONAL
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#positional_remainder" class="md-nav__link">
+    POSITIONAL_REMAINDER
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keyword_only" class="md-nav__link">
+    KEYWORD_ONLY
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keyword_remainder" class="md-nav__link">
+    KEYWORD_REMAINDER
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#location_2" class="md-nav__link">
+    location
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#name_1" class="md-nav__link">
+    name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#type" class="md-nav__link">
+    type
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#decorations" class="md-nav__link">
+    decorations
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#datatype" class="md-nav__link">
+    datatype
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#default_value" class="md-nav__link">
+    default_value
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class-apiobject" class="md-nav__link">
+    Class ApiObject
+  </a>
+  
+    <nav class="md-nav" aria-label="Class ApiObject">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#location_3" class="md-nav__link">
+    location
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#name_2" class="md-nav__link">
+    name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docstring" class="md-nav__link">
+    docstring
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parent" class="md-nav__link">
+    parent
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#path" class="md-nav__link">
+    path
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sync_hierarchy" class="md-nav__link">
+    sync_hierarchy
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class-variablesemantic" class="md-nav__link">
+    Class VariableSemantic
+  </a>
+  
+    <nav class="md-nav" aria-label="Class VariableSemantic">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#instance_variable" class="md-nav__link">
+    INSTANCE_VARIABLE
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#class_variable" class="md-nav__link">
+    CLASS_VARIABLE
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#constant" class="md-nav__link">
+    CONSTANT
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class-variable" class="md-nav__link">
+    Class Variable
+  </a>
+  
+    <nav class="md-nav" aria-label="Class Variable">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#datatype_1" class="md-nav__link">
+    datatype
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#value" class="md-nav__link">
+    value
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modifiers" class="md-nav__link">
+    modifiers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#semantic_hints" class="md-nav__link">
+    semantic_hints
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class-indirection" class="md-nav__link">
+    Class Indirection
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class-functionsemantic" class="md-nav__link">
+    Class FunctionSemantic
+  </a>
+  
+    <nav class="md-nav" aria-label="Class FunctionSemantic">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#abstract" class="md-nav__link">
+    ABSTRACT
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#final" class="md-nav__link">
+    FINAL
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#coroutine" class="md-nav__link">
+    COROUTINE
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#no_return" class="md-nav__link">
+    NO_RETURN
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instance_method" class="md-nav__link">
+    INSTANCE_METHOD
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#class_method" class="md-nav__link">
+    CLASS_METHOD
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#static_method" class="md-nav__link">
+    STATIC_METHOD
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#property_getter" class="md-nav__link">
+    PROPERTY_GETTER
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#property_setter" class="md-nav__link">
+    PROPERTY_SETTER
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#property_deleter" class="md-nav__link">
+    PROPERTY_DELETER
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class-function" class="md-nav__link">
+    Class Function
+  </a>
+  
+    <nav class="md-nav" aria-label="Class Function">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#modifiers_1" class="md-nav__link">
+    modifiers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#args_1" class="md-nav__link">
+    args
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#return_type" class="md-nav__link">
+    return_type
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#decorations_1" class="md-nav__link">
+    decorations
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#semantic_hints_1" class="md-nav__link">
+    semantic_hints
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class-hasmembers" class="md-nav__link">
+    Class HasMembers
+  </a>
+  
+    <nav class="md-nav" aria-label="Class HasMembers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#members" class="md-nav__link">
+    members
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class-classsemantic" class="md-nav__link">
+    Class ClassSemantic
+  </a>
+  
+    <nav class="md-nav" aria-label="Class ClassSemantic">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#interface" class="md-nav__link">
+    INTERFACE
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#abstract_1" class="md-nav__link">
+    ABSTRACT
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#final_1" class="md-nav__link">
+    FINAL
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enum" class="md-nav__link">
+    ENUM
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class-class" class="md-nav__link">
+    Class Class
+  </a>
+  
+    <nav class="md-nav" aria-label="Class Class">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#metaclass" class="md-nav__link">
+    metaclass
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bases" class="md-nav__link">
+    bases
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#decorations_2" class="md-nav__link">
+    decorations
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#members_1" class="md-nav__link">
+    members
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modifiers_2" class="md-nav__link">
+    modifiers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#semantic_hints_2" class="md-nav__link">
+    semantic_hints
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class-module" class="md-nav__link">
+    Class Module
+  </a>
+  
+    <nav class="md-nav" aria-label="Class Module">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#members_2" class="md-nav__link">
+    members
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#load_module" class="md-nav__link">
+    load_module
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#load_modules" class="md-nav__link">
+    load_modules
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dump_module" class="md-nav__link">
+    dump_module
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filter_visit" class="md-nav__link">
+    filter_visit
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#visit" class="md-nav__link">
+    visit
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_member" class="md-nav__link">
+    get_member
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
           
           <div class="md-content" data-md-component="content">
             <article class="md-content__inner md-typeset">
@@ -370,14 +1703,488 @@
 
 
 
-  <h1>Docspec</h1>
+  <h1>docspec</h1>
 
-<p>@pydoc docspec</p>
+<p><a id="docspec.Location"></a></p>
+<p><a id="pydoc:docspec.Location"></a></p>
+<h2 id="class-location">Class Location</h2>
+<div class="highlight"><pre><span></span><code><span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span>
+<span class="k">class</span> <span class="nc">Location</span><span class="p">()</span>
+</code></pre></div>
+<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec/src/docspec/__init__.py#L61">[view_source]</a></p>
+<p>Represents the location of an <a href="#pydoc:docspec.ApiObject">ApiObject</a> by a filename and line number.</p>
+<p><a id="docspec.Location.endlineno"></a></p>
+<p><a id="pydoc:docspec.Location.endlineno"></a></p>
+<h4 id="endlineno">endlineno</h4>
+<p>If the location of an entity spans over multiple lines, it can be indicated by specifying at
+which line it ends with this property.</p>
+<p><a id="docspec.Docstring"></a></p>
+<p><a id="pydoc:docspec.Docstring"></a></p>
+<h2 id="class-docstring">Class Docstring</h2>
+<div class="highlight"><pre><span></span><code><span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span>
+<span class="k">class</span> <span class="nc">Docstring</span><span class="p">()</span>
+</code></pre></div>
+<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec/src/docspec/__init__.py#L75">[view_source]</a></p>
+<p>Represents a docstring for an <code>APIObject</code>, i.e. it's content and location. This class is a subclass of <code>str</code>
+for backwards compatibility reasons. Use the <a href="#pydoc:docspec.Docstring.content">content</a> property to access the docstring content over the
+<a href="#pydoc:docspec.Docstring">Docstring</a> value directory.</p>
+<p><a id="docspec.Docstring.location"></a></p>
+<p><a id="pydoc:docspec.Docstring.location"></a></p>
+<h4 id="location">location</h4>
+<p>The location of where the docstring is defined.</p>
+<p><a id="docspec.Docstring.content"></a></p>
+<p><a id="pydoc:docspec.Docstring.content"></a></p>
+<h4 id="content">content</h4>
+<p>The content of the docstring. While the <a href="#pydoc:docspec.Docstring">Docstring</a> class is a subclass of <code>str</code> and holds
+the same value as <em>content</em>, using the <a href="#pydoc:docspec.Docstring.content">content</a> property should be preferred as the inheritance
+from the <code>str</code> class may be removed in future versions.</p>
+<p><a id="docspec.Decoration"></a></p>
+<p><a id="pydoc:docspec.Decoration"></a></p>
+<h2 id="class-decoration">Class Decoration</h2>
+<div class="highlight"><pre><span></span><code><span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span>
+<span class="k">class</span> <span class="nc">Decoration</span><span class="p">()</span>
+</code></pre></div>
+<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec/src/docspec/__init__.py#L92">[view_source]</a></p>
+<p>Represents a decorator on a <a href="#pydoc:docspec.Class">Class</a> or <a href="#pydoc:docspec.Function">Function</a>.</p>
+<p><a id="docspec.Decoration.location"></a></p>
+<p><a id="pydoc:docspec.Decoration.location"></a></p>
+<h4 id="location_1">location</h4>
+<p>The location of the decoration in the source code.</p>
+<p><a id="docspec.Decoration.name"></a></p>
+<p><a id="pydoc:docspec.Decoration.name"></a></p>
+<h4 id="name">name</h4>
+<p>The name of the decorator (i.e. the text between the <code>@</code> and <code>(</code>). In languages that support it,
+this may be a piece of code.</p>
+<p><a id="docspec.Decoration.args"></a></p>
+<p><a id="pydoc:docspec.Decoration.args"></a></p>
+<h4 id="args">args</h4>
+<p>Decorator arguments as plain code (including the leading and trailing parentheses). This is
+<code>None</code> when the decorator does not have call arguments. This is deprecated in favor of <a href="#pydoc:docspec.Decoration.arglist">arglist</a>.
+For backwards compatibility, loaders may populate both the <a href="#pydoc:docspec.Decoration.args">args</a> and <a href="#pydoc:docspec.Decoration.arglist">arglist</a> fields.</p>
+<p><a id="docspec.Decoration.arglist"></a></p>
+<p><a id="pydoc:docspec.Decoration.arglist"></a></p>
+<h4 id="arglist">arglist</h4>
+<p>Decorator arguments, one item per argument. For keyword arguments, the keyword name and equals
+sign preceed the argument value expression code.</p>
+<p><a id="docspec.Argument"></a></p>
+<p><a id="pydoc:docspec.Argument"></a></p>
+<h2 id="class-argument">Class Argument</h2>
+<div class="highlight"><pre><span></span><code><span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span>
+<span class="k">class</span> <span class="nc">Argument</span><span class="p">()</span>
+</code></pre></div>
+<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec/src/docspec/__init__.py#L115">[view_source]</a></p>
+<p>Represents a <a href="#pydoc:docspec.Function">Function</a> argument.</p>
+<p><a id="docspec.Argument.Type"></a></p>
+<p><a id="pydoc:docspec.Argument.Type"></a></p>
+<h2 id="class-type">Class Type</h2>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Type</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">)</span>
+</code></pre></div>
+<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec/src/docspec/__init__.py#L120">[view_source]</a></p>
+<p>The type of the argument. This is currently very Python-centric, however most other languages should be able
+to represent the various argument types with a subset of these types without additions (e.g. Java or TypeScript
+only support <code>Positional</code> and <code>PositionalRemainder</code> arguments).</p>
+<p><a id="docspec.Argument.Type.POSITIONAL_ONLY"></a></p>
+<p><a id="pydoc:docspec.Argument.Type.POSITIONAL_ONLY"></a></p>
+<h4 id="positional_only">POSITIONAL_ONLY</h4>
+<p>A positional only argument. Such arguments are denoted in Python like this: <code>def foo(a, b, /): ...</code></p>
+<p><a id="docspec.Argument.Type.POSITIONAL"></a></p>
+<p><a id="pydoc:docspec.Argument.Type.POSITIONAL"></a></p>
+<h4 id="positional">POSITIONAL</h4>
+<p>A positional argument, which may also be given as a keyword argument. Basically that is just a normal
+argument as you would see most commonly in Python function definitions.</p>
+<p><a id="docspec.Argument.Type.POSITIONAL_REMAINDER"></a></p>
+<p><a id="pydoc:docspec.Argument.Type.POSITIONAL_REMAINDER"></a></p>
+<h4 id="positional_remainder">POSITIONAL_REMAINDER</h4>
+<p>An argument that denotes the capture of additional positional arguments, aka. "args" or "varags".</p>
+<p><a id="docspec.Argument.Type.KEYWORD_ONLY"></a></p>
+<p><a id="pydoc:docspec.Argument.Type.KEYWORD_ONLY"></a></p>
+<h4 id="keyword_only">KEYWORD_ONLY</h4>
+<p>A keyword-only argument is denoted in Python like thisL <code>def foo(*, kwonly): ...</code></p>
+<p><a id="docspec.Argument.Type.KEYWORD_REMAINDER"></a></p>
+<p><a id="pydoc:docspec.Argument.Type.KEYWORD_REMAINDER"></a></p>
+<h4 id="keyword_remainder">KEYWORD_REMAINDER</h4>
+<p>An argument that captures additional keyword arguments, aka. "kwargs".</p>
+<p><a id="docspec.Argument.location"></a></p>
+<p><a id="pydoc:docspec.Argument.location"></a></p>
+<h4 id="location_2">location</h4>
+<p>The location of the argument in the source code.</p>
+<p><a id="docspec.Argument.name"></a></p>
+<p><a id="pydoc:docspec.Argument.name"></a></p>
+<h4 id="name_1">name</h4>
+<p>The name of the argument.</p>
+<p><a id="docspec.Argument.type"></a></p>
+<p><a id="pydoc:docspec.Argument.type"></a></p>
+<h4 id="type">type</h4>
+<p>The argument type.</p>
+<p><a id="docspec.Argument.decorations"></a></p>
+<p><a id="pydoc:docspec.Argument.decorations"></a></p>
+<h4 id="decorations">decorations</h4>
+<p>A list of argument decorations. Python does not actually support decorators on function arguments
+like for example Java does. This is probably premature to add into the API, but hey, here it is.</p>
+<p><a id="docspec.Argument.datatype"></a></p>
+<p><a id="pydoc:docspec.Argument.datatype"></a></p>
+<h4 id="datatype">datatype</h4>
+<p>The datatype/type annotation of this argument as a code string.</p>
+<p><a id="docspec.Argument.default_value"></a></p>
+<p><a id="pydoc:docspec.Argument.default_value"></a></p>
+<h4 id="default_value">default_value</h4>
+<p>The default value of the argument as a code string.</p>
+<p><a id="docspec.ApiObject"></a></p>
+<p><a id="pydoc:docspec.ApiObject"></a></p>
+<h2 id="class-apiobject">Class ApiObject</h2>
+<div class="highlight"><pre><span></span><code><span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span>
+<span class="k">class</span> <span class="nc">ApiObject</span><span class="p">()</span>
+</code></pre></div>
+<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec/src/docspec/__init__.py#L177">[view_source]</a></p>
+<p>The base class for representing "API Objects". Any API object is any addressable entity in code,
+be that a variable/constant, function, class or module.</p>
+<p><a id="docspec.ApiObject.location"></a></p>
+<p><a id="pydoc:docspec.ApiObject.location"></a></p>
+<h4 id="location_3">location</h4>
+<p>The location of the API object, i.e. where it is sourced from/defined in the code.</p>
+<p><a id="docspec.ApiObject.name"></a></p>
+<p><a id="pydoc:docspec.ApiObject.name"></a></p>
+<h4 id="name_2">name</h4>
+<p>The name of the entity. This is usually relative to the respective parent of the entity,
+as opposed to it's fully qualified name/absolute name. However, that is more of a
+recommendation than rule. For example the <code>docspec_python</code> loader by default returns
+<a href="#pydoc:docspec.Module">Module</a> objects with their full module name (and does not create a module hierarchy).</p>
+<p><a id="docspec.ApiObject.docstring"></a></p>
+<p><a id="pydoc:docspec.ApiObject.docstring"></a></p>
+<h4 id="docstring">docstring</h4>
+<p>The documentation string of the API object.</p>
+<p><a id="docspec.ApiObject.parent"></a></p>
+<p><a id="pydoc:docspec.ApiObject.parent"></a></p>
+<h4 id="parent">parent</h4>
+<div class="highlight"><pre><span></span><code><span class="nd">@property</span>
+<span class="k">def</span> <span class="nf">parent</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="s1">&#39;HasMembers&#39;</span><span class="p">]</span>
+</code></pre></div>
+<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec/src/docspec/__init__.py#L199">[view_source]</a></p>
+<p>Returns the parent of the <a href="#pydoc:docspec.HasMembers">HasMembers</a>. Note that if you make any modifications to the API object tree,
+you will need to call <a href="#pydoc:docspec.ApiObject.sync_hierarchy">sync_hierarchy()</a> afterwards because adding to <a href="#pydoc:docspec.Class.members">Class.members</a> or <a href="#pydoc:docspec.Module.members">Module.members</a>
+does not automatically keep the <a href="#pydoc:docspec.ApiObject.parent">parent</a> property in sync.</p>
+<p><a id="docspec.ApiObject.path"></a></p>
+<p><a id="pydoc:docspec.ApiObject.path"></a></p>
+<h4 id="path">path</h4>
+<div class="highlight"><pre><span></span><code><span class="nd">@property</span>
+<span class="k">def</span> <span class="nf">path</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="s1">&#39;ApiObject&#39;</span><span class="p">]</span>
+</code></pre></div>
+<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec/src/docspec/__init__.py#L222">[view_source]</a></p>
+<p>Returns a list of all of this API object's parents, from top to bottom. The list includes <em>self</em> as the
+last item.</p>
+<p><a id="docspec.ApiObject.sync_hierarchy"></a></p>
+<p><a id="pydoc:docspec.ApiObject.sync_hierarchy"></a></p>
+<h4 id="sync_hierarchy">sync_hierarchy</h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">sync_hierarchy</span><span class="p">(</span><span class="n">parent</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="s1">&#39;HasMembers&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+</code></pre></div>
+<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec/src/docspec/__init__.py#L236">[view_source]</a></p>
+<p>Synchronize the hierarchy of this API object and all of it's children. This should be called when the
+<a href="#pydoc:docspec.HasMembers.members">HasMembers.members</a> are updated to ensure that all child objects reference the right <a href="#pydoc:docspec.ApiObject.parent">parent</a>. Loaders
+are expected to return <a href="#pydoc:docspec.ApiObject">ApiObjects</a> in a fully synchronized state such that the user does not have to
+call this method unless they are doing modifications to the tree.</p>
+<p><a id="docspec.VariableSemantic"></a></p>
+<p><a id="pydoc:docspec.VariableSemantic"></a></p>
+<h2 id="class-variablesemantic">Class VariableSemantic</h2>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">VariableSemantic</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">)</span>
+</code></pre></div>
+<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec/src/docspec/__init__.py#L247">[view_source]</a></p>
+<p>A list of well-known properties and behaviour that can be attributed to a variable/constant.</p>
+<p><a id="docspec.VariableSemantic.INSTANCE_VARIABLE"></a></p>
+<p><a id="pydoc:docspec.VariableSemantic.INSTANCE_VARIABLE"></a></p>
+<h4 id="instance_variable">INSTANCE_VARIABLE</h4>
+<p>The <a href="#pydoc:docspec.Variable">Variable</a> object is an instance variable of a class.</p>
+<p><a id="docspec.VariableSemantic.CLASS_VARIABLE"></a></p>
+<p><a id="pydoc:docspec.VariableSemantic.CLASS_VARIABLE"></a></p>
+<h4 id="class_variable">CLASS_VARIABLE</h4>
+<p>The <a href="#pydoc:docspec.Variable">Variable</a> object is a static variable of a class.</p>
+<p><a id="docspec.VariableSemantic.CONSTANT"></a></p>
+<p><a id="pydoc:docspec.VariableSemantic.CONSTANT"></a></p>
+<h4 id="constant">CONSTANT</h4>
+<p>The <a href="#pydoc:docspec.Variable">Variable</a> object represents a constant value.</p>
+<p><a id="docspec.Variable"></a></p>
+<p><a id="pydoc:docspec.Variable"></a></p>
+<h2 id="class-variable">Class Variable</h2>
+<div class="highlight"><pre><span></span><code><span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span>
+<span class="k">class</span> <span class="nc">Variable</span><span class="p">(</span><span class="n">ApiObject</span><span class="p">)</span>
+</code></pre></div>
+<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec/src/docspec/__init__.py#L263">[view_source]</a></p>
+<p>Represents a variable assignment (e.g. for global variables (often used as constants) or class members).</p>
+<p><a id="docspec.Variable.datatype"></a></p>
+<p><a id="pydoc:docspec.Variable.datatype"></a></p>
+<h4 id="datatype_1">datatype</h4>
+<p>The datatype associated with the assignment as code.</p>
+<p><a id="docspec.Variable.value"></a></p>
+<p><a id="pydoc:docspec.Variable.value"></a></p>
+<h4 id="value">value</h4>
+<p>The value of the variable as code.</p>
+<p><a id="docspec.Variable.modifiers"></a></p>
+<p><a id="pydoc:docspec.Variable.modifiers"></a></p>
+<h4 id="modifiers">modifiers</h4>
+<p>A list of language-specific modifiers that were used to declare this <a href="#pydoc:docspec.Variable">Variable</a> object.</p>
+<p><a id="docspec.Variable.semantic_hints"></a></p>
+<p><a id="pydoc:docspec.Variable.semantic_hints"></a></p>
+<h4 id="semantic_hints">semantic_hints</h4>
+<p>A list of hints that express semantics of this <a href="#pydoc:docspec.Variable">Variable</a> object which are not otherwise
+derivable from the context.</p>
+<p><a id="docspec.Indirection"></a></p>
+<p><a id="pydoc:docspec.Indirection"></a></p>
+<h2 id="class-indirection">Class Indirection</h2>
+<div class="highlight"><pre><span></span><code><span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span>
+<span class="k">class</span> <span class="nc">Indirection</span><span class="p">(</span><span class="n">ApiObject</span><span class="p">)</span>
+</code></pre></div>
+<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec/src/docspec/__init__.py#L285">[view_source]</a></p>
+<p>Represents an imported name. It can be used to properly find the full name target of a link written with a
+local name.</p>
+<p><a id="docspec.FunctionSemantic"></a></p>
+<p><a id="pydoc:docspec.FunctionSemantic"></a></p>
+<h2 id="class-functionsemantic">Class FunctionSemantic</h2>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">FunctionSemantic</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">)</span>
+</code></pre></div>
+<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec/src/docspec/__init__.py#L294">[view_source]</a></p>
+<p>A list of well-known properties and behaviour that can be attributed to a function.</p>
+<p><a id="docspec.FunctionSemantic.ABSTRACT"></a></p>
+<p><a id="pydoc:docspec.FunctionSemantic.ABSTRACT"></a></p>
+<h4 id="abstract">ABSTRACT</h4>
+<p>The function is abstract.</p>
+<p><a id="docspec.FunctionSemantic.FINAL"></a></p>
+<p><a id="pydoc:docspec.FunctionSemantic.FINAL"></a></p>
+<h4 id="final">FINAL</h4>
+<p>The function is final.</p>
+<p><a id="docspec.FunctionSemantic.COROUTINE"></a></p>
+<p><a id="pydoc:docspec.FunctionSemantic.COROUTINE"></a></p>
+<h4 id="coroutine">COROUTINE</h4>
+<p>The function is a coroutine.</p>
+<p><a id="docspec.FunctionSemantic.NO_RETURN"></a></p>
+<p><a id="pydoc:docspec.FunctionSemantic.NO_RETURN"></a></p>
+<h4 id="no_return">NO_RETURN</h4>
+<p>The function does not return.</p>
+<p><a id="docspec.FunctionSemantic.INSTANCE_METHOD"></a></p>
+<p><a id="pydoc:docspec.FunctionSemantic.INSTANCE_METHOD"></a></p>
+<h4 id="instance_method">INSTANCE_METHOD</h4>
+<p>The function is an instance method.</p>
+<p><a id="docspec.FunctionSemantic.CLASS_METHOD"></a></p>
+<p><a id="pydoc:docspec.FunctionSemantic.CLASS_METHOD"></a></p>
+<h4 id="class_method">CLASS_METHOD</h4>
+<p>The function is a classmethod.</p>
+<p><a id="docspec.FunctionSemantic.STATIC_METHOD"></a></p>
+<p><a id="pydoc:docspec.FunctionSemantic.STATIC_METHOD"></a></p>
+<h4 id="static_method">STATIC_METHOD</h4>
+<p>The function is a staticmethod.</p>
+<p><a id="docspec.FunctionSemantic.PROPERTY_GETTER"></a></p>
+<p><a id="pydoc:docspec.FunctionSemantic.PROPERTY_GETTER"></a></p>
+<h4 id="property_getter">PROPERTY_GETTER</h4>
+<p>The function is a property getter.</p>
+<p><a id="docspec.FunctionSemantic.PROPERTY_SETTER"></a></p>
+<p><a id="pydoc:docspec.FunctionSemantic.PROPERTY_SETTER"></a></p>
+<h4 id="property_setter">PROPERTY_SETTER</h4>
+<p>The function is a property setter.</p>
+<p><a id="docspec.FunctionSemantic.PROPERTY_DELETER"></a></p>
+<p><a id="pydoc:docspec.FunctionSemantic.PROPERTY_DELETER"></a></p>
+<h4 id="property_deleter">PROPERTY_DELETER</h4>
+<p>The function is a property deleter.</p>
+<p><a id="docspec.Function"></a></p>
+<p><a id="pydoc:docspec.Function"></a></p>
+<h2 id="class-function">Class Function</h2>
+<div class="highlight"><pre><span></span><code><span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span>
+<span class="k">class</span> <span class="nc">Function</span><span class="p">(</span><span class="n">ApiObject</span><span class="p">)</span>
+</code></pre></div>
+<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec/src/docspec/__init__.py#L331">[view_source]</a></p>
+<p>Represents a function definition. This can be in a <a href="#pydoc:docspec.Module">Module</a> for plain functions or in a <a href="#pydoc:docspec.Class">Class</a> for methods.
+The <a href="#pydoc:docspec.Function.decorations">decorations</a> need to be introspected to understand if the function has a special purpose (e.g. is it a
+<code>@property</code>, <code>@classmethod</code> or <code>@staticmethod</code>?).</p>
+<p><a id="docspec.Function.modifiers"></a></p>
+<p><a id="pydoc:docspec.Function.modifiers"></a></p>
+<h4 id="modifiers_1">modifiers</h4>
+<p>A list of modifiers used in the function definition. For example, the only valid modifier in
+Python is "async".</p>
+<p><a id="docspec.Function.args"></a></p>
+<p><a id="pydoc:docspec.Function.args"></a></p>
+<h4 id="args_1">args</h4>
+<p>A list of the function arguments.</p>
+<p><a id="docspec.Function.return_type"></a></p>
+<p><a id="pydoc:docspec.Function.return_type"></a></p>
+<h4 id="return_type">return_type</h4>
+<p>The return type of the function as a code string.</p>
+<p><a id="docspec.Function.decorations"></a></p>
+<p><a id="pydoc:docspec.Function.decorations"></a></p>
+<h4 id="decorations_1">decorations</h4>
+<p>A list of decorations used on the function.</p>
+<p><a id="docspec.Function.semantic_hints"></a></p>
+<p><a id="pydoc:docspec.Function.semantic_hints"></a></p>
+<h4 id="semantic_hints_1">semantic_hints</h4>
+<p>A list of hints that describe the object.</p>
+<p><a id="docspec.HasMembers"></a></p>
+<p><a id="pydoc:docspec.HasMembers"></a></p>
+<h2 id="class-hasmembers">Class HasMembers</h2>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">HasMembers</span><span class="p">(</span><span class="n">ApiObject</span><span class="p">)</span>
+</code></pre></div>
+<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec/src/docspec/__init__.py#L357">[view_source]</a></p>
+<p>Base class for API objects that can have members, e.g. <a href="#pydoc:docspec.Class">Class</a> and <a href="#pydoc:docspec.Module">Module</a>.</p>
+<p><a id="docspec.HasMembers.members"></a></p>
+<p><a id="pydoc:docspec.HasMembers.members"></a></p>
+<h4 id="members">members</h4>
+<p>The members of the API object.</p>
+<p><a id="docspec.ClassSemantic"></a></p>
+<p><a id="pydoc:docspec.ClassSemantic"></a></p>
+<h2 id="class-classsemantic">Class ClassSemantic</h2>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">ClassSemantic</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">)</span>
+</code></pre></div>
+<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec/src/docspec/__init__.py#L371">[view_source]</a></p>
+<p>A list of well-known properties and behaviour that can be attributed to a class.</p>
+<p><a id="docspec.ClassSemantic.INTERFACE"></a></p>
+<p><a id="pydoc:docspec.ClassSemantic.INTERFACE"></a></p>
+<h4 id="interface">INTERFACE</h4>
+<p>The class describes an interface.</p>
+<p><a id="docspec.ClassSemantic.ABSTRACT"></a></p>
+<p><a id="pydoc:docspec.ClassSemantic.ABSTRACT"></a></p>
+<h4 id="abstract_1">ABSTRACT</h4>
+<p>The class is abstract.</p>
+<p><a id="docspec.ClassSemantic.FINAL"></a></p>
+<p><a id="pydoc:docspec.ClassSemantic.FINAL"></a></p>
+<h4 id="final_1">FINAL</h4>
+<p>The class is final.</p>
+<p><a id="docspec.ClassSemantic.ENUM"></a></p>
+<p><a id="pydoc:docspec.ClassSemantic.ENUM"></a></p>
+<h4 id="enum">ENUM</h4>
+<p>The class is an enumeration.</p>
+<p><a id="docspec.Class"></a></p>
+<p><a id="pydoc:docspec.Class"></a></p>
+<h2 id="class-class">Class Class</h2>
+<div class="highlight"><pre><span></span><code><span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span>
+<span class="k">class</span> <span class="nc">Class</span><span class="p">(</span><span class="n">HasMembers</span><span class="p">)</span>
+</code></pre></div>
+<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec/src/docspec/__init__.py#L390">[view_source]</a></p>
+<p>Represents a class definition.</p>
+<p><a id="docspec.Class.metaclass"></a></p>
+<p><a id="pydoc:docspec.Class.metaclass"></a></p>
+<h4 id="metaclass">metaclass</h4>
+<p>The metaclass used in the class definition as a code string.</p>
+<p><a id="docspec.Class.bases"></a></p>
+<p><a id="pydoc:docspec.Class.bases"></a></p>
+<h4 id="bases">bases</h4>
+<p>The list of base classes as code strings.</p>
+<p><a id="docspec.Class.decorations"></a></p>
+<p><a id="pydoc:docspec.Class.decorations"></a></p>
+<h4 id="decorations_2">decorations</h4>
+<p>A list of decorations used in the class definition.</p>
+<p><a id="docspec.Class.members"></a></p>
+<p><a id="pydoc:docspec.Class.members"></a></p>
+<h4 id="members_1">members</h4>
+<p>A list of the classes members. <a href="#pydoc:docspec.Function">Functions</a> in a class are to be considered instance methods of
+that class unless some information about the <a href="#pydoc:docspec.Function">Function</a> indicates otherwise.</p>
+<p><a id="docspec.Class.modifiers"></a></p>
+<p><a id="pydoc:docspec.Class.modifiers"></a></p>
+<h4 id="modifiers_2">modifiers</h4>
+<p>A list of language-specific modifiers that were used to declare this <a href="#pydoc:docspec.Variable">Variable</a> object.</p>
+<p><a id="docspec.Class.semantic_hints"></a></p>
+<p><a id="pydoc:docspec.Class.semantic_hints"></a></p>
+<h4 id="semantic_hints_2">semantic_hints</h4>
+<p>A list of hints that describe the object.</p>
+<p><a id="docspec.Module"></a></p>
+<p><a id="pydoc:docspec.Module"></a></p>
+<h2 id="class-module">Class Module</h2>
+<div class="highlight"><pre><span></span><code><span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span>
+<span class="k">class</span> <span class="nc">Module</span><span class="p">(</span><span class="n">HasMembers</span><span class="p">)</span>
+</code></pre></div>
+<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec/src/docspec/__init__.py#L418">[view_source]</a></p>
+<p>Represents a module, basically a named container for code/API objects. Modules may be nested in other modules.
+Be aware that for historical reasons, some loaders lile <code>docspec_python</code> by default do not return nested modules,
+even if nesting would be appropriate (and instead the <code>Module.name</code> simply contains the fully qualified name).</p>
+<p><a id="docspec.Module.members"></a></p>
+<p><a id="pydoc:docspec.Module.members"></a></p>
+<h4 id="members_2">members</h4>
+<p>A list of module members.</p>
+<p><a id="docspec.load_module"></a></p>
+<p><a id="pydoc:docspec.load_module"></a></p>
+<h4 id="load_module">load_module</h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">load_module</span><span class="p">(</span><span class="n">source</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">TextIO</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]],</span>
+                <span class="n">filename</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">loader</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Callable</span><span class="p">[[</span><span class="n">t</span><span class="o">.</span><span class="n">IO</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Module</span>
+</code></pre></div>
+<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec/src/docspec/__init__.py#L442">[view_source]</a></p>
+<p>Loads a <a href="#pydoc:docspec.Module">Module</a> from the specified <em>source</em>, which may be either a filename,
+a file-like object to read from or plain structured data.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><strong>source</strong>: The JSON source to load the module from.</li>
+<li><strong>filename</strong>: The name of the source. This will be displayed in error
+  messages if the deserialization fails.</li>
+<li><strong>loader</strong>: A function for loading plain structured data from a file-like
+  object. Defaults to <code>json.load()</code>.</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p>The loaded <code>Module</code> object.</p>
+<p><a id="docspec.load_modules"></a></p>
+<p><a id="pydoc:docspec.load_modules"></a></p>
+<h4 id="load_modules">load_modules</h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">load_modules</span><span class="p">(</span>
+        <span class="n">source</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">TextIO</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]],</span>
+        <span class="n">filename</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">loader</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Callable</span><span class="p">[[</span><span class="n">t</span><span class="o">.</span><span class="n">IO</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span>
+                           <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="n">Module</span><span class="p">]</span>
+</code></pre></div>
+<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec/src/docspec/__init__.py#L478">[view_source]</a></p>
+<p>Loads a stream of modules from the specified <em>source</em>. Similar to
+<a href="#pydoc:docspec.load_module">load_module()</a>, the <em>source</em> can be a filename, file-like object or a
+list of plain structured data to deserialize from.</p>
+<p><a id="docspec.dump_module"></a></p>
+<p><a id="pydoc:docspec.dump_module"></a></p>
+<h4 id="dump_module">dump_module</h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">dump_module</span><span class="p">(</span>
+    <span class="n">module</span><span class="p">:</span> <span class="n">Module</span><span class="p">,</span>
+    <span class="n">target</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">IO</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">dumper</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Callable</span><span class="p">[[</span><span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">IO</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dump</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]]</span>
+</code></pre></div>
+<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec/src/docspec/__init__.py#L520">[view_source]</a></p>
+<p>Dumps a module to the specified target or returns it as plain structured data.</p>
+<p><a id="docspec.filter_visit"></a></p>
+<p><a id="pydoc:docspec.filter_visit"></a></p>
+<h4 id="filter_visit">filter_visit</h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">filter_visit</span><span class="p">(</span><span class="n">objects</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">MutableSequence</span><span class="p">[</span><span class="n">ApiObject</span><span class="p">],</span>
+                 <span class="n">predicate</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Callable</span><span class="p">[[</span><span class="n">ApiObject</span><span class="p">],</span> <span class="nb">bool</span><span class="p">],</span>
+                 <span class="n">order</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;pre&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">MutableSequence</span><span class="p">[</span><span class="n">ApiObject</span><span class="p">]</span>
+</code></pre></div>
+<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec/src/docspec/__init__.py#L543">[view_source]</a></p>
+<p>Visits all <em>objects</em> recursively, applying the <em>predicate</em> in the specified <em>order</em>. If</p>
+<p>the predicate returrns <code>False</code>, the object will be removed from it's containing list.</p>
+<p>If an object is removed in pre-order, it's members will not be visited.</p>
+<p><strong>Arguments</strong>:</p>
+<ul>
+<li><code>objects</code>: A list of objects to visit recursively. This list will be modified if
+the <em>predicate</em> returns <code>False</code> for an object.</li>
+<li><code>predicate</code>: The function to apply over all visited objects.</li>
+<li><code>order</code>: The order in which the objects are visited. The default order is <code>'pre'</code>
+in which case the <em>predicate</em> is called before visiting the object's members. The
+order may also be <code>'post'</code>.</li>
+</ul>
+<p><a id="docspec.visit"></a></p>
+<p><a id="pydoc:docspec.visit"></a></p>
+<h4 id="visit">visit</h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">visit</span><span class="p">(</span><span class="n">objects</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">ApiObject</span><span class="p">],</span>
+          <span class="n">func</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Callable</span><span class="p">[[</span><span class="n">ApiObject</span><span class="p">],</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">],</span>
+          <span class="n">order</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;pre&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+</code></pre></div>
+<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec/src/docspec/__init__.py#L583">[view_source]</a></p>
+<p>Visits all <em>objects</em>, applying <em>func</em> in the specified <em>order</em>.</p>
+<p><a id="docspec.get_member"></a></p>
+<p><a id="pydoc:docspec.get_member"></a></p>
+<h4 id="get_member">get_member</h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_member</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">ApiObject</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">ApiObject</span><span class="p">]</span>
+</code></pre></div>
+<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec/src/docspec/__init__.py#L599">[view_source]</a></p>
+<p>Generic function to retrieve a member from an API object. This will always return <code>None</code> for
+objects that don't support members (eg. <a href="#pydoc:docspec.Function">Function</a> and <a href="#pydoc:docspec.Variable">Variable</a>).</p>
 
               
             </article>
           </div>
         </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" data-md-state="hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"/></svg>
+            Back to top
+          </a>
         
       </main>
       
@@ -386,7 +2193,7 @@
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../docspec-python/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Docspec python" rel="prev">
+        <a href="../../specification/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Specification" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -395,20 +2202,20 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              Docspec python
+              Specification
             </div>
           </div>
         </a>
       
       
         
-        <a href="../../changelog/docspec-python/" class="md-footer__link md-footer__link--next" aria-label="Next: Docspec-Python Changelog" rel="next">
+        <a href="../docspec-python/" class="md-footer__link md-footer__link--next" aria-label="Next: docspec-python" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Docspec-Python Changelog
+              docspec-python
             </div>
           </div>
           <div class="md-footer__button md-icon">
@@ -438,10 +2245,10 @@
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.bd0b6b67.min.js"}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.indexes", "navigation.instant", "navigation.tracking", "navigation.top", "toc.follow", "navigation.sections"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.bd0b6b67.min.js"}</script>
     
     
-      <script src="../../assets/javascripts/bundle.9f3ca3d1.min.js"></script>
+      <script src="../../assets/javascripts/bundle.b88e97c5.min.js"></script>
       
     
   </body>

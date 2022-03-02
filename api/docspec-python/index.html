@@ -9,11 +9,11 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.2">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.3">
     
     
       
-        <title>Docspec python - docspec</title>
+        <title>docspec-python - docspec</title>
       
     
     
@@ -21,6 +21,10 @@
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.e6a45f82.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#8bc34b">
         
       
     
@@ -48,7 +52,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="light-green" data-md-color-accent="pink">
   
     
     
@@ -56,6 +60,11 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
+      
+        
+        <a href="#load_python_modules" class="md-skip">
+          Skip to content
+        </a>
       
     </div>
     <div data-md-component="announce">
@@ -86,7 +95,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Docspec python
+              docspec-python
             
           </span>
         </div>
@@ -228,25 +237,47 @@
   
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
       
       
       
+        
+          
+        
+          
+        
+      
       
         <label class="md-nav__link" for="__nav_3">
-          Api
+          API
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" aria-label="Api" data-md-level="1">
+      <nav class="md-nav" aria-label="API" data-md-level="1">
         <label class="md-nav__title" for="__nav_3">
           <span class="md-nav__icon md-icon"></span>
-          Api
+          API
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../docspec/" class="md-nav__link">
+        docspec
+      </a>
+    </li>
+  
+
+            
           
             
               
@@ -261,24 +292,74 @@
       
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          docspec-python
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
-        Docspec python
+        docspec-python
       </a>
       
-    </li>
-  
+        
 
-            
-          
-            
-              
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
   
-    <li class="md-nav__item">
-      <a href="../docspec/" class="md-nav__link">
-        Docspec
-      </a>
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#load_python_modules" class="md-nav__link">
+    load_python_modules
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parse_python_module" class="md-nav__link">
+    parse_python_module
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#find_module" class="md-nav__link">
+    find_module
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#iter_package_files" class="md-nav__link">
+    iter_package_files
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#discover" class="md-nav__link">
+    discover
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#format_arglist" class="md-nav__link">
+    format_arglist
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -298,12 +379,20 @@
   
   
     
-    <li class="md-nav__item md-nav__item--nested">
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
       
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
       
       
+      
+        
+          
+        
+          
+        
       
       
         <label class="md-nav__link" for="__nav_4">
@@ -324,8 +413,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../../changelog/docspec-python/" class="md-nav__link">
-        Docspec-Python Changelog
+      <a href="../../changelog/docspec/" class="md-nav__link">
+        docspec
       </a>
     </li>
   
@@ -338,8 +427,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../../changelog/docspec/" class="md-nav__link">
-        Docspec Changelog
+      <a href="../../changelog/docspec-python/" class="md-nav__link">
+        docspec-python
       </a>
     </li>
   
@@ -359,6 +448,72 @@
               </div>
             
             
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#load_python_modules" class="md-nav__link">
+    load_python_modules
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parse_python_module" class="md-nav__link">
+    parse_python_module
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#find_module" class="md-nav__link">
+    find_module
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#iter_package_files" class="md-nav__link">
+    iter_package_files
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#discover" class="md-nav__link">
+    discover
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#format_arglist" class="md-nav__link">
+    format_arglist
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
           
           <div class="md-content" data-md-component="content">
             <article class="md-content__inner md-typeset">
@@ -370,14 +525,104 @@
 
 
 
-  <h1>Docspec python</h1>
+  <h1>docspec-python</h1>
 
-<p>@pydoc docspec_python</p>
+<p><a id="docspec_python.load_python_modules"></a></p>
+<p><a id="pydoc:docspec_python.load_python_modules"></a></p>
+<h4 id="load_python_modules">load_python_modules</h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">load_python_modules</span><span class="p">(</span>
+        <span class="n">modules</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">packages</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">search_path</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">options</span><span class="p">:</span> <span class="n">ParserOptions</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">raise_</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">encoding</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="n">Module</span><span class="p">]</span>
+</code></pre></div>
+<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec-python/src/docspec_python/__init__.py#L48">[view_source]</a></p>
+<p>Utility function for loading multiple <a href="/api/docspec#pydoc:docspec.Module">Modules</a> from a list of Python module and package
+names. It combines <a href="#pydoc:docspec_python.find_module">find_module()</a>, <a href="#pydoc:docspec_python.iter_package_files">iter_package_files()</a> and <a href="#pydoc:docspec_python.parse_python_module">parse_python_module()</a> in a
+convenient way.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><strong>modules</strong>: A list of module names to load and parse.</li>
+<li><strong>packages</strong>: A list of package names to load and parse.</li>
+<li><strong>search_path</strong>: The Python module search path. Falls back to <code>sys.path</code> if omitted.</li>
+<li><strong>options</strong>: Options for the Python module parser.</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p>Iterable of <a href="/api/docspec#pydoc:docspec.Module">Module</a>.</p>
+<p><a id="docspec_python.parse_python_module"></a></p>
+<p><a id="pydoc:docspec_python.parse_python_module"></a></p>
+<h4 id="parse_python_module">parse_python_module</h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">parse_python_module</span><span class="p">(</span><span class="n">fp</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">TextIO</span><span class="p">],</span>
+                        <span class="n">filename</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                        <span class="n">module_name</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                        <span class="n">options</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">ParserOptions</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                        <span class="n">encoding</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Module</span>
+</code></pre></div>
+<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec-python/src/docspec_python/__init__.py#L109">[view_source]</a></p>
+<p>Parses Python code of a file or file-like object and returns a <a href="/api/docspec#pydoc:docspec.Module">Module</a>
+object with the contents of the file The <em>options</em> are forwarded to the
+{@link pydoc:docspec_python.parser.Parser} constructor.</p>
+<p><a id="docspec_python.find_module"></a></p>
+<p><a id="pydoc:docspec_python.find_module"></a></p>
+<h4 id="find_module">find_module</h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">find_module</span><span class="p">(</span><span class="n">module_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                <span class="n">search_path</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span>
+</code></pre></div>
+<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec-python/src/docspec_python/__init__.py#L136">[view_source]</a></p>
+<p>Finds the filename of a module that can be parsed with <a href="#pydoc:docspec_python.parse_python_module">parse_python_module()</a>. If <em>search_path</em> is not set,</p>
+<p>the default <code>sys.path</code> is used to search for the module. If <em>module_name</em> is a Python package, it will return the
+path to the package's <code>__init__.py</code> file. If the module does not exist, an <code>ImportError</code> is raised. This is also
+true for PEP 420 namespace packages that do not provide an <code>__init__.py</code> file.</p>
+<p><strong>Raises</strong>:</p>
+<ul>
+<li><code>ImportError</code>: If the module cannot be found.</li>
+</ul>
+<p><a id="docspec_python.iter_package_files"></a></p>
+<p><a id="pydoc:docspec_python.iter_package_files"></a></p>
+<h4 id="iter_package_files">iter_package_files</h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">iter_package_files</span><span class="p">(</span>
+    <span class="n">package_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">search_path</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span>
+</code></pre></div>
+<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec-python/src/docspec_python/__init__.py#L166">[view_source]</a></p>
+<p>Returns an iterator for the Python source files in the specified package. The items returned
+by the iterator are tuples of the module name and filename. Supports a PEP 420 namespace package
+if at least one matching directory with at least one Python source file in it is found.</p>
+<p><a id="docspec_python.discover"></a></p>
+<p><a id="pydoc:docspec_python.discover"></a></p>
+<h4 id="discover">discover</h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">discover</span><span class="p">(</span><span class="n">directory</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="n">DiscoveryResult</span><span class="p">]</span>
+</code></pre></div>
+<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec-python/src/docspec_python/__init__.py#L221">[view_source]</a></p>
+<p>Discovers Python modules and packages in the specified <em>directory</em>. The returned generated</p>
+<p>returns tuples where the first element of the tuple is the type (either <code>'module'</code> or
+<code>'package'</code>), the second is the name and the third is the path. In case of a package,
+the path points to the directory.</p>
+<p><strong>Raises</strong>:</p>
+<ul>
+<li><code>OSError</code>: Propagated from <code>os.listdir()</code>.</li>
+</ul>
+<p><a id="docspec_python.format_arglist"></a></p>
+<p><a id="pydoc:docspec_python.format_arglist"></a></p>
+<h4 id="format_arglist">format_arglist</h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">format_arglist</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">Argument</span><span class="p">],</span>
+                   <span class="n">render_type_hints</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span>
+</code></pre></div>
+<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec-python/src/docspec_python/__init__.py#L243">[view_source]</a></p>
+<p>Formats a Python argument list.</p>
 
               
             </article>
           </div>
         </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" data-md-state="hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"/></svg>
+            Back to top
+          </a>
         
       </main>
       
@@ -386,7 +631,7 @@
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../../specification/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Specification" rel="prev">
+        <a href="../docspec/" class="md-footer__link md-footer__link--prev" aria-label="Previous: docspec" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -395,20 +640,20 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              Specification
+              docspec
             </div>
           </div>
         </a>
       
       
         
-        <a href="../docspec/" class="md-footer__link md-footer__link--next" aria-label="Next: Docspec" rel="next">
+        <a href="../../changelog/docspec/" class="md-footer__link md-footer__link--next" aria-label="Next: docspec" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Docspec
+              docspec
             </div>
           </div>
           <div class="md-footer__button md-icon">
@@ -438,10 +683,10 @@
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.bd0b6b67.min.js"}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.indexes", "navigation.instant", "navigation.tracking", "navigation.top", "toc.follow", "navigation.sections"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.bd0b6b67.min.js"}</script>
     
     
-      <script src="../../assets/javascripts/bundle.9f3ca3d1.min.js"></script>
+      <script src="../../assets/javascripts/bundle.b88e97c5.min.js"></script>
       
     
   </body>
