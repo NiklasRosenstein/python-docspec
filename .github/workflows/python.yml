@@ -36,20 +36,13 @@ jobs:
     - name: Slam test
       run: DOCSPEC_TEST_NO_DEVELOP=true slam test ${{ matrix.project }}
 
-  update-pr-numbers:
-    if: github.event_name == 'pull_request'
-    permissions:
-      contents: write
+  changelog-update:
     runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
-      with: { python-version: "3.10" }
-    - name: Install Slam
-      run: pip install -r .github/files/slam-cli.txt
-    - name: Update PR references in changelogs
-      run: slam -vv changelog update-pr --use github-actions
+      - uses: actions/checkout@v2
+      - uses: NiklasRosenstein/slam@github-action/changelog-update/v1
+        with: { version: '*' }
 
   build-documentation:
     runs-on: ubuntu-latest
