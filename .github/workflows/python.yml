@@ -42,7 +42,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: NiklasRosenstein/slam@github-action/changelog-update/v1
-        with: { version: '*' }
 
   build-documentation:
     runs-on: ubuntu-latest
