@@ -4,11 +4,11 @@ import dataclasses
 import sys
 import typing as t
 
+import databind.core.annotations as annotations
+import databind.json
 import mako.template
 import typing_extensions as te
 import yaml
-from databind.core.settings import Union
-from databind.json import load
 
 TEMPLATE = r'''
 <%def name="struct(k, s)">
@@ -70,12 +70,12 @@ class Enum:
 
 Config = t.Dict[str, te.Annotated[
   t.Union[Struct, Enum],
-  Union({ 'struct': Struct, 'enum': Enum }, Union.FLAT)]]
+  annotations.union({ 'struct': Struct, 'enum': Enum }, style=annotations.union.Style.flat)]]
 
 
 def main():
   with open(sys.argv[1]) as fp:
-    config = load(yaml.safe_load(fp), Config, filename=fp.name)
+    config = databind.json.load(yaml.safe_load(fp), Config, filename=fp.name)
 
   template = mako.template.Template(TEMPLATE)
   print(template.render(config=config, Struct=Struct, Enum=Enum))
