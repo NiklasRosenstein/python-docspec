@@ -6,4 +6,4 @@ enabled = false
 "docs:dev" = "cd docs && novella --serve"
 
 [install.extras]
-docs = ["mako", "mkdocs", "mkdocs-material", "novella==0.1.11", "pydoc-markdown==4.6.0", "databind==2.0.0a2"]
+docs = ["mako", "mkdocs", "mkdocs-material", "novella==0.1.11", "pydoc-markdown==4.6.0", "databind ^2.0.0a1"]
