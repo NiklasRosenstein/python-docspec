@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "docspec"
-version = "2.0.0"
+version = "2.0.1"
 description = "Docspec is a JSON object specification for representing API documentation of programming languages."
 authors = ["Niklas Rosenstein <rosensteinniklas@gmail.com>"]
 license = "MIT"
