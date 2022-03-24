@@ -245,7 +245,7 @@ def format_arglist(args: t.Sequence[Argument], render_type_hints: bool = True) -
   Formats a Python argument list.
   """
 
-  result = []
+  result: t.List[str] = []
 
   for arg in args:
     parts = []
