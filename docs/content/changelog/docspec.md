@@ -1,3 +1,3 @@
 # Docspec Changelog
 
-@shell cd ../docspec && slam changelog format --all --markdown
+@shell cd ../docspec && slap changelog format --all --markdown

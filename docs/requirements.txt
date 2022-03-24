@@ -1,6 +1,0 @@
-mako
-mkdocs
-mkdocs-material
-novella==0.1.11
-pydoc-markdown==4.6.0
--r ../.github/files/slam-cli.txt
