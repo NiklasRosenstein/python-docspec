@@ -8,26 +8,26 @@ readme = "readme.md"
 homepage = "https://github.com/NiklasRosenstein/docspec/"
 packages = [{include="docspec", from="src"}]
 
-  [tool.poetry.dependencies]
-  python = "^3.7"
-  "databind" = "^1.5.0"
-  Deprecated = "^1.2.12"
+[tool.poetry.dependencies]
+python = "^3.7"
+"databind" = "^1.5.0"
+Deprecated = "^1.2.12"
 
-  [tool.poetry.dev-dependencies]
-  mypy = "*"
-  pytest = "*"
-  types-Deprecated = "*"
-  types-termcolor = "*"
+[tool.poetry.dev-dependencies]
+mypy = "*"
+pytest = "*"
+types-Deprecated = "*"
+types-termcolor = "*"
 
-  [tool.poetry.scripts]
-  docspec = "docspec.__main__:main"
+[tool.poetry.scripts]
+docspec = "docspec.__main__:main"
 
-[tool.slam]
+[tool.slap]
 typed = true
 
-  [tool.slam.test]
-  pytest = "pytest test/ -vv"
-  mypy = "mypy src/ test/ --check-untyped-defs"
+[tool.slap.test]
+pytest = "pytest test/ -vv"
+mypy = "mypy src/ test/ --check-untyped-defs"
 
 [build-system]
 requires = ["poetry-core"]

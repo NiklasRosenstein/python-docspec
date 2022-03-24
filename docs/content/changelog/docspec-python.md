@@ -1,3 +1,3 @@
 # Docspec-Python Changelog
 
-@shell cd ../docspec-python && slam changelog format --all --markdown
+@shell cd ../docspec-python && slap changelog format --all --markdown

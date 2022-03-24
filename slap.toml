@@ -1,0 +1,9 @@
+[changelog]
+enabled = false
+
+[run]
+"docs:build" = "cd docs && novella --base-url docspec/"
+"docs:dev" = "cd docs && novella --serve"
+
+[install.extras]
+docs = ["mako", "mkdocs", "mkdocs-material", "novella==0.1.15", "pydoc-markdown==4.6.0", "databind ^1.5.0"]
