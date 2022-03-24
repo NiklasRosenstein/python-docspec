@@ -33,12 +33,12 @@ import sys
 loc = Location('<string>', 0, None)
 
 
-def mkfunc(name: str, docstring: Optional[str], lineno: int, args: List[Argument]) -> Function:
+def mkfunc(name: str, docstring: Optional[str], lineno: int, args: List[Argument], modifiers: Optional[List[str]] = None) -> Function:
   return Function(
     name=name,
     location=loc,
     docstring=Docstring(Location(get_callsite().code_name, lineno), docstring) if docstring else None,
-    modifiers=None,
+    modifiers=modifiers,
     args=args,
     return_type=None,
     decorations=[],
@@ -227,6 +227,9 @@ def test_funcdef_6_starred_args():
 
   def func5(abc, *, kwonly):
     '''Docstring goes here'''
+
+  async def func6(cls, *fs, loop=None, timeout=None, total=None, **tqdm_kwargs):
+    ''' Docstring goes here. '''
   """
 
   return [
@@ -249,6 +252,14 @@ def test_funcdef_6_starred_args():
       Argument(loc, 'abc', Argument.Type.POSITIONAL, None, None, None),
       Argument(loc, 'kwonly', Argument.Type.KEYWORD_ONLY, None, None, None),
     ]),
+    mkfunc('func6', 'Docstring goes here.', 16, [
+      Argument(loc, 'cls', Argument.Type.POSITIONAL, None, None, None),
+      Argument(loc, 'fs', Argument.Type.POSITIONAL_REMAINDER, None, None, None),
+      Argument(loc, 'loop', Argument.Type.KEYWORD_ONLY, None, None, 'None'),
+      Argument(loc, 'timeout', Argument.Type.KEYWORD_ONLY, None, None, 'None'),
+      Argument(loc, 'total', Argument.Type.KEYWORD_ONLY, None, None, 'None'),
+      Argument(loc, 'tqdm_kwargs', Argument.Type.KEYWORD_REMAINDER, None, None, None),
+    ], ['async'])
   ]
 
 
