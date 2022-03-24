@@ -1,0 +1,8 @@
+[[entries]]
+id = "04bfb316-45e8-41a5-b385-568684e12fbb"
+type = "fix"
+description = "Fix `format_arglist()` for function signatures that contained a `POSITIONAL_REMAINDER` argument followed by a `KEYWORD_ONLY` (i.e. any other arguments besides `KEYWORD_REMAINDER`) to not yield an additional star (`*`)"
+author = "@NiklasRosenstein"
+issues = [
+    "https://github.com/NiklasRosenstein/pydoc-markdown/issues/255",
+]

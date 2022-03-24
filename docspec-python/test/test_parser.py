@@ -20,7 +20,7 @@
 # IN THE SOFTWARE.
 
 from docspec import *
-from docspec_python import parse_python_module, ParserOptions
+from docspec_python import format_arglist, parse_python_module, ParserOptions
 from functools import wraps
 from io import StringIO
 from json import dumps
@@ -293,6 +293,7 @@ def test_funcdef_7_posonly_args():
     ]),
   ]
 
+
 @docspec_test()
 def test_classdef_1_exceptions():
   """
@@ -420,3 +421,15 @@ def test_indirections():
       Indirection(Location('test_indirections', 19), 'dirname', None, 'os.path.dirname'),
     ])
   ]
+
+
+def test_format_arglist():
+  func = mkfunc('func6', 'Docstring goes here.', 16, [
+      Argument(loc, 'cls', Argument.Type.POSITIONAL, None, None, None),
+      Argument(loc, 'fs', Argument.Type.POSITIONAL_REMAINDER, None, None, None),
+      Argument(loc, 'loop', Argument.Type.KEYWORD_ONLY, None, None, 'None'),
+      Argument(loc, 'timeout', Argument.Type.KEYWORD_ONLY, None, None, 'None'),
+      Argument(loc, 'total', Argument.Type.KEYWORD_ONLY, None, None, 'None'),
+      Argument(loc, 'tqdm_kwargs', Argument.Type.KEYWORD_REMAINDER, None, None, None),
+    ], ['async'])
+  assert format_arglist(func.args, True) == 'cls, *fs, loop=None, timeout=None, total=None, **tqdm_kwargs'

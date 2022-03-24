@@ -249,7 +249,7 @@ def format_arglist(args: t.Sequence[Argument], render_type_hints: bool = True) -
 
   for arg in args:
     parts = []
-    if arg.type == Argument.Type.KEYWORD_ONLY and '*' not in result:
+    if arg.type == Argument.Type.KEYWORD_ONLY and not any(x.startswith('*') for x in result):
       result.append('*')
     parts = [arg.name]
     if arg.datatype and render_type_hints:
