@@ -1,0 +1,5 @@
+[[entries]]
+id = "9698224d-eca1-41c5-9cf5-c04d34a607fe"
+type = "fix"
+description = "fix parsing trailing comma after keyword remainder argument in function definition (before it would accidentally consider the comma as a positional argument)"
+author = "@NiklasRosenstein"

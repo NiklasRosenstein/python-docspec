@@ -361,6 +361,8 @@ class Parser:
       elif node and node.type == token.DOUBLESTAR:
         node = index.next()
         result.append(self.parse_argument(node, Argument.Type.KEYWORD_REMAINDER, index))
+        argtype = Argument.Type.KEYWORD_ONLY
+        index.advance()
 
       else:
         result.append(self.parse_argument(node, argtype, index))

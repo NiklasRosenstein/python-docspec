@@ -33,14 +33,14 @@ import sys
 loc = Location('<string>', 0, None)
 
 
-def mkfunc(name: str, docstring: Optional[str], lineno: int, args: List[Argument], modifiers: Optional[List[str]] = None) -> Function:
+def mkfunc(name: str, docstring: Optional[str], lineno: int, args: List[Argument], modifiers: Optional[List[str]] = None, return_type: Optional[str] = None) -> Function:
   return Function(
     name=name,
     location=loc,
     docstring=Docstring(Location(get_callsite().code_name, lineno), docstring) if docstring else None,
     modifiers=modifiers,
     args=args,
-    return_type=None,
+    return_type=return_type,
     decorations=[],
   )
 
@@ -433,3 +433,42 @@ def test_format_arglist():
       Argument(loc, 'tqdm_kwargs', Argument.Type.KEYWORD_REMAINDER, None, None, None),
     ], ['async'])
   assert format_arglist(func.args, True) == 'cls, *fs, loop=None, timeout=None, total=None, **tqdm_kwargs'
+
+
+
+@docspec_test()
+def test_funcdef_with_trailing_comma():
+    """
+    def build_docker_image(
+        name: str = "buildDocker",
+        default: bool = False,
+        dockerfile: str = "docker/release.Dockerfile",
+        project: Project | None = None,
+        auth: dict[str, tuple[str, str]] | None = None,
+        secrets: dict[str, str] | None = None,
+        image_qualifier: str | None = None,
+        platforms: list[str] | None = None,
+        **kwargs: Any,
+    ) -> Task:
+        pass
+    """
+
+    return [
+      mkfunc(
+        "build_docker_image",
+        None,
+        0,
+        [
+          Argument(loc, "name", Argument.Type.POSITIONAL, None, "str", '"buildDocker"'),
+          Argument(loc, "default", Argument.Type.POSITIONAL, None, "bool", 'False'),
+          Argument(loc, "dockerfile", Argument.Type.POSITIONAL, None, "str", '"docker/release.Dockerfile"'),
+          Argument(loc, "project", Argument.Type.POSITIONAL, None, "Project | None", 'None'),
+          Argument(loc, "auth", Argument.Type.POSITIONAL, None, "dict[str, tuple[str, str]] | None", 'None'),
+          Argument(loc, "secrets", Argument.Type.POSITIONAL, None, "dict[str, str] | None", 'None'),
+          Argument(loc, "image_qualifier", Argument.Type.POSITIONAL, None, "str | None", 'None'),
+          Argument(loc, "platforms", Argument.Type.POSITIONAL, None, "list[str] | None", 'None'),
+          Argument(loc, "kwargs", Argument.Type.KEYWORD_REMAINDER, None, "Any", None),
+        ],
+        return_type="Task"
+      ),
+    ]
