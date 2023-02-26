@@ -24,10 +24,13 @@ Note: The `docspec_python.parser` module is not public API.
 """
 
 import dataclasses
+from io import StringIO
 import os
 import re
+import sys
 import textwrap
 import typing as t
+import logging
 
 from nr.util.iter import SequenceWalker
 
@@ -42,11 +45,58 @@ from docspec import (
   Location,
   Module,
   _ModuleMembers)
-from lib2to3.refactor import RefactoringTool  # type: ignore
-from lib2to3.pgen2 import token
-from lib2to3.pgen2.parse import ParseError
-from lib2to3.pygram import python_symbols as syms
-from lib2to3.pytree import Leaf, Node
+from black.parsing import lib2to3_parse
+from blib2to3.pgen2 import token
+import blib2to3.pgen2.parse
+from blib2to3.pygram import python_symbols as syms
+from blib2to3.pytree import Leaf, Node, Context, NL, type_repr
+
+#: Logger for debugging. Slap it in when and where needed.
+#:
+#: Note to self and others, you can get debug log output with something like
+#:
+#:    do
+#:      name: "debug-logging"
+#:      closure: {
+#:        precedes "copy-files"
+#:      }
+#:      action: {
+#:        logging.getLogger("").setLevel(logging.DEBUG)
+#:      }
+#:
+#: in your `build.novella` file. Be warned, it's a _lot_ of output, and lags the
+#: build out considerably.
+#:
+_LOG = logging.getLogger(__name__)
+
+class ParseError(blib2to3.pgen2.parse.ParseError):
+  """Extends `blib2to3.pgen2.parse.ParseError` to add a `filename` attribute."""
+
+  msg: t.Text
+  type: t.Optional[int]
+  value: t.Optional[t.Text]
+  context: Context
+  filename: t.Text
+
+  def __init__(
+      self,
+      msg: t.Text,
+      type: t.Optional[int],
+      value: t.Optional[t.Text],
+      context: Context,
+      filename: t.Text
+  ) -> None:
+      Exception.__init__(
+        self, "%s: type=%r, value=%r, context=%r, filename=%r" % (
+          msg, type, value, context, filename
+        )
+      )
+      self.msg = msg
+      self.type = type
+      self.value = value
+      self.context = context
+      self.filename = filename
+
 
 
 def dedent_docstring(s):
@@ -55,23 +105,152 @@ def dedent_docstring(s):
   lines[1:] = textwrap.dedent('\n'.join(lines[1:])).split('\n')
   return '\n'.join(lines).strip()
 
+T = t.TypeVar("T")
+V = t.TypeVar("V")
 
-def find(predicate, iterable):
+@t.overload
+def find(predicate: t.Callable[[T], t.TypeGuard[V]], iterable: t.Iterable[T]) -> V | None:
+  ...
+@t.overload
+def find(predicate: t.Callable[[T], t.Any], iterable: t.Iterable[T]) -> T | None:
+  ...
+@t.overload
+def find(predicate: t.Callable[[T], t.Any], iterable: t.Iterable[T], as_type: type[V]) -> V | None:
+  ...
+
+
+def find(predicate, iterable, as_type=None):
+  """Basic find function, plus the ability to add an `as_type` argument and
+  receive a typed result (or raise `TypeError`).
+
+  As you might expect, this is really only to make typing easier.
+  """
   for item in iterable:
     if predicate(item):
+      if (as_type is not None) and (not isinstance(item, as_type)):
+        raise TypeError(
+          "expected predicate to only match type {}, matched {!r}".format(
+            as_type,
+            item,
+          )
+        )
       return item
   return None
 
 
+@t.overload
+def get(predicate: t.Callable[[T], t.TypeGuard[V]], iterable: t.Iterable[T]) -> V:
+  ...
+@t.overload
+def get(predicate: t.Callable[[T], object], iterable: t.Iterable[T]) -> T:
+  ...
+@t.overload
+def get(predicate: t.Callable[[T], object], iterable: t.Iterable[T], as_type: type[V]) -> V:
+  ...
+
+def get(predicate, iterable, as_type=None):
+  """Like `find`, but raises `ValueError` if `predicate` does not match. Assumes
+  that `None` means "no match", so don't try to use it to get `None` values in
+  `iterable`.
+  """
+  if isinstance(as_type, type):
+    found = find(predicate, iterable, as_type)
+  else:
+    found = find(predicate, iterable)
+
+  if found is None:
+    raise ValueError(
+      "item not found for predicate {!r} in iterable {!r}".format(
+        predicate, iterable
+      )
+    )
+
+  return found
+
+
+def is_node(x: object) -> t.TypeGuard[Node]:
+  """A simple `typing.TypeGuard` for `blib2to3.pytree.Node` instances.
+
+  Useful because things like `lamda x: isinstance(x, Node)` seemingly _do not_
+  infer their return type as `typing.TypeGuard[Node]`.
+  """
+  return isinstance(x, Node)
+
+
+def get_type_name(nl: NL) -> str:
+  """Get the "type name" for a `blib2to3.pytree.NL`, which is a `Node` or
+  `Leaf`. For display / debugging purposes.
+  """
+  if isinstance(nl, Node):
+    return str(type_repr(nl.type))
+  return str(token.tok_name.get(nl.type, nl.type))
+
+
+def pprint_nl(
+  nl: NL,
+  file: t.IO[str] = sys.stdout,
+  indent: int = 4,
+  _depth: int = 0
+) -> None:
+  """Pretty-print a `blib2to3.pytree.NL` over a bunch of lines, with indents,
+  to make it easier to read. Display / debugging use.
+  """
+  assert nl.type is not None
+
+  indent_s = (" " * indent * _depth)
+
+  if nl.children:
+    print(
+      "{indent_s}{class_name}({type_name}, [".format(
+        indent_s=indent_s,
+        class_name=nl.__class__.__name__,
+        type_name=get_type_name(nl),
+      ),
+      file=file,
+    )
+    for child in nl.children:
+      pprint_nl(child, file=file, _depth=_depth + 1)
+    print("{indent_s}])".format(indent_s=indent_s), file=file)
+  else:
+    print(
+      "{indent_s}{class_name}({type_name}, [])".format(
+        indent_s=indent_s,
+        class_name=nl.__class__.__name__,
+        type_name=get_type_name(nl),
+      ),
+      file=file,
+    )
+
+def pformat_nl(nl: NL) -> str:
+  """Same as `pprint_nl`, but writes to a `str`.
+  """
+  sio = StringIO()
+  pprint_nl(nl, file=sio)
+  return sio.getvalue()
+
+def get_value(node: NL) -> str:
+  if isinstance(node, Leaf):
+    return node.value
+  raise TypeError(
+    "expected node to have a `value` attribute (be a Leaf), given {!r}".format(node)
+  )
+
 @dataclasses.dataclass
 class ParserOptions:
+  # NOTE (@nrser) This is no longer used. It was passed to
+  #   `lib2to3.refactor.RefactoringTool`, but that's been swapped out for
+  #   `black.parsing.lib2to3_parse`, which does not take the same options.
+  #
+  #   It looks like it supported Python 2.x code, and I don't see anything
+  #   before 3.3 in `black.mode.TargetVersion`, so 2.x might be completely off
+  #   the table when using the Black parser.
   print_function: bool = True
   treat_singleline_comment_blocks_as_docstrings: bool = False
 
 
 class Parser:
 
-  def __init__(self, options: ParserOptions = None) -> None:
+  def __init__(self, options: t.Optional[ParserOptions] = None) -> None:
     self.options = options or ParserOptions()
 
   def parse_to_ast(self, code, filename):
@@ -79,15 +258,13 @@ class Parser:
     Parses the string *code* to an AST with #lib2to3.
     """
 
-    options = {'print_function': self.options.print_function}
-
     try:
       # NOTE (@NiklasRosenstein): Adding newline at the end, a ParseError
       #   could be raised without a trailing newline (tested in CPython 3.6
       #   and 3.7).
-      return RefactoringTool([], options).refactor_string(code + '\n', filename)
+      return lib2to3_parse(code + '\n')
     except ParseError as exc:
-      raise ParseError(exc.msg, exc.type, exc.value, tuple(exc.context) + (filename,))
+      raise ParseError(exc.msg, exc.type, exc.value, exc.context, filename)
 
   def parse(self, ast, filename, module_name=None):
     self.filename = filename  # pylint: disable=attribute-defined-outside-init
@@ -116,7 +293,12 @@ class Parser:
     module.sync_hierarchy()
     return module
 
-  def parse_declaration(self, parent, node, decorations=None) -> t.Union[None, _ModuleMembers, t.List[_ModuleMembers]]:
+  def parse_declaration(
+    self,
+    parent,
+    node,
+    decorations: t.Optional[list[Decoration]] = None
+  ) -> t.Union[None, _ModuleMembers, t.List[_ModuleMembers]]:
     if node.type == syms.simple_stmt:
       assert not decorations
       stmt = node.children[0]
@@ -147,7 +329,7 @@ class Parser:
       return self.parse_declaration(parent, node.children[1], decorations)
     return None
 
-  def _split_statement(self, stmt):
+  def _split_statement(self, stmt: Node) -> tuple[list[NL], list[NL], list[NL]]:
     """
     Parses a statement node into three lists, consisting of the leaf nodes
     that are the name(s), annotation and value of the expression. The value
@@ -155,7 +337,11 @@ class Parser:
     a plain expression).
     """
 
-    def _parse(stack, current, stmt):
+    def _parse(
+      stack: list[tuple[str, list[NL]]],
+      current: tuple[str, list[NL]],
+      stmt: Node
+    ) -> list[tuple[str, list[NL]]]:
       for child in stmt.children:
         if not isinstance(child, Node) and child.value == '=':
           stack.append(current)
@@ -170,7 +356,7 @@ class Parser:
       stack.append(current)
       return stack
 
-    result = dict(_parse([], ('names', []), stmt))
+    result: dict[str, list[NL]] = dict(_parse([], ('names', []), stmt))
     return result.get('names', []), result.get('annotation', []), result.get('value', [])
 
   def parse_import(self, parent, node: Node) -> t.Iterable[Indirection]:
@@ -222,13 +408,16 @@ class Parser:
     else:
       raise RuntimeError(f'dont know how to deal with {node!r}')
 
-  def parse_statement(self, parent, stmt):
+  def parse_statement(self, parent: Node, stmt: Node) -> t.Optional[Variable]:
     names, annotation, value = self._split_statement(stmt)
+    data: t.Optional[Variable] = None
     if value or annotation:
       docstring = self.get_statement_docstring(stmt)
       expr = self.nodes_to_string(value) if value else None
       annotation = self.nodes_to_string(annotation) if annotation else None
       assert names
+      # NOTE (@nrser) Does this have some sort of side-effect from creating
+      #   the `Variable` instance? Why loop versus directly use `names[-1]`?
       for name in names:
         name = self.nodes_to_string([name])
         data = Variable(
@@ -238,21 +427,44 @@ class Parser:
           datatype=annotation,
           value=expr,
         )
-      return data
-    return None
+    return data
 
-  def parse_decorator(self, node):
-    assert node.children[0].value == '@'
-    name = self.name_to_string(node.children[1])
-    call_expr = self.nodes_to_string(node.children[2:]).strip()
+  def parse_decorator(self, node: Node):
+    assert get_value(node.children[0]) == '@'
+
+    # NOTE (@nrser)I have no idea why `blib2to3` parses some decorators with a 'power'
+    #   node (which _seems_ refer to the exponent operator `**`), but it
+    #   does.
+    #
+    #   The hint I eventually found was:
+    #
+    #   https://github.com/psf/black/blob/b0d1fba7ac3be53c71fb0d3211d911e629f8aecb/src/black/nodes.py#L657
+    #
+    #   Anyways, this works around that curiosity.
+    if node.children[1].type == syms.power:
+      name = self.name_to_string(node.children[1].children[0])
+      call_expr = self.nodes_to_string(node.children[1].children[1:]).strip()
+
+    else:
+      name = self.name_to_string(node.children[1])
+      call_expr = self.nodes_to_string(node.children[2:]).strip()
+
     return Decoration(location=self.location_from(node), name=name, args=call_expr or None)
 
-  def parse_funcdef(self, parent, node, is_async, decorations):
-    parameters = find(lambda x: x.type == syms.parameters, node.children)
-    body = find(lambda x: x.type == syms.suite, node.children) or \
-      find(lambda x: x.type == syms.simple_stmt, node.children)
+  def parse_funcdef(
+    self,
+    parent: Node,
+    node: Node,
+    is_async: bool,
+    decorations: t.Optional[list[Decoration]]
+  ) -> Function:
+    parameters = get(lambda x: x.type == syms.parameters, node.children, as_type=Node)
+    body = (
+      find(lambda x: x.type == syms.suite, node.children, as_type=Node)
+      or get(lambda x: x.type == syms.simple_stmt, node.children, as_type=Node)
+    )
 
-    name = node.children[1].value
+    name = get_value(node.children[1])
     docstring = self.get_docstring_from_first_node(body)
     args = self.parse_parameters(parameters)
     return_ = self.get_return_annotation(node)
@@ -267,23 +479,28 @@ class Parser:
       return_type=return_,
       decorations=decorations)
 
-  def parse_argument(self, node: t.Union[Leaf, Node, None], argtype: Argument.Type, scanner: 'SequenceWalker[Leaf | Node]') -> Argument:
+  def parse_argument(
+    self,
+    node: t.Optional[NL],
+    argtype: Argument.Type,
+    scanner: SequenceWalker[NL],
+  ) -> Argument:
     """
     Parses an argument from the AST. *node* must be the current node at
     the current position of the *scanner*. The scanner is used to extract
     the optional default argument value that follows the *node*.
     """
 
-    def parse_annotated_name(node):
-      if node.type == syms.tname:
+    def parse_annotated_name(node: NL) -> tuple[str, t.Optional[str]]:
+      if node.type in (syms.tname, syms.tname_star):
         scanner = SequenceWalker(node.children)
-        name = scanner.current.value
+        name = get_value(scanner.current)
         node = scanner.next()
         assert node.type == token.COLON, node.parent
         node = scanner.next()
         annotation = self.nodes_to_string([node])
       elif node:
-        name = node.value
+        name = get_value(node)
         annotation = None
       else:
         raise RuntimeError('unexpected node: {!r}'.format(node))
@@ -298,6 +515,7 @@ class Parser:
     default = None
     if node and node.type == token.EQUAL:
       node = scanner.advance()
+      assert node is not None
       default = self.nodes_to_string([node])
       scanner.advance()
 
@@ -309,7 +527,7 @@ class Parser:
       default_value=default,
     )
 
-  def parse_parameters(self, parameters):
+  def parse_parameters(self, parameters: Node) -> list[Argument]:
     assert parameters.type == syms.parameters, parameters.type
     result: t.List[Argument] = []
 
@@ -327,7 +545,7 @@ class Parser:
         if len(parameters.children) == 3:
           result.append(Argument(
             location=self.location_from(parameters.children[1]),
-            name=parameters.children[1].value,
+            name=get_value(parameters.children[1]),
             type=Argument.Type.POSITIONAL,
             decorations=None,
             datatype=None,
@@ -347,8 +565,14 @@ class Parser:
         for arg in result:
           assert arg.type == Argument.Type.POSITIONAL, arg
           arg.type = Argument.Type.POSITIONAL_ONLY
-        node = index.next()
-        if node.type == token.COMMA:
+        # There may not be another token after the '/' -- seems like it totally
+        # works to define a function like
+        #
+        #   def f(x, y, /):
+        #     ...
+        #
+        node = index.advance()
+        if node is not None and node.type == token.COMMA:
           index.advance()
 
       elif node.type == token.STAR:
@@ -405,8 +629,13 @@ class Parser:
         index.next()
     return metaclass, bases
 
-  def parse_classdef(self, parent, node, decorations):
-    name = node.children[1].value
+  def parse_classdef(
+    self,
+    parent: Node,
+    node: Node,
+    decorations: t.Optional[list[Decoration]]
+  ) -> Class:
+    name = get_value(node.children[1])
     bases = []
     metaclass = None
 
@@ -445,17 +674,23 @@ class Parser:
     class_.metaclass = metaclass
     return class_
 
-  def location_from(self, node: t.Union[Node, Leaf]) -> Location:
-    return Location(self.filename, node.get_lineno())
+  def location_from(self, node: NL) -> Location:
+    # NOTE (@nrser) `blib2to3.pytree.Base.get_lineno` may return `None`, but
+    #   `Location` expects an `int`, so not sure exactly what to do here... for
+    #   the moment just return a bogus value of -1
+    lineno = node.get_lineno()
+    if lineno is None:
+      lineno = -1
+    return Location(self.filename, lineno)
 
   def get_return_annotation(self, node: Node) -> t.Optional[str]:
     rarrow = find(lambda x: x.type == token.RARROW, node.children)
     if rarrow:
-      node = rarrow.next_sibling
-      return self.nodes_to_string([node])
+      assert rarrow.next_sibling # satisfy type checker
+      return self.nodes_to_string([rarrow.next_sibling])
     return None
 
-  def get_most_recent_prefix(self, node) -> str:
+  def get_most_recent_prefix(self, node: NL) -> str:
     if node.prefix:
       return node.prefix
     while not node.prev_sibling and not node.prefix:
@@ -464,30 +699,41 @@ class Parser:
       node = node.parent
     if node.prefix:
       return node.prefix
-    node = node.prev_sibling
-    while isinstance(node, Node) and node.children:
-      node = node.children[-1]
+    while isinstance(node.prev_sibling, Node) and node.prev_sibling.children:
+      node = node.prev_sibling.children[-1]
     return node.prefix
 
-  def get_docstring_from_first_node(self, parent: Node, module_level: bool = False) -> t.Optional[Docstring]:
+  def get_docstring_from_first_node(
+    self,
+    parent: NL,
+    module_level: bool = False
+  ) -> t.Optional[Docstring]:
     """
     This method retrieves the docstring for the block node *parent*. The
     node either declares a class or function.
     """
 
     assert parent is not None
-    node = find(lambda x: isinstance(x, Node), parent.children)
-    if node and node.type == syms.simple_stmt and node.children[0].type == token.STRING:
-      return self.prepare_docstring(node.children[0].value, parent)
+    node = find(is_node, parent.children)
+
+    if (
+      node
+      and node.type == syms.simple_stmt
+      and node.children[0].type == token.STRING
+    ):
+      return self.prepare_docstring(get_value(node.children[0]), parent)
+
     if not node and not module_level:
       return None
+
     if self.options.treat_singleline_comment_blocks_as_docstrings:
       docstring, doc_type = self.get_hashtag_docstring_from_prefix(node or parent)
       if doc_type == 'block':
         return docstring
+
     return None
 
-  def get_statement_docstring(self, node: Node) -> t.Optional[Docstring]:
+  def get_statement_docstring(self, node: NL) -> t.Optional[Docstring]:
     prefix = self.get_most_recent_prefix(node)
     match = re.match(r'\s*', prefix[::-1])
     assert match is not None
@@ -497,7 +743,7 @@ class Parser:
       if doc_type == 'statement':
         return docstring
     # Look for the next string literal instead.
-    curr: t.Optional[Node] = node
+    curr: t.Optional[NL] = node
     while curr and curr.type != syms.simple_stmt:
       curr = curr.parent
     if curr and curr.next_sibling and curr.next_sibling.type == syms.simple_stmt:
@@ -507,7 +753,10 @@ class Parser:
         return self.prepare_docstring(string_literal.value, string_literal)
     return None
 
-  def get_hashtag_docstring_from_prefix(self, node: Node) -> t.Tuple[t.Optional[Docstring], t.Optional[str]]:
+  def get_hashtag_docstring_from_prefix(
+    self,
+    node: NL,
+  ) -> t.Tuple[t.Optional[Docstring], t.Optional[str]]:
     """
     Given a node in the AST, this method retrieves the docstring from the
     closest prefix of this node (ie. any block of single-line comments that
@@ -536,7 +785,7 @@ class Parser:
 
     return self.prepare_docstring('\n'.join(reversed(lines)), node), doc_type
 
-  def prepare_docstring(self, s: str, node_for_location: t.Union[Node, Leaf]) -> t.Optional[Docstring]:
+  def prepare_docstring(self, s: str, node_for_location: NL) -> t.Optional[Docstring]:
     # TODO @NiklasRosenstein handle u/f prefixes of string literal?
     location = self.location_from(node_for_location)
     s = s.strip()
@@ -557,12 +806,12 @@ class Parser:
       return Docstring(location, dedent_docstring(s[1:-1]).strip())
     return None
 
-  def nodes_to_string(self, nodes):
+  def nodes_to_string(self, nodes: list[NL]) -> str:
     """
     Converts a list of AST nodes to a string.
     """
 
-    def generator(nodes: t.List[t.Union[Node, Leaf]], skip_prefix: bool = True) -> t.Iterable[str]:
+    def generator(nodes: t.List[NL], skip_prefix: bool = True) -> t.Iterable[str]:
       for i, node in enumerate(nodes):
         if not skip_prefix or i != 0:
           yield node.prefix
@@ -573,8 +822,9 @@ class Parser:
 
     return ''.join(generator(nodes))
 
-  def name_to_string(self, node):
+  def name_to_string(self, node: NL) -> str:
     if node.type == syms.dotted_name:
-      return ''.join(x.value for x in node.children)
+      return ''.join(get_value(x) for x in node.children)
     else:
-      return node.value
+      return get_value(node)
+

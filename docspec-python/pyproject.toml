@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "docspec-python"
-version = "2.0.2"
+version = "2.0.2+blib2to3"
 description = "A parser based on lib2to3 producing docspec data from Python source code."
 authors = ["Niklas Rosenstein <rosensteinniklas@gmail.com>"]
 license = "MIT"
@@ -12,6 +12,7 @@ packages = [{ include = "docspec_python", from="src" }]
 python = "^3.7"
 docspec = "^2.0.2"
 "nr.util" = ">=0.7.0"
+black = "^23.1.0"
 
 [tool.poetry.dev-dependencies]
 mypy = "*"
