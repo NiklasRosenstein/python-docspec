@@ -270,6 +270,7 @@ def test_funcdef_7_posonly_args():
   def func1(x, y=3, /, z=5, w=7): pass
   def func2(x, /, *v, a=1, b=2): pass
   def func3(x, /, *, a=1, b=2, **kwargs): pass
+  def func4(x, y, /): pass
   """
 
   return [
@@ -290,6 +291,10 @@ def test_funcdef_7_posonly_args():
       Argument(loc, 'a', Argument.Type.KEYWORD_ONLY, default_value='1'),
       Argument(loc, 'b', Argument.Type.KEYWORD_ONLY, default_value='2'),
       Argument(loc, 'kwargs', Argument.Type.KEYWORD_REMAINDER),
+    ]),
+    mkfunc('func4', None, 3, [
+      Argument(loc, 'x', Argument.Type.POSITIONAL_ONLY),
+      Argument(loc, 'y', Argument.Type.POSITIONAL_ONLY),
     ]),
   ]
 
@@ -433,7 +438,6 @@ def test_format_arglist():
       Argument(loc, 'tqdm_kwargs', Argument.Type.KEYWORD_REMAINDER, None, None, None),
     ], ['async'])
   assert format_arglist(func.args, True) == 'cls, *fs, loop=None, timeout=None, total=None, **tqdm_kwargs'
-
 
 
 @docspec_test()
