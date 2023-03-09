@@ -24,12 +24,14 @@ jobs:
     - run: slap install --only ${{ matrix.project }} --no-venv-check -v
     - run: DOCSPEC_TEST_NO_DEVELOP=true slap test ${{ matrix.project }}
 
-  update-changelogs:
+  changelog-update:
+    name: "Insert the Pull Request URL into new changelog entries"
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
       - uses: NiklasRosenstein/slap@gha/changelog/update/v2
+        with: { version: '*' }
 
   docs:
     runs-on: ubuntu-latest
