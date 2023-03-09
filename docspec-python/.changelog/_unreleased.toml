@@ -22,3 +22,12 @@ author = "@NiklasRosenstein"
 issues = [
     "https://github.com/NiklasRosenstein/docspec/issues/76",
 ]
+
+[[entries]]
+id = "8e5b8177-cbb9-4b70-8a54-822f2cda7774"
+type = "fix"
+description = "Support parsing raw docstrings and decoding escape sequences appropriately using `str.encode(\"latin1\").decode(\"unicode_escape\")` (see https://stackoverflow.com/a/58829514/791713)."
+author = "@NiklasRosenstein"
+issues = [
+    "https://github.com/NiklasRosenstein/docspec/issues/71",
+]

@@ -801,11 +801,19 @@ class Parser:
           line = line[1:]
         lines.append(line.lstrip())
       return Docstring(location, '\n'.join(lines).strip())
+    is_raw = False
+    while s and s[0] in ('rfub'):
+      if s[0] == 'r':
+        is_raw = True
+        s = s[1:]
+    docstring: t.Optional[Docstring] = None
     if s.startswith('"""') or s.startswith("'''"):
-      return Docstring(location, dedent_docstring(s[3:-3]).strip())
-    if s.startswith('"') or s.startswith("'"):
-      return Docstring(location, dedent_docstring(s[1:-1]).strip())
-    return None
+      docstring = Docstring(location, dedent_docstring(s[3:-3]).strip())
+    elif s.startswith('"') or s.startswith("'"):
+      docstring = Docstring(location, dedent_docstring(s[1:-1]).strip())
+    if docstring and not is_raw:
+      docstring.content = docstring.content.encode('latin1').decode('unicode_escape', errors='ignore')
+    return docstring
 
   def nodes_to_string(self, nodes: list[NL]) -> str:
     """
