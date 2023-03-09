@@ -46,10 +46,10 @@ from .parser import Parser, ParserOptions
 
 
 def load_python_modules(
-  modules: t.Sequence[str] = None,
-  packages: t.Sequence[str] = None,
-  search_path: t.Sequence[t.Union[str, Path]] = None,
-  options: ParserOptions = None,
+  modules: t.Optional[t.Sequence[str]] = None,
+  packages: t.Optional[t.Sequence[str]] = None,
+  search_path: t.Optional[t.Sequence[t.Union[str, Path]]] = None,
+  options: t.Optional[ParserOptions] = None,
   raise_: bool = True,
   encoding: t.Optional[str] = None,
 ) -> t.Iterable[Module]:
@@ -133,7 +133,7 @@ def parse_python_module(  # type: ignore
   return parser.parse(ast, filename, module_name)
 
 
-def find_module(module_name: str, search_path: t.Sequence[t.Union[str, Path]] = None) -> str:
+def find_module(module_name: str, search_path: t.Optional[t.Sequence[t.Union[str, Path]]] = None) -> str:
   """ Finds the filename of a module that can be parsed with #parse_python_module(). If *search_path* is not set,
   the default #sys.path is used to search for the module. If *module_name* is a Python package, it will return the
   path to the package's `__init__.py` file. If the module does not exist, an #ImportError is raised. This is also
@@ -165,7 +165,7 @@ def find_module(module_name: str, search_path: t.Sequence[t.Union[str, Path]] = 
 
 def iter_package_files(
   package_name: str,
-  search_path: t.Sequence[t.Union[str, Path]] = None,
+  search_path: t.Optional[t.Sequence[t.Union[str, Path]]] = None,
 ) -> t.Iterable[t.Tuple[str, str]]:
   """ Returns an iterator for the Python source files in the specified package. The items returned
   by the iterator are tuples of the module name and filename. Supports a PEP 420 namespace package

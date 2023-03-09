@@ -472,3 +472,29 @@ def test_funcdef_with_trailing_comma():
         return_type="Task"
       ),
     ]
+
+@docspec_test()
+def test_funcdef_with_match_statement():
+    """
+    def f(x):
+        match x:
+            case str(s):
+                return "string"
+            case Path() as p:
+                return "path"
+            case int(n) | float(n):
+                return "number"
+            case _:
+                return "idk"
+    """
+
+    return [
+      mkfunc(
+        "f",
+        None,
+        0,
+        [
+          Argument(loc, "x", Argument.Type.POSITIONAL, None),
+        ],
+      ),
+    ]
