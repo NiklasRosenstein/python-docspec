@@ -29,6 +29,10 @@ typed = true
 pytest = "pytest test/ -vv"
 mypy = "mypy src/ test/ --check-untyped-defs"
 
+[[tool.mypy.overrides]]
+module = "blib2to3.*"
+ignore_missing_imports = true
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"

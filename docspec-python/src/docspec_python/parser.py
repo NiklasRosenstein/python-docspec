@@ -23,6 +23,8 @@
 Note: The `docspec_python.parser` module is not public API.
 """
 
+from __future__ import annotations
+
 import dataclasses
 from io import StringIO
 import os
@@ -31,6 +33,8 @@ import sys
 import textwrap
 import typing as t
 import logging
+
+from typing_extensions import TypeGuard
 
 from nr.util.iter import SequenceWalker
 
@@ -109,7 +113,7 @@ T = t.TypeVar("T")
 V = t.TypeVar("V")
 
 @t.overload
-def find(predicate: t.Callable[[T], t.TypeGuard[V]], iterable: t.Iterable[T]) -> V | None:
+def find(predicate: t.Callable[[T], TypeGuard[V]], iterable: t.Iterable[T]) -> V | None:
   ...
 @t.overload
 def find(predicate: t.Callable[[T], t.Any], iterable: t.Iterable[T]) -> T | None:
@@ -139,9 +143,6 @@ def find(predicate, iterable, as_type=None):
 
 
 @t.overload
-def get(predicate: t.Callable[[T], t.TypeGuard[V]], iterable: t.Iterable[T]) -> V:
-  ...
-@t.overload
 def get(predicate: t.Callable[[T], object], iterable: t.Iterable[T]) -> T:
   ...
 @t.overload
@@ -168,7 +169,7 @@ def get(predicate, iterable, as_type=None):
   return found
 
 
-def is_node(x: object) -> t.TypeGuard[Node]:
+def is_node(x: object) -> TypeGuard[Node]:
   """A simple `typing.TypeGuard` for `blib2to3.pytree.Node` instances.
 
   Useful because things like `lamda x: isinstance(x, Node)` seemingly _do not_
@@ -414,7 +415,7 @@ class Parser:
     if value or annotation:
       docstring = self.get_statement_docstring(stmt)
       expr = self.nodes_to_string(value) if value else None
-      annotation = self.nodes_to_string(annotation) if annotation else None
+      annotation_as_string = self.nodes_to_string(annotation) if annotation else None
       assert names
       # NOTE (@nrser) Does this have some sort of side-effect from creating
       #   the `Variable` instance? Why loop versus directly use `names[-1]`?
@@ -424,7 +425,7 @@ class Parser:
           name=name,
           location=self.location_from(stmt),
           docstring=docstring,
-          datatype=annotation,
+          datatype=annotation_as_string,
           value=expr,
         )
     return data
