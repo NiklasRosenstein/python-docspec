@@ -31,3 +31,12 @@ author = "@NiklasRosenstein"
 issues = [
     "https://github.com/NiklasRosenstein/docspec/issues/71",
 ]
+
+[[entries]]
+id = "2e159810-b33a-4c44-936f-ca1f884ff882"
+type = "tests"
+description = "add test case for parsing docstring _after_ a variable declaration"
+author = "@NiklasRosenstein"
+issues = [
+    "https://github.com/NiklasRosenstein/docspec/issues/65",
+]
