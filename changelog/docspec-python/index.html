@@ -676,6 +676,9 @@ add back `files` as a keyword-only argument to `load_python_modules()`</td><td><
   <tr><td>Tests</td><td>
 
 add testcase for #76</td><td></td><td><a href="https://github.com/NiklasRosenstein/docspec/issues/76">76</a></td><td>@NiklasRosenstein</td></tr>
+  <tr><td>Fix</td><td>
+
+Support parsing raw docstrings and decoding escape sequences appropriately using `str.encode("latin1").decode("unicode_escape")` (see https://stackoverflow.com/a/58829514/791713).</td><td></td><td><a href="https://github.com/NiklasRosenstein/docspec/issues/71">71</a></td><td>@NiklasRosenstein</td></tr>
 </table>
 
 <h2 id="202-2022-07-18">2.0.2 (2022-07-18)</h2>
