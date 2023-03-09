@@ -28,6 +28,7 @@ __all__ = [
   'Argument',
   'ApiObject',
   'Indirection',
+  'HasLocation',
   'HasMembers',
   'VariableSemantic',
   'Variable',

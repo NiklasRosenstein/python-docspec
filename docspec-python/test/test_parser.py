@@ -45,17 +45,17 @@ def mkfunc(name: str, docstring: Optional[str], lineno: int, args: List[Argument
   )
 
 
-def unset_location(obj: ApiObject):
-  obj.location = loc
-  #if obj.docstring:
-  #  obj.docstring = Docstring(obj.docstring.content, None)
+def unset_location(obj: HasLocation):
+  if isinstance(obj, HasLocation):
+    obj.location = loc
+  if isinstance(obj, ApiObject) and obj.docstring:
+    unset_location(obj.docstring)
   if isinstance(obj, HasMembers):
     for member in obj.members:
       unset_location(member)
-  if isinstance(obj, Function):
+  elif isinstance(obj, Function):
     for arg in obj.args:
-      arg.location = loc
-
+      unset_location(arg)
 
 def docspec_test(module_name=None, parser_options=None, strip_locations: bool = True):
   """
@@ -72,9 +72,10 @@ def docspec_test(module_name=None, parser_options=None, strip_locations: bool = 
         filename=func.__name__,
       )
       parsed_module.location = loc
+      reference_module = Module(name=parsed_module.name, location=loc, docstring=None, members=func(*args, **kwargs))
       if strip_locations:
         unset_location(parsed_module)
-      reference_module = Module(name=parsed_module.name, location=loc, docstring=None, members=func(*args, **kwargs))
+        unset_location(reference_module)
       assert dumps(dump_module(reference_module), indent=2) == dumps(dump_module(parsed_module), indent=2)
     return wrapper
   return decorator
