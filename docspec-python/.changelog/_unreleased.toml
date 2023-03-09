@@ -1,21 +1,5 @@
-# NOTE (@nrser) Obviously these files have some format/structure to them but
-#   I'm not familiar with it and I'm not sure where to find it documented;
-#   please forgive any mistakes.
-
-# Guessing this would not be set in an "unreleased" entry, but anyways today's
-# date is thrown in there
-# 
-# release-date = "2023-02-28"
-
 [[entries]]
-# Guessing this is just a uuid, I generated one with `uuidgen`
-id = "58c1a773-c483-4014-8238-80d9f65f7b57"
-# I guess this is a 'fix'? Python version for `docspec-python` is not restricted
-# above, so I assume it is supposed to work for Python 3.10+ with `match`
+id = "8628524b-3376-45db-a676-240b00c20d08"
 type = "fix"
-description = """\
-  Swap in `blib2to3` parser (bundled with `black` package) for the stdlib \
-  `lib2to3` module in order to support `match` statement (PEP 634 – Structural \
-  Pattern Matching). \
-"""
+description = "Swap in `blib2to3` parser (bundled with the `black` package) for the stdlib `lib2to3` module in order to support `match` statements (PEP 634 - Structural Pattern Matching)."
 author = "@nrser"
