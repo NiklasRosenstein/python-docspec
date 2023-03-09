@@ -72,7 +72,14 @@ class Location:
 
 
 @dataclasses.dataclass
-class Docstring:
+class HasLocation:
+  """ Base class for objects that have a #Location. """
+
+  location: Location
+
+
+@dataclasses.dataclass
+class Docstring(HasLocation):
   """
   Represents a docstring for an #APIObject, i.e. it's content and location. This class is a subclass of `str`
   for backwards compatibility reasons. Use the #content property to access the docstring content over the
@@ -89,7 +96,7 @@ class Docstring:
 
 
 @dataclasses.dataclass
-class Decoration:
+class Decoration(HasLocation):
   """
   Represents a decorator on a #Class or #Function.
   """
@@ -112,7 +119,7 @@ class Decoration:
 
 
 @dataclasses.dataclass
-class Argument:
+class Argument(HasLocation):
   """
   Represents a #Function argument.
   """
@@ -174,7 +181,7 @@ class Argument:
 
 
 @dataclasses.dataclass
-class ApiObject:
+class ApiObject(HasLocation):
   """
   The base class for representing "API Objects". Any API object is any addressable entity in code,
   be that a variable/constant, function, class or module.
