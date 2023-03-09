@@ -519,7 +519,36 @@ def test_can_parse_raw_docstring():
   """
 
   return [
-    mkfunc("normal", "Normal d\\cstring.", 2, []),
-    mkfunc("single", "S\\\\ngle raw docstring.", 5, []),
-    mkfunc("multi", "M\\\\lti raw docstring.", 8, [])
+    mkfunc("normal", "Normal d\\cstring.", 0, []),
+    mkfunc("single", "S\\\\ngle raw docstring.", 0, []),
+    mkfunc("multi", "M\\\\lti raw docstring.", 0, [])
+  ]
+
+
+@docspec_test(strip_locations=True)
+def test_can_detect_docstrings_after_declarations():
+  """
+  class Test:
+    a: int
+    ''' This attribute is important. '''
+
+    #: And so is this.
+    b: str
+  """
+
+  return [
+    Class(loc, "Test", None, None, [], None, [
+      Variable(
+        loc,
+        "a",
+        Docstring(loc, "This attribute is important."),
+        "int",
+      ),
+      Variable(
+        loc,
+        "b",
+        Docstring(loc, "And so is this."),
+        "str",
+      )
+    ])
   ]
