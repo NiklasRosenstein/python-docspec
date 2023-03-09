@@ -13,3 +13,12 @@ author = "@NiklasRosenstein"
 issues = [
     "https://github.com/NiklasRosenstein/docspec/issues/75",
 ]
+
+[[entries]]
+id = "9e84cf49-c0a4-4ee9-87d7-379f082a7d46"
+type = "tests"
+description = "add testcase for #76"
+author = "@NiklasRosenstein"
+issues = [
+    "https://github.com/NiklasRosenstein/docspec/issues/76",
+]
