@@ -502,3 +502,23 @@ def test_funcdef_with_match_statement():
         ],
       ),
     ]
+
+
+@docspec_test(strip_locations=True)
+def test_can_parse_raw_docstring():
+  r"""
+  def normal():
+    ' Normal d\\cstring. '
+
+  def single():
+    r' S\\ngle raw docstring. '
+
+  def multi():
+    r''' M\\lti raw docstring. '''
+  """
+
+  return [
+    mkfunc("normal", "Normal d\\cstring.", 2, []),
+    mkfunc("single", "S\\\\ngle raw docstring.", 5, []),
+    mkfunc("multi", "M\\\\lti raw docstring.", 8, [])
+  ]
