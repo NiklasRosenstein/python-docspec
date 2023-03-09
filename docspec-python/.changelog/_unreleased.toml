@@ -4,3 +4,12 @@ type = "fix"
 description = "Swap in `blib2to3` parser (bundled with the `black` package) for the stdlib `lib2to3` module in order to support `match` statements (PEP 634 - Structural Pattern Matching)."
 author = "@nrser"
 pr = "https://github.com/NiklasRosenstein/docspec/pull/80"
+
+[[entries]]
+id = "1e03c529-5dc3-4d7b-a2d9-827376ddeee9"
+type = "improvement"
+description = "add back `files` as a keyword-only argument to `load_python_modules()`"
+author = "@NiklasRosenstein"
+issues = [
+    "https://github.com/NiklasRosenstein/docspec/issues/75",
+]

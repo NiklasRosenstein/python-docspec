@@ -52,6 +52,8 @@ def load_python_modules(
   options: t.Optional[ParserOptions] = None,
   raise_: bool = True,
   encoding: t.Optional[str] = None,
+  *,
+  files: t.Optional[t.Sequence[t.Tuple[str, str]]] = None,
 ) -> t.Iterable[Module]:
   """
   Utility function for loading multiple #Module#s from a list of Python module and package
@@ -63,12 +65,13 @@ def load_python_modules(
   packages: A list of package names to load and parse.
   search_path: The Python module search path. Falls back to #sys.path if omitted.
   options: Options for the Python module parser.
+  files: A list of `(module_name, filename)` tuples to parse.
 
   # Returns
   Iterable of #Module.
   """
 
-  files: t.List[t.Tuple[str, str]] = []
+  files = list(files or [])
   module_name: t.Optional[str]
   for module_name in modules or []:
     try:
