@@ -540,12 +540,15 @@
 <p><a id="pydoc:docspec_python.load_python_modules"></a></p>
 <h4 id="load_python_modules">load_python_modules</h4>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">load_python_modules</span><span class="p">(</span>
-        <span class="n">modules</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">packages</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">search_path</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">options</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">ParserOptions</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">raise_</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-        <span class="n">encoding</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="n">Module</span><span class="p">]</span>
+    <span class="n">modules</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">packages</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">search_path</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">options</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">ParserOptions</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">raise_</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">encoding</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">files</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>
+                                         <span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="n">Module</span><span class="p">]</span>
 </code></pre></div>
 <p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec-python/src/docspec_python/__init__.py#L48">[view_source]</a></p>
 <p>Utility function for loading multiple <a href="/docspec/api/docspec#pydoc:docspec.Module">Modules</a> from a list of Python module and package
@@ -557,6 +560,7 @@ convenient way.</p>
 <li><strong>packages</strong>: A list of package names to load and parse.</li>
 <li><strong>search_path</strong>: The Python module search path. Falls back to <code>sys.path</code> if omitted.</li>
 <li><strong>options</strong>: Options for the Python module parser.</li>
+<li><strong>files</strong>: A list of <code>(module_name, filename)</code> tuples to parse.</li>
 </ul>
 <p><strong>Returns</strong></p>
 <p>Iterable of <a href="/docspec/api/docspec#pydoc:docspec.Module">Module</a>.</p>
@@ -569,7 +573,7 @@ convenient way.</p>
                         <span class="n">options</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">ParserOptions</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                         <span class="n">encoding</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Module</span>
 </code></pre></div>
-<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec-python/src/docspec_python/__init__.py#L109">[view_source]</a></p>
+<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec-python/src/docspec_python/__init__.py#L112">[view_source]</a></p>
 <p>Parses Python code of a file or file-like object and returns a <a href="/docspec/api/docspec#pydoc:docspec.Module">Module</a>
 object with the contents of the file The <em>options</em> are forwarded to the
 {@link pydoc:docspec_python.parser.Parser} constructor.</p>
@@ -580,7 +584,7 @@ object with the contents of the file The <em>options</em> are forwarded to the
         <span class="n">module_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">search_path</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span>
 </code></pre></div>
-<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec-python/src/docspec_python/__init__.py#L136">[view_source]</a></p>
+<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec-python/src/docspec_python/__init__.py#L139">[view_source]</a></p>
 <p>Finds the filename of a module that can be parsed with <a href="#pydoc:docspec_python.parse_python_module">parse_python_module()</a>. If <em>search_path</em> is not set,</p>
 <p>the default <code>sys.path</code> is used to search for the module. If <em>module_name</em> is a Python package, it will return the
 path to the package's <code>__init__.py</code> file. If the module does not exist, an <code>ImportError</code> is raised. This is also
@@ -597,7 +601,7 @@ true for PEP 420 namespace packages that do not provide an <code>__init__.py</co
     <span class="n">search_path</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span>
 </code></pre></div>
-<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec-python/src/docspec_python/__init__.py#L166">[view_source]</a></p>
+<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec-python/src/docspec_python/__init__.py#L169">[view_source]</a></p>
 <p>Returns an iterator for the Python source files in the specified package. The items returned
 by the iterator are tuples of the module name and filename. Supports a PEP 420 namespace package
 if at least one matching directory with at least one Python source file in it is found.</p>
@@ -606,7 +610,7 @@ if at least one matching directory with at least one Python source file in it is
 <h4 id="discover">discover</h4>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">discover</span><span class="p">(</span><span class="n">directory</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="n">DiscoveryResult</span><span class="p">]</span>
 </code></pre></div>
-<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec-python/src/docspec_python/__init__.py#L221">[view_source]</a></p>
+<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec-python/src/docspec_python/__init__.py#L224">[view_source]</a></p>
 <p>Discovers Python modules and packages in the specified <em>directory</em>. The returned generated</p>
 <p>returns tuples where the first element of the tuple is the type (either <code>'module'</code> or
 <code>'package'</code>), the second is the name and the third is the path. In case of a package,
@@ -621,7 +625,7 @@ the path points to the directory.</p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">format_arglist</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">Argument</span><span class="p">],</span>
                    <span class="n">render_type_hints</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span>
 </code></pre></div>
-<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec-python/src/docspec_python/__init__.py#L243">[view_source]</a></p>
+<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec-python/src/docspec_python/__init__.py#L246">[view_source]</a></p>
 <p>Formats a Python argument list.</p>
 
 
