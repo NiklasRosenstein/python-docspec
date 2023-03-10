@@ -552,3 +552,25 @@ def test_can_detect_docstrings_after_declarations():
       )
     ])
   ]
+
+
+@docspec_test(strip_locations=True)
+def test_can_parse_tuple_unpacking():
+  """
+  v = 42
+
+  a, b = 0, 1  #: This documents a and b.
+
+  #: This documents c and d.
+  c, *d = it
+
+  e, (f, *g) = value
+  """
+
+  # NOTE(NiklasRosenstein): We don't explicitly support yielding information about variables
+  #   resulting from tuple-unpacking as we cannot tell which of the variables the docstring is
+  #   for, and how to assign the right side to the variables on the left.
+
+  return [
+    Variable(loc, "v", None, None, "42")
+  ]

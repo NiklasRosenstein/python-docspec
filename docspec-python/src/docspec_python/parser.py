@@ -416,18 +416,28 @@ class Parser:
       docstring = self.get_statement_docstring(stmt)
       expr = self.nodes_to_string(value) if value else None
       annotation_as_string = self.nodes_to_string(annotation) if annotation else None
-      assert names
-      # NOTE (@nrser) Does this have some sort of side-effect from creating
-      #   the `Variable` instance? Why loop versus directly use `names[-1]`?
-      for name in names:
-        name = self.nodes_to_string([name])
-        data = Variable(
-          name=name,
-          location=self.location_from(stmt),
-          docstring=docstring,
-          datatype=annotation_as_string,
-          value=expr,
-        )
+      assert names and len(names) == 1, (stmt, names)
+
+      # NOTE (@NiklasRosenstein): `names` here may be a Leaf(NAME) node if we only got a
+      #   single variable on the left, or a Node(testlist_star_expr) if the left operand
+      #   is a more complex tuple- or range-unpacking.
+      #
+      #   We don't support multiple assignments in Docspec as we cannot tell how an associated
+      #   docstring should be assigned to each of the resulting Variable()s, nor how the right
+      #   side of the expression should be distributed among them.
+      if names[0].type != token.NAME:
+        return None
+
+      name = self.nodes_to_string(names)
+      data = Variable(
+        name=name,
+        location=self.location_from(stmt),
+        docstring=docstring,
+        datatype=annotation_as_string,
+        value=expr,
+
+      )
+
     return data
 
   def parse_decorator(self, node: Node):
