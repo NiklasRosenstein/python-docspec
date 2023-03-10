@@ -205,7 +205,7 @@ def test_funcdef_5_single_stmt():
   args = [Argument(loc, 'self', Argument.Type.POSITIONAL, None, None, None)]
   return [
     mkfunc('func1', None, 1, args),
-    mkfunc('func2', 'ABC\nDEF', 4, args),
+    mkfunc('func2', 'ABC\n  DEF', 4, args),
     mkfunc('func3', 'ABC\nDEF', 9, args),
     mkfunc('func4', 'ABC\n  DEF', 14, args),
   ]
@@ -598,4 +598,50 @@ def test_can_parse_docstrings_on_same_line():
     ]),
     Variable(loc, "c", Docstring(loc, "This takes precedence!"), "float"),
     Variable(loc, "d", Docstring(loc, "Because I exist!"), "None"),
+  ]
+
+
+@docspec_test(strip_locations=True)
+def test_hash_docstring_does_not_loose_indentation():
+  """
+  #: Represents this command:
+  #:
+  #:    $ bash ./install.sh
+  #:
+  #:Ok?
+  command = ["bash", "./install.sh"]
+  """
+
+  return [
+    Variable(loc, "command", Docstring(loc, dedent(
+      """
+      Represents this command:
+
+         $ bash ./install.sh
+
+      Ok?
+      """
+    ).strip()), None, '["bash", "./install.sh"]')
+  ]
+
+
+@docspec_test(strip_locations=True)
+def test_docstring_does_not_loose_indentation():
+  """
+  def foo():
+    '''
+    Example:
+
+        assert 42 == "Answer to the universe"
+    '''
+  """
+
+  return [
+    mkfunc("foo", dedent(
+      """
+      Example:
+
+          assert 42 == "Answer to the universe"
+      """
+    ).strip(), 0, [])
   ]

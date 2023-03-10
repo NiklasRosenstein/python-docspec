@@ -802,19 +802,25 @@ class Parser:
     return self.prepare_docstring('\n'.join(reversed(lines)), node), doc_type
 
   def prepare_docstring(self, s: str, node_for_location: NL) -> t.Optional[Docstring]:
-    # TODO @NiklasRosenstein handle u/f prefixes of string literal?
     location = self.location_from(node_for_location)
     s = s.strip()
     if s.startswith('#'):
       location.lineno -= s.count('\n') + 2
       lines = []
+      initial_indent: t.Optional[int] = None
       for line in s.split('\n'):
-        line = line.strip()
         if line.startswith('#:'):
           line = line[2:]
-        else:
+        elif line.startswith('#'):
           line = line[1:]
-        lines.append(line.lstrip())
+        else:
+          assert False, repr(line)
+        if initial_indent is None:
+          initial_indent = len(line) - len(line.lstrip())
+        # Strip up to initial_indent whitespace from the line.
+        new_line = line.lstrip()
+        new_line = ' ' * max(0, len(line) - len(new_line) - initial_indent) + new_line
+        lines.append(new_line.rstrip())
       return Docstring(location, '\n'.join(lines).strip())
     is_raw = False
     while s and s[0] in ('rfub'):
