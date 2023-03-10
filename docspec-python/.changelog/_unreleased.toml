@@ -55,3 +55,12 @@ author = "@NiklasRosenstein"
 issues = [
     "https://github.com/NiklasRosenstein/docspec/issues/2",
 ]
+
+[[entries]]
+id = "4f5e29cd-317c-485b-ba3f-6f56ebb970d8"
+type = "fix"
+description = "Fix hash docstrings (`#:`) loosing their indentation relative to the rest of the docstring lines."
+author = "@NiklasRosenstein"
+issues = [
+    "https://github.com/NiklasRosenstein/docspec/issues/1",
+]
