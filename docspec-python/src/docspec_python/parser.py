@@ -428,6 +428,12 @@ class Parser:
       if names[0].type != token.NAME:
         return None
 
+      # The parent node probably ends with a Leaf(NEWLINE), which will have, as its prefix, the
+      # comment on the remainder of the line. Any docstring we found before or after the declaration
+      # however takes precedence.
+      if not docstring:
+        docstring = self.prepare_docstring(parent.children[-1].prefix, parent.children[-1])
+
       name = self.nodes_to_string(names)
       data = Variable(
         name=name,
@@ -435,7 +441,6 @@ class Parser:
         docstring=docstring,
         datatype=annotation_as_string,
         value=expr,
-
       )
 
     return data

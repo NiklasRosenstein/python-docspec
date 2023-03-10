@@ -46,3 +46,12 @@ id = "da5abd74-881d-43a9-8e8d-5476f62e54d3"
 type = "improvement"
 description = "Explicitly do not support tuple-upackings as it is unclear how to assign the associated docstring and value."
 author = "@NiklasRosenstein"
+
+[[entries]]
+id = "f71d41d1-cc7a-4dc3-999d-70f94f6a3f80"
+type = "feature"
+description = "Support docstrings on the same line for variable definitions (ex.: `a: int #: This is the docstring`)."
+author = "@NiklasRosenstein"
+issues = [
+    "https://github.com/NiklasRosenstein/docspec/issues/2",
+]

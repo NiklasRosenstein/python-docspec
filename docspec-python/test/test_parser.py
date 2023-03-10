@@ -574,3 +574,28 @@ def test_can_parse_tuple_unpacking():
   return [
     Variable(loc, "v", None, None, "42")
   ]
+
+
+@docspec_test(strip_locations=True)
+def test_can_parse_docstrings_on_same_line():
+  """
+  a: int = 42 #: This is a variable.
+
+  class Test:
+    b: str #: This is b variable.
+
+  #: This takes precedence!
+  c: float #: This is c variable.
+
+  d: None  #: This is also ignored.
+  ''' Because I exist! '''
+  """
+
+  return [
+    Variable(loc, "a", Docstring(loc, "This is a variable."), "int", "42"),
+    Class(loc, "Test", None, None, [], None, [
+      Variable(loc, "b", Docstring(loc, "This is b variable."), "str"),
+    ]),
+    Variable(loc, "c", Docstring(loc, "This takes precedence!"), "float"),
+    Variable(loc, "d", Docstring(loc, "Because I exist!"), "None"),
+  ]
