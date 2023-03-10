@@ -857,4 +857,3 @@ class Parser:
       return ''.join(get_value(x) for x in node.children)
     else:
       return get_value(node)
-

@@ -64,3 +64,12 @@ author = "@NiklasRosenstein"
 issues = [
     "https://github.com/NiklasRosenstein/docspec/issues/1",
 ]
+
+[[entries]]
+id = "74ceb273-f285-416e-baf0-52b4cdab0b81"
+type = "tests"
+description = "Add unit test for #72"
+author = "@NiklasRosenstein"
+issues = [
+    "https://github.com/NiklasRosenstein/docspec/issues/72",
+]

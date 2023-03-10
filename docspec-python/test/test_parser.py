@@ -645,3 +645,16 @@ def test_docstring_does_not_loose_indentation():
       """
     ).strip(), 0, [])
   ]
+
+
+@docspec_test(strip_locations=True)
+def test_octal_escape_sequence():
+  r"""
+  def my_example():
+      'This is supposed to be pound: \043'
+      pass
+  """
+
+  return [
+    mkfunc("my_example", "This is supposed to be pound: #", 0, [])
+  ]
