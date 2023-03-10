@@ -40,3 +40,9 @@ author = "@NiklasRosenstein"
 issues = [
     "https://github.com/NiklasRosenstein/docspec/issues/65",
 ]
+
+[[entries]]
+id = "da5abd74-881d-43a9-8e8d-5476f62e54d3"
+type = "improvement"
+description = "Explicitly do not support tuple-upackings as it is unclear how to assign the associated docstring and value."
+author = "@NiklasRosenstein"
