@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "docspec-python"
-version = "2.1.0"
+version = "2.1.1"
 description = "A parser based on lib2to3 producing docspec data from Python source code."
 authors = ["Niklas Rosenstein <rosensteinniklas@gmail.com>"]
 license = "MIT"
