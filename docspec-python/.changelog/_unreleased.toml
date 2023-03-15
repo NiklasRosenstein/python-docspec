@@ -1,0 +1,8 @@
+[[entries]]
+id = "a519ecc4-1b48-4883-a930-dc6f7196e54d"
+type = "fix"
+description = "Fix #91 by using `ast.literal_eval()` instead of `encode(latin1).decode(unicode_escape)` method."
+author = "@NiklasRosenstein"
+issues = [
+    "https://github.com/NiklasRosenstein/docspec/issues/91",
+]
