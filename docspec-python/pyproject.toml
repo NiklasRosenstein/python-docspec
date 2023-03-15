@@ -1,3 +1,8 @@
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
 [tool.poetry]
 name = "docspec-python"
 version = "2.1.1"
@@ -15,6 +20,9 @@ docspec = "^2.0.2"
 black = "^23.1.0"
 
 [tool.poetry.dev-dependencies]
+black = "*"
+flake8 = "*"
+isort = "*"
 mypy = "*"
 pytest = "*"
 types-Deprecated = "*"
@@ -26,13 +34,38 @@ docspec-python = "docspec_python.__main__:main"
 typed = true
 
 [tool.slap.test]
-pytest = "pytest test/ -vv"
-mypy = "mypy src/ test/ --check-untyped-defs"
+check = "slap check"
+pytest = "pytest -vv"
+mypy = "mypy src/ --check-untyped-defs"
+black = "black --check src/"
+isort = "isort --check-only src/"
+flake8 = "flake8 src/"
+
+[tool.slap.run]
+fmt = "black src/ && isort src/"
+
+[tool.mypy]
+python_version = "3.6"
+explicit_package_bases = true
+mypy_path = ["src"]
+namespace_packages = true
+pretty = true
+show_error_codes = true
+show_error_context = true
+strict = true
+warn_no_return = true
+warn_redundant_casts = true
+warn_unreachable = true
+warn_unused_ignores = true
 
 [[tool.mypy.overrides]]
 module = "blib2to3.*"
 ignore_missing_imports = true
 
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[tool.isort]
+profile = "black"
+line_length = 120
+combine_as_imports = true
+
+[tool.black]
+line-length = 120
