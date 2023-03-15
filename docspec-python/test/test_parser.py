@@ -57,6 +57,7 @@ def unset_location(obj: HasLocation):
     for arg in obj.args:
       unset_location(arg)
 
+
 def docspec_test(module_name=None, parser_options=None, strip_locations: bool = True):
   """
   Decorator for docspec unit tests.
@@ -478,6 +479,7 @@ def test_funcdef_with_trailing_comma():
       ),
     ]
 
+
 @docspec_test()
 def test_funcdef_with_match_statement():
     """
@@ -516,12 +518,16 @@ def test_can_parse_raw_docstring():
 
   def multi():
     r''' M\\lti raw docstring. '''
+
+  def special_characters():
+    ''' ﬀ '''
   """
 
   return [
     mkfunc("normal", "Normal d\\cstring.", 0, []),
     mkfunc("single", "S\\\\ngle raw docstring.", 0, []),
-    mkfunc("multi", "M\\\\lti raw docstring.", 0, [])
+    mkfunc("multi", "M\\\\lti raw docstring.", 0, []),
+    mkfunc("special_characters", "ﬀ", 0, [])
   ]
 
 

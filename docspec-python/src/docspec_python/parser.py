@@ -27,6 +27,7 @@ from __future__ import annotations
 
 import dataclasses
 from io import StringIO
+import ast
 import os
 import re
 import sys
@@ -822,19 +823,10 @@ class Parser:
         new_line = ' ' * max(0, len(line) - len(new_line) - initial_indent) + new_line
         lines.append(new_line.rstrip())
       return Docstring(location, '\n'.join(lines).strip())
-    is_raw = False
-    while s and s[0] in ('rfub'):
-      if s[0] == 'r':
-        is_raw = True
-        s = s[1:]
-    docstring: t.Optional[Docstring] = None
-    if s.startswith('"""') or s.startswith("'''"):
-      docstring = Docstring(location, dedent_docstring(s[3:-3]).strip())
-    elif s.startswith('"') or s.startswith("'"):
-      docstring = Docstring(location, dedent_docstring(s[1:-1]).strip())
-    if docstring and not is_raw:
-      docstring.content = docstring.content.encode('latin1').decode('unicode_escape', errors='ignore')
-    return docstring
+    if s:
+      s = ast.literal_eval(s)
+      return Docstring(location, dedent_docstring(s).strip())
+    return None
 
   def nodes_to_string(self, nodes: list[NL]) -> str:
     """
