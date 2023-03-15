@@ -1888,7 +1888,7 @@ recommendation than rule. For example the <code>docspec_python</code> loader by 
 <p><a id="pydoc:docspec.ApiObject.parent"></a></p>
 <h4 id="parent">parent</h4>
 <div class="highlight"><pre><span></span><code><span class="nd">@property</span>
-<span class="k">def</span> <span class="nf">parent</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="s1">&#39;HasMembers&#39;</span><span class="p">]</span>
+<span class="k">def</span> <span class="nf">parent</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;HasMembers&quot;</span><span class="p">]</span>
 </code></pre></div>
 <p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec/src/docspec/__init__.py#L207">[view_source]</a></p>
 <p>Returns the parent of the <a href="#pydoc:docspec.HasMembers">HasMembers</a>. Note that if you make any modifications to the API object tree,
@@ -1898,7 +1898,7 @@ does not automatically keep the <a href="#pydoc:docspec.ApiObject.parent">parent
 <p><a id="pydoc:docspec.ApiObject.path"></a></p>
 <h4 id="path">path</h4>
 <div class="highlight"><pre><span></span><code><span class="nd">@property</span>
-<span class="k">def</span> <span class="nf">path</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="s1">&#39;ApiObject&#39;</span><span class="p">]</span>
+<span class="k">def</span> <span class="nf">path</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="s2">&quot;ApiObject&quot;</span><span class="p">]</span>
 </code></pre></div>
 <p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec/src/docspec/__init__.py#L230">[view_source]</a></p>
 <p>Returns a list of all of this API object's parents, from top to bottom. The list includes <em>self</em> as the
@@ -1906,7 +1906,7 @@ last item.</p>
 <p><a id="docspec.ApiObject.sync_hierarchy"></a></p>
 <p><a id="pydoc:docspec.ApiObject.sync_hierarchy"></a></p>
 <h4 id="sync_hierarchy">sync_hierarchy</h4>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">sync_hierarchy</span><span class="p">(</span><span class="n">parent</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="s1">&#39;HasMembers&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">sync_hierarchy</span><span class="p">(</span><span class="n">parent</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;HasMembers&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 <p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec/src/docspec/__init__.py#L244">[view_source]</a></p>
 <p>Synchronize the hierarchy of this API object and all of it's children. This should be called when the
@@ -2132,7 +2132,7 @@ even if nesting would be appropriate (and instead the <code>Module.name</code> s
                 <span class="n">filename</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                 <span class="n">loader</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Callable</span><span class="p">[[</span><span class="n">t</span><span class="o">.</span><span class="n">IO</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Module</span>
 </code></pre></div>
-<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec/src/docspec/__init__.py#L450">[view_source]</a></p>
+<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec/src/docspec/__init__.py#L454">[view_source]</a></p>
 <p>Loads a <a href="#pydoc:docspec.Module">Module</a> from the specified <em>source</em>, which may be either a filename,
 a file-like object to read from or plain structured data.</p>
 <p><strong>Arguments</strong></p>
@@ -2154,7 +2154,7 @@ a file-like object to read from or plain structured data.</p>
         <span class="n">loader</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Callable</span><span class="p">[[</span><span class="n">t</span><span class="o">.</span><span class="n">IO</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span>
                            <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="n">Module</span><span class="p">]</span>
 </code></pre></div>
-<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec/src/docspec/__init__.py#L486">[view_source]</a></p>
+<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec/src/docspec/__init__.py#L490">[view_source]</a></p>
 <p>Loads a stream of modules from the specified <em>source</em>. Similar to
 <a href="#pydoc:docspec.load_module">load_module()</a>, the <em>source</em> can be a filename, file-like object or a
 list of plain structured data to deserialize from.</p>
@@ -2167,16 +2167,16 @@ list of plain structured data to deserialize from.</p>
     <span class="n">dumper</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Callable</span><span class="p">[[</span><span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">IO</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dump</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]]</span>
 </code></pre></div>
-<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec/src/docspec/__init__.py#L528">[view_source]</a></p>
+<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec/src/docspec/__init__.py#L530">[view_source]</a></p>
 <p>Dumps a module to the specified target or returns it as plain structured data.</p>
 <p><a id="docspec.filter_visit"></a></p>
 <p><a id="pydoc:docspec.filter_visit"></a></p>
 <h4 id="filter_visit">filter_visit</h4>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">filter_visit</span><span class="p">(</span><span class="n">objects</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">MutableSequence</span><span class="p">[</span><span class="n">ApiObject</span><span class="p">],</span>
                  <span class="n">predicate</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Callable</span><span class="p">[[</span><span class="n">ApiObject</span><span class="p">],</span> <span class="nb">bool</span><span class="p">],</span>
-                 <span class="n">order</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;pre&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">MutableSequence</span><span class="p">[</span><span class="n">ApiObject</span><span class="p">]</span>
+                 <span class="n">order</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;pre&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">MutableSequence</span><span class="p">[</span><span class="n">ApiObject</span><span class="p">]</span>
 </code></pre></div>
-<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec/src/docspec/__init__.py#L551">[view_source]</a></p>
+<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec/src/docspec/__init__.py#L553">[view_source]</a></p>
 <p>Visits all <em>objects</em> recursively, applying the <em>predicate</em> in the specified <em>order</em>. If</p>
 <p>the predicate returrns <code>False</code>, the object will be removed from it's containing list.</p>
 <p>If an object is removed in pre-order, it's members will not be visited.</p>
@@ -2194,16 +2194,16 @@ order may also be <code>'post'</code>.</li>
 <h4 id="visit">visit</h4>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">visit</span><span class="p">(</span><span class="n">objects</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">ApiObject</span><span class="p">],</span>
           <span class="n">func</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Callable</span><span class="p">[[</span><span class="n">ApiObject</span><span class="p">],</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">],</span>
-          <span class="n">order</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;pre&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+          <span class="n">order</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;pre&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
-<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec/src/docspec/__init__.py#L591">[view_source]</a></p>
+<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec/src/docspec/__init__.py#L593">[view_source]</a></p>
 <p>Visits all <em>objects</em>, applying <em>func</em> in the specified <em>order</em>.</p>
 <p><a id="docspec.get_member"></a></p>
 <p><a id="pydoc:docspec.get_member"></a></p>
 <h4 id="get_member">get_member</h4>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_member</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">ApiObject</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">ApiObject</span><span class="p">]</span>
 </code></pre></div>
-<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec/src/docspec/__init__.py#L607">[view_source]</a></p>
+<p><a href="https://github.com/NiklasRosenstein/docspec/blob/develop/docspec/src/docspec/__init__.py#L609">[view_source]</a></p>
 <p>Generic function to retrieve a member from an API object. This will always return <code>None</code> for
 objects that don't support members (eg. <a href="#pydoc:docspec.Function">Function</a> and <a href="#pydoc:docspec.Variable">Variable</a>).</p>
 
