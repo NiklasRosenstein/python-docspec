@@ -20,55 +20,63 @@
 # IN THE SOFTWARE.
 
 import argparse
-import docspec
 import sys
 
+import docspec
+
 try:
-  from termcolor import colored
-except ImportError as exc:
-  def colored(s, *args, **kwargs):  # type: ignore
-    return str(s)
+    from termcolor import colored
+except ImportError:
+
+    def colored(s, *args, **kwargs):  # type: ignore
+        return str(s)
+
 
 _COLOR_MAP = {
-  docspec.Module: 'magenta',
-  docspec.Class: 'cyan',
-  docspec.Function: 'yellow',
-  docspec.Variable: 'blue',
+    docspec.Module: "magenta",
+    docspec.Class: "cyan",
+    docspec.Function: "yellow",
+    docspec.Variable: "blue",
 }
 
 
-def _dump_tree(obj: docspec.ApiObject, depth: int = 0):
-  color = _COLOR_MAP.get(type(obj))
-  type_name = colored(type(obj).__name__.lower(), color)
-  print('| ' * depth + type_name, obj.name)
-  for member in getattr(obj, 'members', []):
-    _dump_tree(member, depth+1)
+def _dump_tree(obj: docspec.ApiObject, depth: int = 0) -> None:
+    color = _COLOR_MAP.get(type(obj))
+    type_name = colored(type(obj).__name__.lower(), color)
+    print("| " * depth + type_name, obj.name)
+    for member in getattr(obj, "members", []):
+        _dump_tree(member, depth + 1)
 
 
-def main():
-  parser = argparse.ArgumentParser()
-  parser.add_argument('file', nargs='?')
-  parser.add_argument('-t', '--tty', action='store_true', help='Read from stdin even if it is a TTY.')
-  parser.add_argument('-m', '--multiple', action='store_true', help='Load a module per line from the input.')
-  parser.add_argument('--dump-tree', action='store_true', help='Dump a simplified tree representation of the parsed module(s) to stdout. Supports colored output if the "termcolor" module is installed.')
-  args = parser.parse_args()
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("file", nargs="?")
+    parser.add_argument("-t", "--tty", action="store_true", help="Read from stdin even if it is a TTY.")
+    parser.add_argument("-m", "--multiple", action="store_true", help="Load a module per line from the input.")
+    parser.add_argument(
+        "--dump-tree",
+        action="store_true",
+        help="Dump a simplified tree representation of the parsed module(s) to stdout. Supports colored output if the "
+        '"termcolor" module is installed.',
+    )
+    args = parser.parse_args()
 
-  if not args.file and sys.stdin.isatty() and not args.tty:
-    parser.print_usage()
-    sys.exit(1)
+    if not args.file and sys.stdin.isatty() and not args.tty:
+        parser.print_usage()
+        sys.exit(1)
 
-  if args.multiple:
-    modules = docspec.load_modules(args.file or sys.stdin)
-  else:
-    modules = [docspec.load_module(args.file or sys.stdin)]
+    if args.multiple:
+        modules = docspec.load_modules(args.file or sys.stdin)
+    else:
+        modules = [docspec.load_module(args.file or sys.stdin)]
 
-  if args.dump_tree:
-    for module in modules:
-      _dump_tree(module)
-  else:
-    for module in modules:
-      docspec.dump_module(module, sys.stdout)
+    if args.dump_tree:
+        for module in modules:
+            _dump_tree(module)
+    else:
+        for module in modules:
+            docspec.dump_module(module, sys.stdout)
 
 
-if __name__ == '__main__':
-  main()
+if __name__ == "__main__":
+    main()
