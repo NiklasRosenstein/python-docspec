@@ -1,3 +1,6 @@
+> Note: The GitHub repository was moved from NiklasRosenstein/docspec to NiklasRosenstein/python-docspec on
+> May 13, 2023.
+
 # Docspec
 
 Docspec is a JSON object specification for representing API documentation of programming languages. While in
