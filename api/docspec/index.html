@@ -2165,13 +2165,21 @@ list of plain structured data to deserialize from.</p>
 <p><a id="pydoc:docspec.dump_module"></a></p>
 <h4 id="dump_module">dump_module</h4>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">dump_module</span><span class="p">(</span>
-    <span class="n">module</span><span class="p">:</span> <span class="n">Module</span><span class="p">,</span>
-    <span class="n">target</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">IO</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">dumper</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Callable</span><span class="p">[[</span><span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">IO</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dump</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]]</span>
+        <span class="n">module</span><span class="p">:</span> <span class="n">Module</span><span class="p">,</span>
+        <span class="n">target</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">IO</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">dumper</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Callable</span><span class="p">[[</span><span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">IO</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">,</span>
+        <span class="n">serialize_defaults</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]]</span>
 </code></pre></div>
 <p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L531">[view_source]</a></p>
 <p>Dumps a module to the specified target or returns it as plain structured data.</p>
+<p><strong>Arguments</strong>:</p>
+<ul>
+<li><code>module</code>: The module to dump.</li>
+<li><code>target</code>: The target to dump to. If <code>None</code>, the module will be returned as plain structured data.</li>
+<li><code>dumper</code>: A function for dumping plain structured data to a file-like object. Defaults to <code>json.dump()</code>.</li>
+<li><code>serialize_defaults</code>: If <code>True</code>, default values will be serialized into the payload. Otherwise, they will be
+omitted. Defaults to <code>False</code>.</li>
+</ul>
 <p><a id="docspec.filter_visit"></a></p>
 <p><a id="pydoc:docspec.filter_visit"></a></p>
 <h4 id="filter_visit">filter_visit</h4>
@@ -2179,7 +2187,7 @@ list of plain structured data to deserialize from.</p>
                  <span class="n">predicate</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Callable</span><span class="p">[[</span><span class="n">ApiObject</span><span class="p">],</span> <span class="nb">bool</span><span class="p">],</span>
                  <span class="n">order</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;pre&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">MutableSequence</span><span class="p">[</span><span class="n">ApiObject</span><span class="p">]</span>
 </code></pre></div>
-<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L554">[view_source]</a></p>
+<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L561">[view_source]</a></p>
 <p>Visits all <em>objects</em> recursively, applying the <em>predicate</em> in the specified <em>order</em>. If</p>
 <p>the predicate returrns <code>False</code>, the object will be removed from it's containing list.</p>
 <p>If an object is removed in pre-order, it's members will not be visited.</p>
@@ -2199,14 +2207,14 @@ order may also be <code>'post'</code>.</li>
           <span class="n">func</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Callable</span><span class="p">[[</span><span class="n">ApiObject</span><span class="p">],</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">],</span>
           <span class="n">order</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;pre&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
-<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L594">[view_source]</a></p>
+<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L601">[view_source]</a></p>
 <p>Visits all <em>objects</em>, applying <em>func</em> in the specified <em>order</em>.</p>
 <p><a id="docspec.get_member"></a></p>
 <p><a id="pydoc:docspec.get_member"></a></p>
 <h4 id="get_member">get_member</h4>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_member</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">ApiObject</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">ApiObject</span><span class="p">]</span>
 </code></pre></div>
-<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L610">[view_source]</a></p>
+<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L617">[view_source]</a></p>
 <p>Generic function to retrieve a member from an API object. This will always return <code>None</code> for
 objects that don't support members (eg. <a href="#pydoc:docspec.Function">Function</a> and <a href="#pydoc:docspec.Variable">Variable</a>).</p>
 
