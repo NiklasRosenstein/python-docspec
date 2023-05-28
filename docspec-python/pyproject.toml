@@ -36,13 +36,13 @@ typed = true
 [tool.slap.test]
 check = "slap check"
 pytest = "pytest -vv"
-mypy = "mypy src/ --check-untyped-defs"
-black = "black --check src/"
-isort = "isort --check-only src/"
-flake8 = "flake8 src/"
+mypy = "mypy src/ test --check-untyped-defs"
+black = "black --check src/ test/"
+isort = "isort --check-only src/ test/"
+flake8 = "flake8 src/ test/"
 
 [tool.slap.run]
-fmt = "black src/ && isort src/"
+fmt = "black src/ test/ && isort src/ test/"
 
 [tool.mypy]
 python_version = "3.6"
