@@ -31,7 +31,7 @@ typed = true
 [tool.slap.test]
 check = "slap check"
 pytest = "pytest -vv"
-mypy = "mypy src/ --check-untyped-defs"
+mypy = "mypy src/ test/"
 black = "black --check src/"
 isort = "isort --check-only src/"
 flake8 = "flake8 src/"
@@ -52,6 +52,7 @@ warn_no_return = true
 warn_redundant_casts = true
 warn_unreachable = true
 warn_unused_ignores = true
+check_untyped_defs = true
 
 [tool.isort]
 profile = "black"

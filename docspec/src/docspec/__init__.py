@@ -52,6 +52,7 @@ import json
 import sys
 import typing as t
 import weakref
+from typing import Any
 
 import databind.json
 import typing_extensions as te
@@ -362,6 +363,7 @@ class Function(ApiObject):
     semantic_hints: t.List[FunctionSemantic] = dataclasses.field(default_factory=list)
 
 
+@dataclasses.dataclass
 class HasMembers(ApiObject):
     """
     Base class for API objects that can have members, e.g. #Class and #Module.

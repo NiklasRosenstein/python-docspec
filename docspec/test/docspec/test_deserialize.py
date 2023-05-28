@@ -1,4 +1,5 @@
 
+from __future__ import annotations
 import docspec
 import typing as t
 import weakref
@@ -8,7 +9,7 @@ loc = docspec.Location('<string>', 0)
 s_loc = {'filename': '<string>', 'lineno': 0}
 
 
-def test_serialize_typed(typed_module: docspec.Module):
+def test_serialize_typed(typed_module: docspec.Module) -> None:
   assert docspec.dump_module(typed_module) == {
     "docstring": None,
     "location": {
@@ -84,7 +85,7 @@ def test_serialize_typed(typed_module: docspec.Module):
   }
 
 
-def test_serialize(module: docspec.Module):
+def test_serialize(module: docspec.Module)  -> None:
   assert docspec.dump_module(module) == {
     'name': 'a',
     'location': s_loc,
@@ -132,11 +133,11 @@ def test_serialize(module: docspec.Module):
   }
 
 
-def test_serialize_deserialize(module: docspec.Module):
+def test_serialize_deserialize(module: docspec.Module)  -> None:
   deser = docspec.load_module(docspec.dump_module(module))
   assert deser == module
 
-  def _deep_comparison(a, b, path, seen):
+  def _deep_comparison(a: t.Any, b: t.Any, path: list[str | int], seen: set[int]) -> None:
     assert type(a) == type(b), path
     if isinstance(a, weakref.ref):
       a, b = a(), b()
@@ -157,7 +158,7 @@ def test_serialize_deserialize(module: docspec.Module):
   _deep_comparison(deser, module, ['$'], set())
 
 
-def test_deserialize_old_function_argument_types():
+def test_deserialize_old_function_argument_types()  -> None:
   payload = {
     'name': 'a',
     'location': s_loc,
