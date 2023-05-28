@@ -1,0 +1,5 @@
+[[entries]]
+id = "b1de9a35-e65a-4b0e-8739-efc098aad35c"
+type = "improvement"
+description = "Upgrade to databind `4.2.6`"
+author = "@NiklasRosenstein"

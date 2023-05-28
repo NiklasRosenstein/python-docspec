@@ -52,11 +52,10 @@ import json
 import sys
 import typing as t
 import weakref
-from typing import Any
 
 import databind.json
 import typing_extensions as te
-from databind.core.annotations import alias, union
+from databind.core.settings import Alias, SerializeDefaults, Union
 
 
 @dataclasses.dataclass
@@ -134,20 +133,20 @@ class Argument(HasLocation):
         """
 
         #: A positional only argument. Such arguments are denoted in Python like this: `def foo(a, b, /): ...`
-        POSITIONAL_ONLY: te.Annotated[int, alias("POSITIONAL_ONLY", "PositionalOnly")] = 0
+        POSITIONAL_ONLY: te.Annotated[int, Alias("POSITIONAL_ONLY", "PositionalOnly")] = 0
 
         #: A positional argument, which may also be given as a keyword argument. Basically that is just a normal
         #: argument as you would see most commonly in Python function definitions.
-        POSITIONAL: te.Annotated[int, alias("POSITIONAL", "Positional")] = 1
+        POSITIONAL: te.Annotated[int, Alias("POSITIONAL", "Positional")] = 1
 
         #: An argument that denotes the capture of additional positional arguments, aka. "args" or "varags".
-        POSITIONAL_REMAINDER: te.Annotated[int, alias("POSITIONAL_REMAINDER", "PositionalRemainder")] = 2
+        POSITIONAL_REMAINDER: te.Annotated[int, Alias("POSITIONAL_REMAINDER", "PositionalRemainder")] = 2
 
         #: A keyword-only argument is denoted in Python like thisL `def foo(*, kwonly): ...`
-        KEYWORD_ONLY: te.Annotated[int, alias("KEYWORD_ONLY", "KeywordOnly")] = 3
+        KEYWORD_ONLY: te.Annotated[int, Alias("KEYWORD_ONLY", "KeywordOnly")] = 3
 
         #: An argument that captures additional keyword arguments, aka. "kwargs".
-        KEYWORD_REMAINDER: te.Annotated[int, alias("KEYWORD_REMAINDER", "KeywordRemainder")] = 4
+        KEYWORD_REMAINDER: te.Annotated[int, Alias("KEYWORD_REMAINDER", "KeywordRemainder")] = 4
 
         # backwards compatibility, < 1.2.0
         PositionalOnly: t.ClassVar["Argument.Type"]
@@ -439,16 +438,16 @@ class Module(HasMembers):
 _Members = t.Union[Variable, Function, Class, Indirection]
 _MemberType = te.Annotated[
     _Members,
-    union({"data": Variable, "function": Function, "class": Class, "indirection": Indirection}, style=union.Style.flat),
+    Union({"data": Variable, "function": Function, "class": Class, "indirection": Indirection}, style=Union.FLAT),
 ]
 
 
 _ModuleMembers = t.Union[Variable, Function, Class, Module, Indirection]
 _ModuleMemberType = te.Annotated[
     _ModuleMembers,
-    union(
+    Union(
         {"data": Variable, "function": Function, "class": Class, "module": Module, "indirection": Indirection},
-        style=union.Style.flat,
+        style=Union.FLAT,
     ),
 ]
 
@@ -543,7 +542,7 @@ def dump_module(
             dump_module(module, fp, dumper)
         return None
 
-    data = databind.json.dump(module, Module)
+    data = databind.json.dump(module, Module, settings=[SerializeDefaults(False)])
     if target:
         dumper(data, target)
         target.write("\n")

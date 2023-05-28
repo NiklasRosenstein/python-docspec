@@ -11,14 +11,12 @@ s_loc = {'filename': '<string>', 'lineno': 0}
 
 def test_serialize_typed(typed_module: docspec.Module) -> None:
   assert docspec.dump_module(typed_module) == {
-    "docstring": None,
     "location": {
       "filename": "test.py",
       "lineno": 0
     },
     "members": [
       {
-        "docstring": None,
         "location": {
           "filename": "test.py",
           "lineno": 1
@@ -28,8 +26,6 @@ def test_serialize_typed(typed_module: docspec.Module) -> None:
         "type": "indirection"
       },
       {
-        "bases": None,
-        "decorations": None,
         "docstring": {
           "content": "This is class foo.",
           "location": {
@@ -44,7 +40,6 @@ def test_serialize_typed(typed_module: docspec.Module) -> None:
         "members": [
           {
             "datatype": "Union[int, float]",
-            "docstring": None,
             "location": {
               "filename": "test.py",
               "lineno": 4
@@ -64,21 +59,17 @@ def test_serialize_typed(typed_module: docspec.Module) -> None:
                 }
               }
             ],
-            "decorations": None,
-            "docstring": None,
             "location": {
               "filename": "test.py",
               "lineno": 5
             },
-            "modifiers": None,
             "name": "__init__",
-            "return_type": None,
             "type": "function"
           }
         ],
-        "metaclass": None,
         "name": "foo",
-        "type": "class"
+        "type": "class",
+        "decorations": [],
       }
     ],
     "name": "a"
@@ -89,7 +80,6 @@ def test_serialize(module: docspec.Module)  -> None:
   assert docspec.dump_module(module) == {
     'name': 'a',
     'location': s_loc,
-    'docstring': None,
     'members': [
       {
         'type': 'class',
@@ -104,7 +94,6 @@ def test_serialize(module: docspec.Module)  -> None:
             'type': 'data',
             'name': 'val',
             'location': s_loc,
-            'docstring': None,
             'datatype': 'int',
             'value': '42',
           },
@@ -112,8 +101,6 @@ def test_serialize(module: docspec.Module)  -> None:
             'type': 'function',
             'name': '__init__',
             'location': s_loc,
-            'docstring': None,
-            'modifiers': None,
             'args': [
               {
                 'location': s_loc,
@@ -121,13 +108,8 @@ def test_serialize(module: docspec.Module)  -> None:
                 'type': 'POSITIONAL',
               }
             ],
-            'return_type': None,
-            'decorations': None,
           }
         ],
-        'metaclass': None,
-        'bases': None,
-        'decorations': None,
       }
     ],
   }

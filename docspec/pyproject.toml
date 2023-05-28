@@ -10,7 +10,8 @@ packages = [{include="docspec", from="src"}]
 
 [tool.poetry.dependencies]
 python = "^3.7"
-"databind" = "^1.5.0"
+databind-core = "^4.2.6"
+databind-json = "^4.2.6"
 Deprecated = "^1.2.12"
 
 [tool.poetry.dev-dependencies]
