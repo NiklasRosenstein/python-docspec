@@ -386,6 +386,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#221-2023-05-28" class="md-nav__link">
+    2.2.1 (2023-05-28)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#220-2023-05-28" class="md-nav__link">
     2.2.0 (2023-05-28)
   </a>
@@ -511,6 +518,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#221-2023-05-28" class="md-nav__link">
+    2.2.1 (2023-05-28)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#220-2023-05-28" class="md-nav__link">
     2.2.0 (2023-05-28)
   </a>
@@ -599,6 +613,13 @@
 
 
 <h1 id="docspec-changelog">Docspec Changelog</h1>
+<h2 id="221-2023-05-28">2.2.1 (2023-05-28)</h2>
+<table><tr><th>Type</th><th>Description</th><th>PR</th><th>Issues</th><th>Author</th></tr>
+  <tr><td>Fix</td><td>
+
+Fix databind dependency names. The packages are named `databind.core` and `databind.json`, respectively, and referencing with a `-` instead (the normalized form) can fail in older Python versions (3.7 - 3.9, it seems) when using the `pkg_resources` module (example error: `pkg_resources.DistributionNotFound: The 'databind-json<5.0.0,>=4.2.6' distribution was not found and is required by docspec`).</td><td></td><td></td><td>@NiklasRosenstein</td></tr>
+</table>
+
 <h2 id="220-2023-05-28">2.2.0 (2023-05-28)</h2>
 <table><tr><th>Type</th><th>Description</th><th>PR</th><th>Issues</th><th>Author</th></tr>
   <tr><td>Improvement</td><td>
