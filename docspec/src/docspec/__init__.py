@@ -532,9 +532,16 @@ def dump_module(
     module: Module,
     target: t.Optional[t.Union[str, t.IO[str]]] = None,
     dumper: t.Callable[[t.Any, t.IO[str]], None] = json.dump,
+    serialize_defaults: bool = False,
 ) -> t.Optional[t.Dict[str, t.Any]]:
     """
     Dumps a module to the specified target or returns it as plain structured data.
+
+    :param module: The module to dump.
+    :param target: The target to dump to. If #None, the module will be returned as plain structured data.
+    :param dumper: A function for dumping plain structured data to a file-like object. Defaults to #json.dump().
+    :param serialize_defaults: If #True, default values will be serialized into the payload. Otherwise, they will be
+        omitted. Defaults to #False.
     """
 
     if isinstance(target, str):
@@ -542,7 +549,7 @@ def dump_module(
             dump_module(module, fp, dumper)
         return None
 
-    data = databind.json.dump(module, Module, settings=[SerializeDefaults(False)])
+    data = databind.json.dump(module, Module, settings=[SerializeDefaults(serialize_defaults)])
     if target:
         dumper(data, target)
         target.write("\n")

@@ -3,3 +3,9 @@ id = "b1de9a35-e65a-4b0e-8739-efc098aad35c"
 type = "improvement"
 description = "Upgrade to databind `4.2.6`"
 author = "@NiklasRosenstein"
+
+[[entries]]
+id = "c7062ee2-6aa1-4e61-be7e-13bd130035b2"
+type = "feature"
+description = "Add `dump_module(serialize_defaults)` parameter"
+author = "@NiklasRosenstein"
