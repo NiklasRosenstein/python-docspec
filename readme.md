@@ -13,13 +13,13 @@ languages in the future as well
 
 The reference implementation for reading/writing the JSON format and API for representing API objects in memory.
 
-[→ View the Specification 📃](https://niklasrosenstein.github.io/docspec/specification/)
+[→ View the Specification 📃](https://niklasrosenstein.github.io/python-docspec/specification/)
 
 ### docspec-python
 
 A parser for Python packages and modules based on `lib2to3` producing `docspec` API object representations.
 
-[→ View the Documentation 📘](https://niklasrosenstein.github.io/docspec/api/docspec-python/)
+[→ View the Documentation 📘](https://niklasrosenstein.github.io/python-docspec/api/docspec-python/)
 
 ## Projects using `docspec`
 
