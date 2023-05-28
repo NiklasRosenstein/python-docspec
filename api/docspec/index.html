@@ -15,7 +15,7 @@
         <link rel="next" href="../docspec-python/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.12">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.14">
     
     
       
@@ -1736,7 +1736,7 @@
 <div class="highlight"><pre><span></span><code><span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span>
 <span class="k">class</span> <span class="nc">Location</span><span class="p">()</span>
 </code></pre></div>
-<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L62">[view_source]</a></p>
+<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L63">[view_source]</a></p>
 <p>Represents the location of an <a href="#pydoc:docspec.ApiObject">ApiObject</a> by a filename and line number.</p>
 <p><a id="docspec.Location.endlineno"></a></p>
 <p><a id="pydoc:docspec.Location.endlineno"></a></p>
@@ -1749,7 +1749,7 @@ which line it ends with this property.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span>
 <span class="k">class</span> <span class="nc">HasLocation</span><span class="p">()</span>
 </code></pre></div>
-<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L76">[view_source]</a></p>
+<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L77">[view_source]</a></p>
 <p>Base class for objects that have a <a href="#pydoc:docspec.Location">Location</a>.</p>
 <p><a id="docspec.Docstring"></a></p>
 <p><a id="pydoc:docspec.Docstring"></a></p>
@@ -1757,7 +1757,7 @@ which line it ends with this property.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span>
 <span class="k">class</span> <span class="nc">Docstring</span><span class="p">(</span><span class="n">HasLocation</span><span class="p">)</span>
 </code></pre></div>
-<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L83">[view_source]</a></p>
+<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L84">[view_source]</a></p>
 <p>Represents a docstring for an <code>APIObject</code>, i.e. it's content and location. This class is a subclass of <code>str</code>
 for backwards compatibility reasons. Use the <a href="#pydoc:docspec.Docstring.content">content</a> property to access the docstring content over the
 <a href="#pydoc:docspec.Docstring">Docstring</a> value directory.</p>
@@ -1777,7 +1777,7 @@ from the <code>str</code> class may be removed in future versions.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span>
 <span class="k">class</span> <span class="nc">Decoration</span><span class="p">(</span><span class="n">HasLocation</span><span class="p">)</span>
 </code></pre></div>
-<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L100">[view_source]</a></p>
+<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L101">[view_source]</a></p>
 <p>Represents a decorator on a <a href="#pydoc:docspec.Class">Class</a> or <a href="#pydoc:docspec.Function">Function</a>.</p>
 <p><a id="docspec.Decoration.location"></a></p>
 <p><a id="pydoc:docspec.Decoration.location"></a></p>
@@ -1805,14 +1805,14 @@ sign preceed the argument value expression code.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span>
 <span class="k">class</span> <span class="nc">Argument</span><span class="p">(</span><span class="n">HasLocation</span><span class="p">)</span>
 </code></pre></div>
-<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L123">[view_source]</a></p>
+<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L124">[view_source]</a></p>
 <p>Represents a <a href="#pydoc:docspec.Function">Function</a> argument.</p>
 <p><a id="docspec.Argument.Type"></a></p>
 <p><a id="pydoc:docspec.Argument.Type"></a></p>
 <h2 id="class-type">Class Type</h2>
 <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Type</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">)</span>
 </code></pre></div>
-<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L128">[view_source]</a></p>
+<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L129">[view_source]</a></p>
 <p>The type of the argument. This is currently very Python-centric, however most other languages should be able
 to represent the various argument types with a subset of these types without additions (e.g. Java or TypeScript
 only support <code>Positional</code> and <code>PositionalRemainder</code> arguments).</p>
@@ -1868,7 +1868,7 @@ like for example Java does. This is probably premature to add into the API, but 
 <div class="highlight"><pre><span></span><code><span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span>
 <span class="k">class</span> <span class="nc">ApiObject</span><span class="p">(</span><span class="n">HasLocation</span><span class="p">)</span>
 </code></pre></div>
-<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L185">[view_source]</a></p>
+<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L186">[view_source]</a></p>
 <p>The base class for representing "API Objects". Any API object is any addressable entity in code,
 be that a variable/constant, function, class or module.</p>
 <p><a id="docspec.ApiObject.location"></a></p>
@@ -1892,7 +1892,7 @@ recommendation than rule. For example the <code>docspec_python</code> loader by 
 <div class="highlight"><pre><span></span><code><span class="nd">@property</span>
 <span class="k">def</span> <span class="nf">parent</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;HasMembers&quot;</span><span class="p">]</span>
 </code></pre></div>
-<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L207">[view_source]</a></p>
+<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L208">[view_source]</a></p>
 <p>Returns the parent of the <a href="#pydoc:docspec.HasMembers">HasMembers</a>. Note that if you make any modifications to the API object tree,
 you will need to call <a href="#pydoc:docspec.ApiObject.sync_hierarchy">sync_hierarchy()</a> afterwards because adding to <a href="#pydoc:docspec.Class.members">Class.members</a> or <a href="#pydoc:docspec.Module.members">Module.members</a>
 does not automatically keep the <a href="#pydoc:docspec.ApiObject.parent">parent</a> property in sync.</p>
@@ -1902,7 +1902,7 @@ does not automatically keep the <a href="#pydoc:docspec.ApiObject.parent">parent
 <div class="highlight"><pre><span></span><code><span class="nd">@property</span>
 <span class="k">def</span> <span class="nf">path</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="s2">&quot;ApiObject&quot;</span><span class="p">]</span>
 </code></pre></div>
-<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L230">[view_source]</a></p>
+<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L231">[view_source]</a></p>
 <p>Returns a list of all of this API object's parents, from top to bottom. The list includes <em>self</em> as the
 last item.</p>
 <p><a id="docspec.ApiObject.sync_hierarchy"></a></p>
@@ -1910,7 +1910,7 @@ last item.</p>
 <h4 id="sync_hierarchy">sync_hierarchy</h4>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">sync_hierarchy</span><span class="p">(</span><span class="n">parent</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;HasMembers&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
-<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L244">[view_source]</a></p>
+<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L245">[view_source]</a></p>
 <p>Synchronize the hierarchy of this API object and all of it's children. This should be called when the
 <a href="#pydoc:docspec.HasMembers.members">HasMembers.members</a> are updated to ensure that all child objects reference the right <a href="#pydoc:docspec.ApiObject.parent">parent</a>. Loaders
 are expected to return <a href="#pydoc:docspec.ApiObject">ApiObjects</a> in a fully synchronized state such that the user does not have to
@@ -1920,7 +1920,7 @@ call this method unless they are doing modifications to the tree.</p>
 <h2 id="class-variablesemantic">Class VariableSemantic</h2>
 <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">VariableSemantic</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">)</span>
 </code></pre></div>
-<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L255">[view_source]</a></p>
+<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L256">[view_source]</a></p>
 <p>A list of well-known properties and behaviour that can be attributed to a variable/constant.</p>
 <p><a id="docspec.VariableSemantic.INSTANCE_VARIABLE"></a></p>
 <p><a id="pydoc:docspec.VariableSemantic.INSTANCE_VARIABLE"></a></p>
@@ -1940,7 +1940,7 @@ call this method unless they are doing modifications to the tree.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span>
 <span class="k">class</span> <span class="nc">Variable</span><span class="p">(</span><span class="n">ApiObject</span><span class="p">)</span>
 </code></pre></div>
-<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L271">[view_source]</a></p>
+<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L272">[view_source]</a></p>
 <p>Represents a variable assignment (e.g. for global variables (often used as constants) or class members).</p>
 <p><a id="docspec.Variable.datatype"></a></p>
 <p><a id="pydoc:docspec.Variable.datatype"></a></p>
@@ -1965,7 +1965,7 @@ derivable from the context.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span>
 <span class="k">class</span> <span class="nc">Indirection</span><span class="p">(</span><span class="n">ApiObject</span><span class="p">)</span>
 </code></pre></div>
-<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L293">[view_source]</a></p>
+<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L294">[view_source]</a></p>
 <p>Represents an imported name. It can be used to properly find the full name target of a link written with a
 local name.</p>
 <p><a id="docspec.FunctionSemantic"></a></p>
@@ -1973,7 +1973,7 @@ local name.</p>
 <h2 id="class-functionsemantic">Class FunctionSemantic</h2>
 <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">FunctionSemantic</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">)</span>
 </code></pre></div>
-<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L302">[view_source]</a></p>
+<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L303">[view_source]</a></p>
 <p>A list of well-known properties and behaviour that can be attributed to a function.</p>
 <p><a id="docspec.FunctionSemantic.ABSTRACT"></a></p>
 <p><a id="pydoc:docspec.FunctionSemantic.ABSTRACT"></a></p>
@@ -2021,7 +2021,7 @@ local name.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span>
 <span class="k">class</span> <span class="nc">Function</span><span class="p">(</span><span class="n">ApiObject</span><span class="p">)</span>
 </code></pre></div>
-<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L339">[view_source]</a></p>
+<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L340">[view_source]</a></p>
 <p>Represents a function definition. This can be in a <a href="#pydoc:docspec.Module">Module</a> for plain functions or in a <a href="#pydoc:docspec.Class">Class</a> for methods.
 The <a href="#pydoc:docspec.Function.decorations">decorations</a> need to be introspected to understand if the function has a special purpose (e.g. is it a
 <code>@property</code>, <code>@classmethod</code> or <code>@staticmethod</code>?).</p>
@@ -2049,9 +2049,10 @@ Python is "async".</p>
 <p><a id="docspec.HasMembers"></a></p>
 <p><a id="pydoc:docspec.HasMembers"></a></p>
 <h2 id="class-hasmembers">Class HasMembers</h2>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">HasMembers</span><span class="p">(</span><span class="n">ApiObject</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span>
+<span class="k">class</span> <span class="nc">HasMembers</span><span class="p">(</span><span class="n">ApiObject</span><span class="p">)</span>
 </code></pre></div>
-<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L365">[view_source]</a></p>
+<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L367">[view_source]</a></p>
 <p>Base class for API objects that can have members, e.g. <a href="#pydoc:docspec.Class">Class</a> and <a href="#pydoc:docspec.Module">Module</a>.</p>
 <p><a id="docspec.HasMembers.members"></a></p>
 <p><a id="pydoc:docspec.HasMembers.members"></a></p>
@@ -2062,7 +2063,7 @@ Python is "async".</p>
 <h2 id="class-classsemantic">Class ClassSemantic</h2>
 <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">ClassSemantic</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">)</span>
 </code></pre></div>
-<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L379">[view_source]</a></p>
+<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L381">[view_source]</a></p>
 <p>A list of well-known properties and behaviour that can be attributed to a class.</p>
 <p><a id="docspec.ClassSemantic.INTERFACE"></a></p>
 <p><a id="pydoc:docspec.ClassSemantic.INTERFACE"></a></p>
@@ -2086,7 +2087,7 @@ Python is "async".</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span>
 <span class="k">class</span> <span class="nc">Class</span><span class="p">(</span><span class="n">HasMembers</span><span class="p">)</span>
 </code></pre></div>
-<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L398">[view_source]</a></p>
+<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L400">[view_source]</a></p>
 <p>Represents a class definition.</p>
 <p><a id="docspec.Class.metaclass"></a></p>
 <p><a id="pydoc:docspec.Class.metaclass"></a></p>
@@ -2119,7 +2120,7 @@ that class unless some information about the <a href="#pydoc:docspec.Function">F
 <div class="highlight"><pre><span></span><code><span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span>
 <span class="k">class</span> <span class="nc">Module</span><span class="p">(</span><span class="n">HasMembers</span><span class="p">)</span>
 </code></pre></div>
-<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L426">[view_source]</a></p>
+<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L428">[view_source]</a></p>
 <p>Represents a module, basically a named container for code/API objects. Modules may be nested in other modules.
 Be aware that for historical reasons, some loaders lile <code>docspec_python</code> by default do not return nested modules,
 even if nesting would be appropriate (and instead the <code>Module.name</code> simply contains the fully qualified name).</p>
@@ -2134,7 +2135,7 @@ even if nesting would be appropriate (and instead the <code>Module.name</code> s
                 <span class="n">filename</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                 <span class="n">loader</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Callable</span><span class="p">[[</span><span class="n">t</span><span class="o">.</span><span class="n">IO</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Module</span>
 </code></pre></div>
-<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L454">[view_source]</a></p>
+<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L456">[view_source]</a></p>
 <p>Loads a <a href="#pydoc:docspec.Module">Module</a> from the specified <em>source</em>, which may be either a filename,
 a file-like object to read from or plain structured data.</p>
 <p><strong>Arguments</strong></p>
@@ -2156,7 +2157,7 @@ a file-like object to read from or plain structured data.</p>
         <span class="n">loader</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Callable</span><span class="p">[[</span><span class="n">t</span><span class="o">.</span><span class="n">IO</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span>
                            <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="n">Module</span><span class="p">]</span>
 </code></pre></div>
-<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L490">[view_source]</a></p>
+<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L492">[view_source]</a></p>
 <p>Loads a stream of modules from the specified <em>source</em>. Similar to
 <a href="#pydoc:docspec.load_module">load_module()</a>, the <em>source</em> can be a filename, file-like object or a
 list of plain structured data to deserialize from.</p>
@@ -2169,7 +2170,7 @@ list of plain structured data to deserialize from.</p>
     <span class="n">dumper</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Callable</span><span class="p">[[</span><span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">IO</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dump</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]]</span>
 </code></pre></div>
-<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L530">[view_source]</a></p>
+<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L532">[view_source]</a></p>
 <p>Dumps a module to the specified target or returns it as plain structured data.</p>
 <p><a id="docspec.filter_visit"></a></p>
 <p><a id="pydoc:docspec.filter_visit"></a></p>
@@ -2178,7 +2179,7 @@ list of plain structured data to deserialize from.</p>
                  <span class="n">predicate</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Callable</span><span class="p">[[</span><span class="n">ApiObject</span><span class="p">],</span> <span class="nb">bool</span><span class="p">],</span>
                  <span class="n">order</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;pre&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">MutableSequence</span><span class="p">[</span><span class="n">ApiObject</span><span class="p">]</span>
 </code></pre></div>
-<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L553">[view_source]</a></p>
+<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L555">[view_source]</a></p>
 <p>Visits all <em>objects</em> recursively, applying the <em>predicate</em> in the specified <em>order</em>. If</p>
 <p>the predicate returrns <code>False</code>, the object will be removed from it's containing list.</p>
 <p>If an object is removed in pre-order, it's members will not be visited.</p>
@@ -2198,14 +2199,14 @@ order may also be <code>'post'</code>.</li>
           <span class="n">func</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Callable</span><span class="p">[[</span><span class="n">ApiObject</span><span class="p">],</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">],</span>
           <span class="n">order</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;pre&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
-<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L593">[view_source]</a></p>
+<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L595">[view_source]</a></p>
 <p>Visits all <em>objects</em>, applying <em>func</em> in the specified <em>order</em>.</p>
 <p><a id="docspec.get_member"></a></p>
 <p><a id="pydoc:docspec.get_member"></a></p>
 <h4 id="get_member">get_member</h4>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_member</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">ApiObject</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">ApiObject</span><span class="p">]</span>
 </code></pre></div>
-<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L609">[view_source]</a></p>
+<p><a href="https://github.com/NiklasRosenstein/python-docspec/blob/develop/docspec/src/docspec/__init__.py#L611">[view_source]</a></p>
 <p>Generic function to retrieve a member from an API object. This will always return <code>None</code> for
 objects that don't support members (eg. <a href="#pydoc:docspec.Function">Function</a> and <a href="#pydoc:docspec.Variable">Variable</a>).</p>
 
@@ -2253,7 +2254,7 @@ objects that don't support members (eg. <a href="#pydoc:docspec.Function">Functi
     <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.indexes", "navigation.instant", "navigation.sections", "navigation.tracking", "navigation.top", "toc.follow", "navigation.sections"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.c2be25ad.min.js"></script>
+      <script src="../../assets/javascripts/bundle.b4d07000.min.js"></script>
       
     
   </body>
