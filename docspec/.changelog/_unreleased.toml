@@ -1,0 +1,5 @@
+[[entries]]
+id = "4be7552a-bb3c-4f80-babf-81179350bc64"
+type = "fix"
+description = "Fix databind dependency names. The packages are named `databind.core` and `databind.json`, respectively, and referencing with a `-` instead (the normalized form) can fail in older Python versions (3.7 - 3.9, it seems) when using the `pkg_resources` module (example error: `pkg_resources.DistributionNotFound: The 'databind-json<5.0.0,>=4.2.6' distribution was not found and is required by docspec`)."
+author = "@NiklasRosenstein"
