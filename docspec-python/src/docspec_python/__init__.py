@@ -91,7 +91,7 @@ def load_python_modules(
             yield parse_python_module(filename, module_name=module_name, 
                                       options=options, encoding=encoding)
     elif parser_version==2:
-        from .parser2 import parse_modules, ModSpec
+        from .parser2 import ModSpec, parse_modules
         yield from parse_modules([ModSpec(Path(filename).read_text(), 
                 module_name, filename) for module_name, filename in files])
     else:
@@ -152,7 +152,7 @@ def parse_python_module(  # type: ignore
         return parser.parse(ast, str(filename), module_name)
     elif parser_version==2:
         # This should only be used in tests
-        from .parser2 import parse_modules, ModSpec
+        from .parser2 import ModSpec, parse_modules
         return next(parse_modules((ModSpec(fp.read(), module_name, filename=filename,),)))
     else:
         assert False, f'no such parser version {parser_version!r}'
