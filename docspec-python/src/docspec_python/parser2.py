@@ -11,12 +11,12 @@ import typing as t
 from dataclasses import dataclass
 from itertools import chain
 
-import ast_comments
-import astor
+import ast_comments  # type:ignore[import]
+import astor  # type:ignore[import]
 import docspec
-import libstatic
-from libstatic._lib.assignment import get_stored_value
-from libstatic._lib.shared import LocalStmtVisitor, unparse
+import libstatic  # type:ignore[import]
+from libstatic._lib.assignment import get_stored_value  # type:ignore[import]
+from libstatic._lib.shared import LocalStmtVisitor, unparse  # type:ignore[import]
 
 
 class ModSpec(t.NamedTuple):
@@ -41,7 +41,8 @@ def parse_modules(modules: t.Sequence[ModSpec], options: ParserOptions | None = 
     initial_modules: dict[str, str] = {}  # libstatic may add the builtins module
     for src, modname, filename, is_package, is_stub in modules:
         initial_modules[modname] = src
-        proj.add_module(ast.parse(src, filename=filename), modname, is_package=is_package, filename=filename)
+        proj.add_module(ast.parse(src, filename=filename or '<unknown>'),
+                        modname, is_package=is_package, filename=filename)
     proj.analyze_project()
     parser = Parser(proj.state, options)
     for m in proj.state.get_all_modules():
@@ -49,9 +50,6 @@ def parse_modules(modules: t.Sequence[ModSpec], options: ParserOptions | None = 
             # run ast-comments
             ast_comments._enrich(initial_modules[m.name()], m.node)
             yield parser.parse(m)
-
-
-######### Implementation #########
 
 
 class IVar(t.NamedTuple):
@@ -62,7 +60,7 @@ class IVar(t.NamedTuple):
 
 class ArgSpec(t.NamedTuple):
     node: ast.arg
-    type: docspec.ArgumentType
+    type: docspec.Argument.Type
     default: ast.expr | None = None
 
 
@@ -129,7 +127,7 @@ def _extract_docstring_linenum(node: ast.Str) -> int:
     return lineno
 
 
-def _extract_docstring_content(node: ast.Str) -> tuple[str, int]:
+def _extract_docstring_content(node: ast.Str | ast.Constant) -> tuple[str, int]:
     """
     Extract docstring information from an ast node that represents the docstring.
 
@@ -138,7 +136,7 @@ def _extract_docstring_content(node: ast.Str) -> tuple[str, int]:
         - The docstring to be parsed, cleaned by L{inspect.cleandoc}.
     """
     lineno = _extract_docstring_linenum(node)
-    return inspect.cleandoc(node.s), lineno
+    return inspect.cleandoc(get_str_value(node)), lineno
 
 
 if sys.version_info[:2] >= (3, 8):
@@ -162,9 +160,9 @@ class Parser:
         self.options = options
 
     def unparse(self, expr: ast.expr) -> str:
-        expr = ast.Expr(expr)
+        nexpr = ast.Expr(expr)
         if not self.options.expand_names:
-            return unparse(expr).rstrip("\n")
+            return unparse(nexpr).rstrip("\n")
         expand_expr = self.state.expand_expr
 
         class SourceGenerator(astor.SourceGenerator):
@@ -175,18 +173,18 @@ class Parser:
                 else:
                     self.write(node.id)
 
-            def visit_Str(self, node):
+            def visit_Str(self, node: ast.Str) -> None:
                 # astor uses tripple quoted strings :/
                 # but we're loosing the precedence infos here, is it important?
                 self.write(unparse(ast.Expr(node)).rstrip("\n"))
 
-            def visit_Constant(self, node):
+            def visit_Constant(self, node: ast.Constant) -> None:
                 self.write(unparse(ast.Expr(node)).rstrip("\n"))
 
         try:
-            return astor.to_source(expr, source_generator_class=SourceGenerator).rstrip("\n")
-        except:
-            return unparse(expr).rstrip("\n")
+            return astor.to_source(nexpr, source_generator_class=SourceGenerator).rstrip("\n")
+        except Exception:
+            return unparse(nexpr).rstrip("\n")
 
     def _get_lineno(self, definition: libstatic.Def) -> int:
         # since ast.alias node only have a lineno info since python 3.10
@@ -239,7 +237,7 @@ class Parser:
             return None
         node = node.body[0]
         if isinstance(node, ast.Expr) and get_str_value(node.value) is not None:
-            return node.value
+            return t.cast('ast.Str | ast.Constant', node.value)
         return None
 
     def get_assign_docstring_node(self, assign: ast.Assign | ast.AnnAssign) -> ast.Str | ast.Constant | None:
@@ -266,7 +264,7 @@ class Parser:
                 return t.cast("ast.Str|ast.Constant", right_sibling.value)
         return None
 
-    def _extract_comment_docstring(self, definition) -> tuple[str | None, int]:
+    def _extract_comment_docstring(self, definition: libstatic.Def) -> tuple[str | None, int]:
         return None, 0
         # >>> ast.dump(ast_comments.parse('# hello\nclass C: # hello2\n # hello 3\n var=True#false'))
         # "Module(body=[
@@ -278,8 +276,8 @@ class Parser:
         #       Comment(value='#false', inline=True)], decorator_list=[])], type_ignores=[])"
 
     def _compute_instance_vars(self, definition: libstatic.Cls) -> t.Sequence[IVar]:
-        class ClassVisitor(LocalStmtVisitor):
-            def __init__(self):
+        class ClassVisitor(LocalStmtVisitor):  # typ:ignore[misc]
+            def __init__(self) -> None:
                 self.ivars: t.List[IVar] = []
 
             def visit_FunctionDef(self, node: ast.FunctionDef | ast.AsyncFunctionDef) -> None:
@@ -288,11 +286,11 @@ class Parser:
                     or node.name == "__new__"
                     or any((state.expand_expr(d)
                             or getattr(d, "id", None)
-                            in {"builtins.classmethod", 
-                                "builtins.staticmethod", 
+                            in {"builtins.classmethod",
+                                "builtins.staticmethod",
                                 "classmethod", "staticmethod"}
                             for d in node.decorator_list
-                        ))):
+                            ))):
                     # not an instance method
                     return
                 self_def = state.get_def(args[0])
@@ -316,7 +314,7 @@ class Parser:
             endlineno=getattr(definition.node, "end_lineno", None) if isinstance(definition, libstatic.Scope) else None,
         )
 
-    def _extract_docstring(self, definition: libstatic.Def) -> docspec.Docstring:
+    def _extract_docstring(self, definition: libstatic.Def) -> docspec.Docstring | None:
         if isinstance(definition, (libstatic.Func, libstatic.Mod, libstatic.Cls)):
             doc_node = self.get_docstring_node(definition.node)
         else:
@@ -326,6 +324,7 @@ class Parser:
                 )
             except libstatic.StaticException:
                 doc_node = None
+        docstring: str | None
         if doc_node:
             docstring, lineno = _extract_docstring_content(doc_node)
         else:
@@ -360,6 +359,7 @@ class Parser:
             return None
         if metaclass_value:
             return self.unparse(metaclass_value)
+        return None
 
     def _extract_return_type(self, returns: ast.expr | None) -> str | None:
         return self.unparse(returns) if returns else None
@@ -377,7 +377,7 @@ class Parser:
             arglist = []
         return docspec.Decoration(location=self._parse_location(self.state.get_def(expr)), name=name, arglist=arglist)
 
-    def _extract_semantics_hints(self, definition: libstatic.Def):
+    def _extract_semantics_hints(self, definition: libstatic.Def) -> list[object]:
         return []  # TODO: support other semantics hints
 
     def _parse_ivar(self, ivar: IVar) -> docspec.Variable:
@@ -407,18 +407,27 @@ class Parser:
         except libstatic.StaticException:
             return None, None
         if isinstance(assign, ast.AnnAssign):
-            return (self.unparse(assign.value) if assign.value else None, self.unparse(assign.annotation))
-        if isinstance(assign, ast.Assign):
-            try:
-                value = get_stored_value(definition.node, assign)
-            except libstatic.StaticException:
-                return (None, None)
-            annotation = None
-            if value is assign.value:
-                pass  # TODO: seek for type comment
-            if annotation is None:
-                pass  # TODO: do basic type inference
-            return (self.unparse(value), self.unparse(annotation) if annotation else None)
+            return (self.unparse(assign.value) if assign.value else None,
+                    self.unparse(assign.annotation))
+        try:
+            value = get_stored_value(definition.node, assign)
+        except libstatic.StaticException:
+            return (None, None)
+        annotation = None
+        if value is assign.value:
+            pass  # TODO: seek for type comment
+        if annotation is None:
+            pass  # TODO: do basic type inference
+        return (self.unparse(value), self.unparse(annotation) if annotation else None)
+
+    @t.overload
+    def parse(self, definition: libstatic.Mod) -> docspec.Module:
+        ...
+
+    @t.overload
+    def parse(self, definition: libstatic.Def) -> (docspec.Variable | docspec.Function |
+                                                   docspec.Class | docspec.Indirection):
+        ...
 
     def parse(self, definition: libstatic.Def) -> docspec.ApiObject:
         if isinstance(definition, libstatic.Mod):
