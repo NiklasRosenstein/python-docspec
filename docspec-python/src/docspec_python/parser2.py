@@ -41,8 +41,9 @@ def parse_modules(modules: t.Sequence[ModSpec], options: ParserOptions | None = 
     initial_modules: dict[str, str] = {}  # libstatic may add the builtins module
     for src, modname, filename, is_package, is_stub in modules:
         initial_modules[modname] = src
-        proj.add_module(ast.parse(src, filename=filename or '<unknown>'),
-                        modname, is_package=is_package, filename=filename)
+        proj.add_module(
+            ast.parse(src, filename=filename or "<unknown>"), modname, is_package=is_package, filename=filename
+        )
     proj.analyze_project()
     parser = Parser(proj.state, options)
     for m in proj.state.get_all_modules():
@@ -182,9 +183,7 @@ class Parser:
                 self.write(unparse(ast.Expr(node)).rstrip("\n"))
 
         try:
-            return t.cast(str,
-                          astor.to_source(nexpr,
-                                          source_generator_class=SourceGenerator).rstrip("\n"))
+            return t.cast(str, astor.to_source(nexpr, source_generator_class=SourceGenerator).rstrip("\n"))
         except Exception:
             return t.cast(str, unparse(nexpr).rstrip("\n"))
 
@@ -239,7 +238,7 @@ class Parser:
             return None
         node = node.body[0]
         if isinstance(node, ast.Expr) and get_str_value(node.value) is not None:
-            return t.cast('ast.Str | ast.Constant', node.value)
+            return t.cast("ast.Str | ast.Constant", node.value)
         return None
 
     def get_assign_docstring_node(self, assign: ast.Assign | ast.AnnAssign) -> ast.Str | ast.Constant | None:
@@ -284,15 +283,18 @@ class Parser:
 
             def visit_FunctionDef(self, node: ast.FunctionDef | ast.AsyncFunctionDef) -> None:
                 args = node.args.args
-                if (len(args) == 0
+                if (
+                    len(args) == 0
                     or node.name == "__new__"
-                    or any((state.expand_expr(d)
+                    or any(
+                        (
+                            state.expand_expr(d)
                             or getattr(d, "id", None)
-                            in {"builtins.classmethod",
-                                "builtins.staticmethod",
-                                "classmethod", "staticmethod"}
+                            in {"builtins.classmethod", "builtins.staticmethod", "classmethod", "staticmethod"}
                             for d in node.decorator_list
-                            ))):
+                        )
+                    )
+                ):
                     # not an instance method
                     return
                 self_def = state.get_def(args[0])
@@ -409,8 +411,7 @@ class Parser:
         except libstatic.StaticException:
             return None, None
         if isinstance(assign, ast.AnnAssign):
-            return (self.unparse(assign.value) if assign.value else None,
-                    self.unparse(assign.annotation))
+            return (self.unparse(assign.value) if assign.value else None, self.unparse(assign.annotation))
         try:
             value = get_stored_value(definition.node, assign)
         except libstatic.StaticException:
@@ -458,8 +459,7 @@ class Parser:
                 bases=self._extract_bases(definition),
                 metaclass=metaclass,
                 decorations=[self._parse_decoration(dec) for dec in decorators] if decorators else None,
-                semantic_hints=t.cast(list[docspec.ClassSemantic], 
-                                      self._extract_semantics_hints(definition)),
+                semantic_hints=t.cast(list[docspec.ClassSemantic], self._extract_semantics_hints(definition)),
             )
         elif isinstance(definition, libstatic.Func):
             decorators = definition.node.decorator_list
@@ -468,8 +468,7 @@ class Parser:
                 location=self._parse_location(definition),
                 docstring=self._extract_docstring(definition),
                 decorations=[self._parse_decoration(dec) for dec in decorators],
-                semantic_hints=t.cast(list[docspec.FunctionSemantic], 
-                                      self._extract_semantics_hints(definition)),
+                semantic_hints=t.cast(list[docspec.FunctionSemantic], self._extract_semantics_hints(definition)),
                 modifiers=["async"] if isinstance(definition.node, ast.AsyncFunctionDef) else None,
                 args=[self._parse_argument(arg) for arg in _iter_arguments(definition.node.args)],
                 return_type=self._extract_return_type(definition.node.returns),
@@ -480,8 +479,7 @@ class Parser:
                 name=definition.name(),
                 location=self._parse_location(definition),
                 docstring=self._extract_docstring(definition),
-                semantic_hints=t.cast(list[docspec.VariableSemantic], 
-                                      self._extract_semantics_hints(definition)),
+                semantic_hints=t.cast(list[docspec.VariableSemantic], self._extract_semantics_hints(definition)),
                 modifiers=[],
                 value=value,
                 datatype=datatype,
