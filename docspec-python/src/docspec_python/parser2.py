@@ -49,7 +49,7 @@ def parse_modules(modules: t.Sequence[ModSpec], options: ParserOptions | None = 
         if m.name() in initial_modules:
             # run ast-comments
             ast_comments._enrich(initial_modules[m.name()], m.node)
-            yield parser.parse(m)
+            yield parser.parse(m)  # type: ignore[misc]
 
 
 class IVar(t.NamedTuple):
@@ -97,7 +97,7 @@ line in the string, rather than the first line.
 """
 
 
-def _extract_docstring_linenum(node: ast.Str) -> int:
+def _extract_docstring_linenum(node: ast.Str | ast.Constant) -> int:
     r"""
     In older CPython versions, the AST only tells us the end line
     number and we must approximate the start line number.
@@ -107,7 +107,7 @@ def _extract_docstring_linenum(node: ast.Str) -> int:
     Leading blank lines are stripped by cleandoc(), so we must
     return the line number of the first non-blank line.
     """
-    doc = node.s
+    doc = t.cast(str, get_str_value(node))
     lineno = node.lineno
     if _string_lineno_is_end:
         # In older CPython versions, the AST only tells us the end line
@@ -136,7 +136,7 @@ def _extract_docstring_content(node: ast.Str | ast.Constant) -> tuple[str, int]:
         - The docstring to be parsed, cleaned by L{inspect.cleandoc}.
     """
     lineno = _extract_docstring_linenum(node)
-    return inspect.cleandoc(get_str_value(node)), lineno
+    return inspect.cleandoc(t.cast(str, get_str_value(node))), lineno
 
 
 if sys.version_info[:2] >= (3, 8):
@@ -162,10 +162,10 @@ class Parser:
     def unparse(self, expr: ast.expr) -> str:
         nexpr = ast.Expr(expr)
         if not self.options.expand_names:
-            return unparse(nexpr).rstrip("\n")
+            return t.cast(str, unparse(nexpr).rstrip("\n"))
         expand_expr = self.state.expand_expr
 
-        class SourceGenerator(astor.SourceGenerator):
+        class SourceGenerator(astor.SourceGenerator):  # type:ignore[misc]
             def visit_Name(self, node: ast.Name) -> None:
                 expanded = expand_expr(node)
                 if expanded:
@@ -182,9 +182,11 @@ class Parser:
                 self.write(unparse(ast.Expr(node)).rstrip("\n"))
 
         try:
-            return astor.to_source(nexpr, source_generator_class=SourceGenerator).rstrip("\n")
+            return t.cast(str,
+                          astor.to_source(nexpr,
+                                          source_generator_class=SourceGenerator).rstrip("\n"))
         except Exception:
-            return unparse(nexpr).rstrip("\n")
+            return t.cast(str, unparse(nexpr).rstrip("\n"))
 
     def _get_lineno(self, definition: libstatic.Def) -> int:
         # since ast.alias node only have a lineno info since python 3.10
@@ -276,7 +278,7 @@ class Parser:
         #       Comment(value='#false', inline=True)], decorator_list=[])], type_ignores=[])"
 
     def _compute_instance_vars(self, definition: libstatic.Cls) -> t.Sequence[IVar]:
-        class ClassVisitor(LocalStmtVisitor):  # typ:ignore[misc]
+        class ClassVisitor(LocalStmtVisitor):  # type:ignore[misc]
             def __init__(self) -> None:
                 self.ivars: t.List[IVar] = []
 
@@ -417,17 +419,18 @@ class Parser:
         if value is assign.value:
             pass  # TODO: seek for type comment
         if annotation is None:
+            # because the code is unfinished, 'self.unparse(annotation)' will never run and mypy complains
             pass  # TODO: do basic type inference
-        return (self.unparse(value), self.unparse(annotation) if annotation else None)
+        return (self.unparse(value), self.unparse(annotation) if annotation else None)  # type:ignore
 
-    @t.overload
-    def parse(self, definition: libstatic.Mod) -> docspec.Module:
-        ...
+    # @t.overload
+    # def parse(self, definition: libstatic.Mod) -> docspec.Module:
+    #     ...
 
-    @t.overload
-    def parse(self, definition: libstatic.Def) -> (docspec.Variable | docspec.Function |
-                                                   docspec.Class | docspec.Indirection):
-        ...
+    # @t.overload
+    # def parse(self, definition: libstatic.Def) -> (docspec.Variable | docspec.Function |  # type:ignore
+    #                                                docspec.Class | docspec.Indirection):
+    #     ...
 
     def parse(self, definition: libstatic.Def) -> docspec.ApiObject:
         if isinstance(definition, libstatic.Mod):
@@ -435,7 +438,7 @@ class Parser:
                 name=definition.name(),
                 location=self._parse_location(definition),
                 docstring=self._extract_docstring(definition),
-                members=[self.parse(m) for m in self._yield_members(definition)],
+                members=[self.parse(m) for m in self._yield_members(definition)],  # type: ignore[misc]
             )
         elif isinstance(definition, libstatic.Cls):
             decorators = definition.node.decorator_list
@@ -445,7 +448,7 @@ class Parser:
                 location=self._parse_location(definition),
                 docstring=self._extract_docstring(definition),
                 members=[
-                    *(
+                    *(  # type: ignore[list-item]
                         self.parse(m)
                         for m in self._yield_members(definition)
                         if not metaclass or m.name() != "__metaclass__"
@@ -455,7 +458,8 @@ class Parser:
                 bases=self._extract_bases(definition),
                 metaclass=metaclass,
                 decorations=[self._parse_decoration(dec) for dec in decorators] if decorators else None,
-                semantic_hints=self._extract_semantics_hints(definition),
+                semantic_hints=t.cast(list[docspec.ClassSemantic], 
+                                      self._extract_semantics_hints(definition)),
             )
         elif isinstance(definition, libstatic.Func):
             decorators = definition.node.decorator_list
@@ -464,7 +468,8 @@ class Parser:
                 location=self._parse_location(definition),
                 docstring=self._extract_docstring(definition),
                 decorations=[self._parse_decoration(dec) for dec in decorators],
-                semantic_hints=self._extract_semantics_hints(definition),
+                semantic_hints=t.cast(list[docspec.FunctionSemantic], 
+                                      self._extract_semantics_hints(definition)),
                 modifiers=["async"] if isinstance(definition.node, ast.AsyncFunctionDef) else None,
                 args=[self._parse_argument(arg) for arg in _iter_arguments(definition.node.args)],
                 return_type=self._extract_return_type(definition.node.returns),
@@ -475,7 +480,8 @@ class Parser:
                 name=definition.name(),
                 location=self._parse_location(definition),
                 docstring=self._extract_docstring(definition),
-                semantic_hints=self._extract_semantics_hints(definition),
+                semantic_hints=t.cast(list[docspec.VariableSemantic], 
+                                      self._extract_semantics_hints(definition)),
                 modifiers=[],
                 value=value,
                 datatype=datatype,
