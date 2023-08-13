@@ -31,7 +31,7 @@ class ParserOptions:
     expand_names:bool=True
     builtins:bool=False
     dependencies:bool|int=False
-    python_version:tuple[int, int]
+    # python_version:tuple[int, int]
 
 def parse_modules(modules: t.Sequence[ModSpec], options:ParserOptions|None=None) -> t.Iterator[docspec.Module]:
     options = options or ParserOptions()

@@ -49,6 +49,10 @@ from docspec import (
 from nr.util.inspect import get_callsite
 
 from docspec_python import ParserOptions, format_arglist, parse_python_module
+try:
+    from docspec_python import parser2
+except ImportError:
+    parser2 = None
 
 T = TypeVar("T")
 DocspecTest = Callable[[], List[_ModuleMemberType]]
@@ -98,6 +102,8 @@ def docspec_test(
         @wraps(func)
         def wrapper(*args: Any, **kwargs: Any) -> None:
             for parser_version in (1,2):
+                if parser_version==2 and parser2 is None:
+                    continue
                 # parse module
                 parsed_module = parse_python_module(
                     StringIO(dedent(func.__doc__ or "")),

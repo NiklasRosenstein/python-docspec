@@ -15,7 +15,7 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ["3.7", "3.8", "3.9", "3.10", "3.x"]
-        project: ["docspec", "docspec-python"]
+        project: ["docspec", "docspec-python", "docspec-python[experimental]"]
     steps:
     - uses: actions/checkout@v3
     - uses: NiklasRosenstein/slap@gha/install/v1
@@ -23,6 +23,9 @@ jobs:
       with: { python-version: "${{ matrix.python-version }}" }
     - run: slap install --only ${{ matrix.project }} --no-venv-check -v
     - run: DOCSPEC_TEST_NO_DEVELOP=true slap test ${{ matrix.project }}
+      if: ${{ !endsWith(matrix.propject, '[experimental]' }}
+    - run: DOCSPEC_TEST_NO_DEVELOP=true slap test docspec-python
+      if: ${{ endsWith(matrix.propject, '[experimental]') }}
 
   changelog-update:
     name: "Insert the Pull Request URL into new changelog entries"
