@@ -54,6 +54,7 @@ def load_python_modules(
     encoding: t.Optional[str] = None,
     *,
     files: t.Optional[t.Sequence[t.Tuple[str, str]]] = None,
+    parser_version: int = 1,
 ) -> t.Iterable[Module]:
     """
     Utility function for loading multiple #Module#s from a list of Python module and package
@@ -85,9 +86,17 @@ def load_python_modules(
         except ImportError:
             if raise_:
                 raise
+    if parser_version == 1:
+        for module_name, filename in files:
+            yield parse_python_module(filename, module_name=module_name, options=options, encoding=encoding)
+    elif parser_version == 2:
+        from .parser2 import ModSpec, parse_modules
 
-    for module_name, filename in files:
-        yield parse_python_module(filename, module_name=module_name, options=options, encoding=encoding)
+        yield from parse_modules(
+            [ModSpec(Path(filename).read_text(), module_name, filename) for module_name, filename in files]
+        )
+    else:
+        assert False, f"no such parser version {parser_version!r}"
 
 
 @t.overload
@@ -96,6 +105,7 @@ def parse_python_module(
     module_name: t.Optional[str] = None,
     options: t.Optional[ParserOptions] = None,
     encoding: t.Optional[str] = None,
+    parser_version: int = 1,
 ) -> Module:
     ...
 
@@ -107,6 +117,7 @@ def parse_python_module(
     module_name: t.Optional[str] = None,
     options: t.Optional[ParserOptions] = None,
     encoding: t.Optional[str] = None,
+    parser_version: int = 1,
 ) -> Module:
     ...
 
@@ -117,6 +128,7 @@ def parse_python_module(  # type: ignore
     module_name: t.Optional[str] = None,
     options: t.Optional[ParserOptions] = None,
     encoding: t.Optional[str] = None,
+    parser_version: int = 1,
 ) -> Module:
     """
     Parses Python code of a file or file-like object and returns a #Module
@@ -133,9 +145,30 @@ def parse_python_module(  # type: ignore
             return parse_python_module(fpobj, fp, module_name, options, encoding)
 
     assert filename is not None
-    parser = Parser(options)
-    ast = parser.parse_to_ast(fp.read(), str(filename))
-    return parser.parse(ast, str(filename), module_name)
+
+    if parser_version == 1:
+        parser = Parser(options)
+        ast = parser.parse_to_ast(fp.read(), str(filename))
+        return parser.parse(ast, str(filename), module_name)
+    elif parser_version == 2:
+        # This should only be used in tests since the new parser is much better
+        # when using load_python_modules() because it will analyze the module together
+        # in the same project state, which enables us to do more precise analysis.
+        from .parser2 import ModSpec, parse_modules
+
+        return next(
+            parse_modules(
+                (
+                    ModSpec(
+                        fp.read(),
+                        module_name or "<single module>",
+                        filename=str(filename),
+                    ),
+                )
+            )
+        )
+    else:
+        assert False, f"no such parser version {parser_version!r}"
 
 
 def find_module(module_name: str, search_path: t.Optional[t.Sequence[t.Union[str, Path]]] = None) -> str:
