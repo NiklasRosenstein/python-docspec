@@ -4,6 +4,7 @@ A new parser based on the ``ast`` module, the framework ``libstatic`` and ``ast-
 from __future__ import annotations
 
 import ast
+from functools import partial
 import inspect
 import platform
 import sys
@@ -32,18 +33,34 @@ class ParserOptions:
     expand_names: bool = True
     builtins: bool = False
     dependencies: bool | int = False
+    verbosity:int = 0
     # python_version:tuple[int, int]
 
+class ParseError(Exception):
+    ...
 
 def parse_modules(modules: t.Sequence[ModSpec], options: ParserOptions | None = None) -> t.Iterator[docspec.Module]:
     options = options or ParserOptions()
-    proj = libstatic.Project(builtins=False, verbosity=-2)
+    proj = libstatic.Project(builtins=options.builtins, 
+                             verbosity=options.verbosity)
     initial_modules: dict[str, str] = {}  # libstatic may add the builtins module
     for src, modname, filename, is_package, is_stub in modules:
         initial_modules[modname] = src
-        proj.add_module(
-            ast.parse(src, filename=filename or "<unknown>"), modname, is_package=is_package, filename=filename
-        )
+        filename = filename or "<unknown>"
+        try:
+            node = ast.parse(src, filename=filename)
+        except SyntaxError as e:
+            raise ParseError(f'cannot parse file: {e}') from e
+        try:
+            proj.add_module(
+                node, 
+                modname, 
+                is_package=is_package, 
+                filename=filename
+            )
+        except libstatic.StaticException as e:
+            raise ParseError(f'cannot add module {modname!r} to the project: {e}') from e
+        
     proj.analyze_project()
     parser = Parser(proj.state, options)
     for m in proj.state.get_all_modules():
@@ -160,19 +177,30 @@ class Parser:
         self.state = state
         self.options = options
 
-    def unparse(self, expr: ast.expr) -> str:
+    def unparse(self, expr: ast.expr, is_annotation: bool = True) -> str:
         nexpr = ast.Expr(expr)
         if not self.options.expand_names:
             return t.cast(str, unparse(nexpr).rstrip("\n"))
-        expand_expr = self.state.expand_expr
+        state = self.state
+        expand_expr = state.expand_expr
+        # expand_name = partial(state.expand_name, 
+        #                       scope=next(s for s in state.get_all_enclosing_scopes(expr) 
+        #                                  if not isinstance(s, libstatic.Func)), 
+        #                       is_annotation=True)
 
         class SourceGenerator(astor.SourceGenerator):  # type:ignore[misc]
             def visit_Name(self, node: ast.Name) -> None:
-                expanded = expand_expr(node)
-                if expanded:
+                expanded: str = expand_expr(node)
+                if expanded and not expanded.endswith('*'):
                     self.write(expanded)
-                else:
-                    self.write(node.id)
+                    return
+                # not needed until the parse support unstringed type annotations.
+                # elif is_annotation:
+                #     expanded = expand_name(node.id)
+                #     if expanded and not expanded.endswith('*'):
+                #         self.write(expanded)
+                #         return
+                self.write(node.id)
 
             def visit_Str(self, node: ast.Str) -> None:
                 # astor uses tripple quoted strings :/
@@ -205,11 +233,17 @@ class Parser:
         # to sort them by source code order here.
         state = self.state
         list_of_defs: list[list[libstatic.Def]] = []
-        for defs in state.get_locals(definition).values():
+        for name, defs in state.get_locals(definition).items():
             # they can be None values here :/
             defs = list(filter(None, defs))
             if not defs:
                 continue
+            if (name == '__all__' and isinstance(definition, libstatic.Mod) and
+                self.state.get_dunder_all(definition) is not None):
+                # take advantage of the fact the __all__ values are parsed
+                # by libstatic and output the computed value here, so we leave
+                # only one definition of __all__ here and special case-it later.
+                defs = [defs[-1]]
             list_of_defs.append(defs)
         # filter unreachable defs if it doesn't remove all
         # information we have about this symbol.
@@ -366,7 +400,7 @@ class Parser:
         return None
 
     def _extract_return_type(self, returns: ast.expr | None) -> str | None:
-        return self.unparse(returns) if returns else None
+        return self.unparse(returns, is_annotation=True) if returns else None
 
     def _unparse_keywords(self, keywords: list[ast.keyword]) -> t.Iterable[str]:
         for n in keywords:
@@ -401,17 +435,23 @@ class Parser:
             location=self._parse_location(self.state.get_def(arg.node)),
             name=arg.node.arg,
             type=arg.type,
-            datatype=self.unparse(arg.node.annotation) if arg.node.annotation else None,
+            datatype=self.unparse(arg.node.annotation, is_annotation=True) if arg.node.annotation else None,
             default_value=self.unparse(arg.default) if arg.default else None,
         )
 
     def _extract_variable_value_type(self, definition: libstatic.Def) -> tuple[str | None, str | None]:
+        # special-case __all__
+        scope = self.state.get_enclosing_scope(definition)
+        if definition.name() == '__all__' and isinstance(scope, libstatic.Mod):
+            computed_value = self.state.get_dunder_all(scope)
+            if computed_value is not None:
+                return (repr(computed_value), None)
         try:
             assign = self.state.get_parent_instance(definition.node, (ast.Assign, ast.AnnAssign))
         except libstatic.StaticException:
             return None, None
         if isinstance(assign, ast.AnnAssign):
-            return (self.unparse(assign.value) if assign.value else None, self.unparse(assign.annotation))
+            return (self.unparse(assign.value) if assign.value else None, self.unparse(assign.annotation, is_annotation=True))
         try:
             value = get_stored_value(definition.node, assign)
         except libstatic.StaticException:
@@ -422,7 +462,7 @@ class Parser:
         if annotation is None:
             # because the code is unfinished, 'self.unparse(annotation)' will never run and mypy complains
             pass  # TODO: do basic type inference
-        return (self.unparse(value), self.unparse(annotation) if annotation else None)  # type:ignore
+        return (self.unparse(value), self.unparse(annotation, is_annotation=True) if annotation else None)  # type:ignore
 
     # @t.overload
     # def parse(self, definition: libstatic.Mod) -> docspec.Module:

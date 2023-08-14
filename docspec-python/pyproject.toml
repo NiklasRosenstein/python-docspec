@@ -18,12 +18,13 @@ python = "^3.7"
 docspec = "^2.2.1"
 "nr.util" = ">=0.7.0"
 black = "^23.1.0"
-libstatic = { git = "https://github.com/tristanlatr/libstatic", tag = "0.2.0.dev2", optional = true }
+beniget = { git = "https://github.com/tristanlatr/beniget", rev = "ca577df3cca73140d53a325624a0185735354b69" }
+libstatic = { git = "https://github.com/tristanlatr/libstatic", tag = "0.2.0.dev3", optional = true }
 ast_comments = { version = "^1.1.0", optional = true }
 astor = { version = ">=0.8.1", optional = true }
 
 [tool.poetry.extras]
-experimental = ["libstatic", "ast_comments", "astor"]
+experimental = ["beniget", "libstatic", "ast_comments", "astor"]
 
 [tool.poetry.dev-dependencies]
 black = "*"
