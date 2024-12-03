@@ -19,7 +19,7 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 # IN THE SOFTWARE.
 
-""" Tests the docspec loading mechanism. Expects that the `docspec` and `docspec_python` modules are installed.
+"""Tests the docspec loading mechanism. Expects that the `docspec` and `docspec_python` modules are installed.
 For a full test, they need to be installed as usual (not in develop mode).
 """
 

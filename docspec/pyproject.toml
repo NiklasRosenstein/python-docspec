@@ -15,9 +15,7 @@ python = "^3.8"
 Deprecated = "^1.2.12"
 
 [tool.poetry.dev-dependencies]
-black = "*"
-flake8 = "*"
-isort = "*"
+ruff = "*"
 mypy = "*"
 pytest = "*"
 types-Deprecated = "*"
@@ -33,15 +31,13 @@ typed = true
 check = "slap check"
 pytest = "pytest -vv"
 mypy = "mypy src/ test/"
-black = "black --check src/ test/"
-isort = "isort --check-only src/ test/"
-flake8 = "flake8 src/ test/"
+ruff = "ruff check src/ test/ && ruff format --check src/ test/"
 
 [tool.slap.run]
-fmt = "black src/ test/ && isort src/ test/"
+fmt = "ruff format src/ test/"
 
 [tool.mypy]
-python_version = "3.6"
+python_version = "3.8"
 explicit_package_bases = true
 mypy_path = ["src"]
 namespace_packages = true
@@ -55,12 +51,7 @@ warn_unreachable = true
 warn_unused_ignores = true
 check_untyped_defs = true
 
-[tool.isort]
-profile = "black"
-line_length = 120
-combine_as_imports = true
-
-[tool.black]
+[tool.ruff]
 line-length = 120
 
 [build-system]
