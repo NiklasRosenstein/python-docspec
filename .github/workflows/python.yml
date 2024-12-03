@@ -45,6 +45,8 @@ jobs:
           name: mycache
 
       - run: nix run .#docs
-      - uses: JamesIves/github-pages-deploy-action@v4
-        if: github.ref == 'refs/heads/develop'
-        with: { branch: gh-pages, folder: docs/_site, ssh-key: "${{ secrets.DEPLOY_KEY }}" }
+      - name: Publish documentation
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          personal_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/_site
