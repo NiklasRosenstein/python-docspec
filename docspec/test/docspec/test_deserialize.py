@@ -92,7 +92,7 @@ def test_serialize_deserialize(module: docspec.Module) -> None:
     assert deser == module
 
     def _deep_comparison(a: t.Any, b: t.Any, path: list[str | int], seen: set[int]) -> None:
-        assert type(a) == type(b), path
+        assert isinstance(a, type(b)), path
         if isinstance(a, weakref.ref):
             a, b = a(), b()
             assert a == b, path

@@ -9,7 +9,7 @@ homepage = "https://github.com/NiklasRosenstein/docspec/"
 packages = [{include="docspec", from="src"}]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.8"
 "databind.core" = "^4.2.6"
 "databind.json" = "^4.2.6"
 Deprecated = "^1.2.12"

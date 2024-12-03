@@ -14,10 +14,10 @@ homepage = "https://github.com/NiklasRosenstein/docspec/"
 packages = [{ include = "docspec_python", from="src" }]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.8"
 docspec = "^2.2.1"
 "nr.util" = ">=0.7.0"
-black = "^23.1.0"
+black = "^24.4.2"
 
 [tool.poetry.dev-dependencies]
 black = "*"

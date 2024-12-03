@@ -91,24 +91,22 @@ def load_python_modules(
 
 
 @t.overload
-def parse_python_module(
+def parse_python_module(  # noqa
     filename: t.Union[str, Path],
     module_name: t.Optional[str] = None,
     options: t.Optional[ParserOptions] = None,
     encoding: t.Optional[str] = None,
-) -> Module:
-    ...
+) -> Module: ...
 
 
 @t.overload
-def parse_python_module(
+def parse_python_module(  # noqa
     fp: t.TextIO,
     filename: t.Union[str, Path],
     module_name: t.Optional[str] = None,
     options: t.Optional[ParserOptions] = None,
     encoding: t.Optional[str] = None,
-) -> Module:
-    ...
+) -> Module: ...
 
 
 def parse_python_module(  # type: ignore

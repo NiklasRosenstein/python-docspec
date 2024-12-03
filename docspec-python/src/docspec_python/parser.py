@@ -107,18 +107,15 @@ V = t.TypeVar("V")
 
 
 @t.overload
-def find(predicate: t.Callable[[T], t.Any], iterable: t.Iterable[T], as_type: None = None) -> T | None:
-    ...
+def find(predicate: t.Callable[[T], t.Any], iterable: t.Iterable[T], as_type: None = None) -> T | None: ...  # noqa
 
 
 @t.overload
-def find(predicate: t.Callable[[T], t.Any], iterable: t.Iterable[T], as_type: type[V]) -> V | None:
-    ...
+def find(predicate: t.Callable[[T], t.Any], iterable: t.Iterable[T], as_type: type[V]) -> V | None: ...  # noqa
 
 
 @t.overload
-def find(predicate: None, iterable: t.Iterable[T], as_type: type[V]) -> V | None:
-    ...
+def find(predicate: None, iterable: t.Iterable[T], as_type: type[V]) -> V | None: ...  # noqa
 
 
 def find(
@@ -149,13 +146,11 @@ def find(
 
 
 @t.overload
-def get(predicate: t.Callable[[T], object], iterable: t.Iterable[T], as_type: None = None) -> T:
-    ...
+def get(predicate: t.Callable[[T], object], iterable: t.Iterable[T], as_type: None = None) -> T: ...  # noqa
 
 
 @t.overload
-def get(predicate: t.Callable[[T], object], iterable: t.Iterable[T], as_type: type[V]) -> V:
-    ...
+def get(predicate: t.Callable[[T], object], iterable: t.Iterable[T], as_type: type[V]) -> V: ...  # noqa
 
 
 def get(predicate: t.Callable[[T], object], iterable: t.Iterable[T], as_type: type[V] | None = None) -> T | V:
