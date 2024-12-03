@@ -24,7 +24,6 @@ For a full test, they need to be installed as usual (not in develop mode).
 """
 
 import os
-import site
 import typing as t
 from pathlib import Path
 
