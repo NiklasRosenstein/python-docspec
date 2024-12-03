@@ -17,12 +17,18 @@ jobs:
         python-version: ["3.8", "3.9", "3.10", "3.x"]
         project: ["docspec", "docspec-python"]
     steps:
-    - uses: actions/checkout@v3
-    - uses: NiklasRosenstein/slap@gha/install/v1
-    - uses: actions/setup-python@v3
-      with: { python-version: "${{ matrix.python-version }}" }
-    - run: slap install --only ${{ matrix.project }} --no-venv-check -v
-    - run: DOCSPEC_TEST_NO_DEVELOP=true slap test ${{ matrix.project }}
+      - uses: actions/checkout@v4
+      - name: Check Nix flake Nixpkgs inputs
+        uses: DeterminateSystems/flake-checker-action@main
+      - uses: cachix/install-nix-action@v30
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+      - uses: cachix/cachix-action@v15
+        with:
+          name: mycache
+
+      - run: nix run .#lint
+      - run: DOCSPEC_TEST_NO_DEVELOP=true nix run .#test
 
   # changelog-update:
   #   name: "Insert the Pull Request URL into new changelog entries"
@@ -36,10 +42,17 @@ jobs:
   docs:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: NiklasRosenstein/slap@gha/install/v1
-    - run: slap install --no-venv-check --only-extras docs
-    - run: slap run --no-venv-check docs:build
-    - uses: JamesIves/github-pages-deploy-action@4.1.4
-      if: github.ref == 'refs/heads/develop'
-      with: { branch: gh-pages, folder: docs/_site, ssh-key: "${{ secrets.DEPLOY_KEY }}" }
+      - uses: actions/checkout@v4
+      - name: Check Nix flake Nixpkgs inputs
+        uses: DeterminateSystems/flake-checker-action@main
+      - uses: cachix/install-nix-action@v30
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+      - uses: cachix/cachix-action@v15
+        with:
+          name: mycache
+
+      - run: nix run .#docs
+      - uses: JamesIves/github-pages-deploy-action@4.1.4
+        if: github.ref == 'refs/heads/develop'
+        with: { branch: gh-pages, folder: docs/_site, ssh-key: "${{ secrets.DEPLOY_KEY }}" }

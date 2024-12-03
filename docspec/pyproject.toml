@@ -1,40 +1,30 @@
-[tool.poetry]
+[project]
 name = "docspec"
 version = "2.2.1"
 description = "Docspec is a JSON object specification for representing API documentation of programming languages."
-authors = ["Niklas Rosenstein <rosensteinniklas@gmail.com>"]
-license = "MIT"
 readme = "readme.md"
-homepage = "https://github.com/NiklasRosenstein/docspec/"
-packages = [{include="docspec", from="src"}]
+requires-python = ">=3.8"
+dependencies = [
+    "databind-core>=4.2.6",
+    "databind-json>=4.2.6",
+    "deprecated>=1.2.12",
+]
+authors = [{ name = "Niklas Rosenstein", email = "rosensteinniklas@gmail.com" }]
 
-[tool.poetry.dependencies]
-python = "^3.8"
-"databind.core" = "^4.2.6"
-"databind.json" = "^4.2.6"
-Deprecated = "^1.2.12"
-
-[tool.poetry.dev-dependencies]
-ruff = "*"
-mypy = "*"
-pytest = "*"
-types-Deprecated = "*"
-types-termcolor = "*"
-
-[tool.poetry.scripts]
+[project.scripts]
 docspec = "docspec.__main__:main"
 
-[tool.slap]
-typed = true
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
-[tool.slap.test]
-check = "slap check"
-pytest = "pytest -vv"
-mypy = "mypy src/ test/"
-ruff = "ruff check src/ test/ && ruff format --check src/ test/"
-
-[tool.slap.run]
-fmt = "ruff format src/ test/"
+[tool.uv]
+dev-dependencies = [
+    "mypy>=1.13.0",
+    "pytest>=8.3.4",
+    "types-deprecated>=1.2.15.20241117",
+    "types-termcolor>=1.1.6.2",
+]
 
 [tool.mypy]
 python_version = "3.8"
@@ -53,7 +43,3 @@ check_untyped_defs = true
 
 [tool.ruff]
 line-length = 120
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
