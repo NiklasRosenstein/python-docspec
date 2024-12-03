@@ -18,7 +18,12 @@
           ( cd docspec-python/ && ${pkgs.uv}/bin/uv run pytest . )
         '';
 
-        packages.docs = pkgs.writeShellScriptBin "docs" ''
+        packages.docs = let
+          slap = pkgs.writeShellScriptBin "slap" ''
+            ${pkgs.uv}/bin/uv tool run --from slap-cli slap -- "$@"
+          '';
+        in pkgs.writeShellScriptBin "docs" ''
+          export PATH="${slap}/bin:$PATH"
           ( cd docs/ && ${pkgs.uv}/bin/uv run novella --base-url docspec/ "$@" )
         '';
 
