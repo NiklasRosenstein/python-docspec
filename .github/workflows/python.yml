@@ -29,15 +29,6 @@ jobs:
       - run: nix run .#lint
       - run: DOCSPEC_TEST_NO_DEVELOP=true nix run .#test
 
-  # changelog-update:
-  #   name: "Insert the Pull Request URL into new changelog entries"
-  #   runs-on: ubuntu-latest
-  #   if: github.event_name == 'pull_request'
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - uses: NiklasRosenstein/slap@gha/changelog/update/v2
-  #       with: { version: '*' }
-
   docs:
     runs-on: ubuntu-latest
     steps:
