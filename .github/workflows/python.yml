@@ -30,6 +30,8 @@ jobs:
       - run: DOCSPEC_TEST_NO_DEVELOP=true nix run .#test
 
   docs:
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -43,6 +45,6 @@ jobs:
           name: mycache
 
       - run: nix run .#docs
-      - uses: JamesIves/github-pages-deploy-action@4.1.4
+      - uses: JamesIves/github-pages-deploy-action@v4
         if: github.ref == 'refs/heads/develop'
         with: { branch: gh-pages, folder: docs/_site, ssh-key: "${{ secrets.DEPLOY_KEY }}" }
