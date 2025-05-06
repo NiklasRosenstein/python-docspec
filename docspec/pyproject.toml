@@ -1,6 +1,10 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
 [project]
 name = "docspec"
-version = "2.2.1"
+version = "2.2.2"
 description = "Docspec is a JSON object specification for representing API documentation of programming languages."
 readme = "readme.md"
 requires-python = ">=3.8"
@@ -13,10 +17,6 @@ authors = [{ name = "Niklas Rosenstein", email = "rosensteinniklas@gmail.com" }]
 
 [project.scripts]
 docspec = "docspec.__main__:main"
-
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
 
 [tool.uv]
 dev-dependencies = [

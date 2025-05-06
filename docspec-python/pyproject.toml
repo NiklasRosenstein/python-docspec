@@ -1,7 +1,10 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [project]
 name = "docspec-python"
-version = "2.2.1"
+version = "2.2.2"
 description = "A parser based on lib2to3 producing docspec data from Python source code."
 readme = "readme.md"
 requires-python = ">=3.8"
@@ -14,10 +17,6 @@ authors = [{ name = "Niklas Rosenstein", email = "rosensteinniklas@gmail.com" }]
 
 [project.scripts]
 docspec-python = "docspec_python.__main__:main"
-
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
 
 [tool.uv]
 dev-dependencies = [
