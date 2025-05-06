@@ -494,46 +494,10 @@
 
 <h1 id="docspec-python-changelog">Docspec-Python Changelog</h1>
 <div class="highlight"><pre><span></span><code>$ cd ../docspec-python &amp;&amp; slap changelog format --all --markdown  # exited with return code 1
-Installed 61 packages in 47ms
+Installed 60 packages in 30ms
 [90mCould not find a [34mslap.toml[0m configuration file in the current directory or any of its parents. Assuming that the current directory is the Slap repository root.[0m
-Traceback (most recent call last):
-  File &quot;/home/runner/.cache/uv/archive-v0/G1OAroNUg9I84AdefkfmI/bin/slap&quot;, line 10, in &lt;module&gt;
-    sys.exit(main())
-  File &quot;/home/runner/.cache/uv/archive-v0/G1OAroNUg9I84AdefkfmI/lib/python3.10/site-packages/slap/__main__.py&quot;, line 4, in main
-    Application().run()
-  File &quot;/home/runner/.cache/uv/archive-v0/G1OAroNUg9I84AdefkfmI/lib/python3.10/site-packages/slap/application.py&quot;, line 261, in run
-    self.cleo.run()
-  File &quot;/home/runner/.cache/uv/archive-v0/G1OAroNUg9I84AdefkfmI/lib/python3.10/site-packages/cleo/application.py&quot;, line 324, in run
-    self._configure_io(io)
-  File &quot;/home/runner/.cache/uv/archive-v0/G1OAroNUg9I84AdefkfmI/lib/python3.10/site-packages/slap/application.py&quot;, line 146, in _configure_io
-    self._init_callback(io)
-  File &quot;/home/runner/.cache/uv/archive-v0/G1OAroNUg9I84AdefkfmI/lib/python3.10/site-packages/slap/application.py&quot;, line 256, in _cleo_init
-    self.load_plugins()
-  File &quot;/home/runner/.cache/uv/archive-v0/G1OAroNUg9I84AdefkfmI/lib/python3.10/site-packages/slap/application.py&quot;, line 252, in load_plugins
-    plugin_config = plugin.load_configuration(self)
-  File &quot;/home/runner/.cache/uv/archive-v0/G1OAroNUg9I84AdefkfmI/lib/python3.10/site-packages/slap/ext/application/changelog.py&quot;, line 674, in load_configuration
-    return get_changelog_manager(app.repository, app.main_project())
-  File &quot;/home/runner/.cache/uv/archive-v0/G1OAroNUg9I84AdefkfmI/lib/python3.10/site-packages/slap/util/once.py&quot;, line 22, in __call__
-    self._value = self._supplier()
-  File &quot;/home/runner/.cache/uv/archive-v0/G1OAroNUg9I84AdefkfmI/lib/python3.10/site-packages/slap/application.py&quot;, line 208, in _get_main_project
-    for project in self.repository.projects():
-  File &quot;/home/runner/.cache/uv/archive-v0/G1OAroNUg9I84AdefkfmI/lib/python3.10/site-packages/slap/util/once.py&quot;, line 22, in __call__
-    self._value = self._supplier()
-  File &quot;/home/runner/.cache/uv/archive-v0/G1OAroNUg9I84AdefkfmI/lib/python3.10/site-packages/slap/repository.py&quot;, line 128, in _get_projects
-    return sorted(handler.get_projects(self), key=lambda p: p.id)
-  File &quot;/home/runner/.cache/uv/archive-v0/G1OAroNUg9I84AdefkfmI/lib/python3.10/site-packages/slap/repository.py&quot;, line 128, in &lt;lambda&gt;
-    return sorted(handler.get_projects(self), key=lambda p: p.id)
-  File &quot;/home/runner/.cache/uv/archive-v0/G1OAroNUg9I84AdefkfmI/lib/python3.10/site-packages/slap/project.py&quot;, line 204, in id
-    return self.dist_name() or self.directory.resolve().name
-  File &quot;/home/runner/.cache/uv/archive-v0/G1OAroNUg9I84AdefkfmI/lib/python3.10/site-packages/slap/util/once.py&quot;, line 22, in __call__
-    self._value = self._supplier()
-  File &quot;/home/runner/.cache/uv/archive-v0/G1OAroNUg9I84AdefkfmI/lib/python3.10/site-packages/slap/project.py&quot;, line 153, in _get_dist_name
-    return self.handler().get_dist_name(self)
-  File &quot;/home/runner/.cache/uv/archive-v0/G1OAroNUg9I84AdefkfmI/lib/python3.10/site-packages/slap/util/once.py&quot;, line 22, in __call__
-    self._value = self._supplier()
-  File &quot;/home/runner/.cache/uv/archive-v0/G1OAroNUg9I84AdefkfmI/lib/python3.10/site-packages/slap/project.py&quot;, line 123, in _get_project_handler
-    raise RuntimeError(f&quot;unable to identify project handler for {self!r}&quot;)
-RuntimeError: unable to identify project handler for Project(directory=&quot;/home/runner/work/python-docspec/python-docspec/docspec-python&quot;)
+
+Too many arguments to &quot;changelog format&quot; command, expected arguments &quot;version&quot;
 </code></pre></div>
 
 
