@@ -11,7 +11,7 @@ requires-python = ">=3.8"
 dependencies = [
     "black>=24.8.0",
     "docspec==2.2.1",
-    "nr-util>=0.8.12",
+    "nr.util>=0.8.12",
 ]
 authors = [{ name = "Niklas Rosenstein", email = "rosensteinniklas@gmail.com" }]
 
