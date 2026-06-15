@@ -190,7 +190,7 @@ def iter_package_files(
         if not parent_dir.is_dir():
             continue
         for item in recurse_directory(parent_dir):
-            if item.suffix == ".py":
+            if item.suffix in (".py", ".pyi"):
                 parts = item.with_suffix("").relative_to(parent_dir).parts
                 if parts[-1] == "__init__":
                     parts = parts[:-1]
@@ -235,8 +235,9 @@ def discover(directory: t.Union[str, Path]) -> t.Iterable[DiscoveryResult]:
     #   if we're looking at a namespace package. If we do, continue recursively.
 
     for name in os.listdir(directory):
-        if name.endswith(".py") and name.count(".") == 1:
-            yield DiscoveryResult.Module(name[:-3], os.path.join(directory, name))
+        if (name.endswith(".py") or name.endswith(".pyi")) and name.count(".") == 1:
+            stem = name[:-4] if name.endswith(".pyi") else name[:-3]
+            yield DiscoveryResult.Module(stem, os.path.join(directory, name))
         else:
             full_path = os.path.join(directory, name, "__init__.py")
             if os.path.isfile(full_path):
