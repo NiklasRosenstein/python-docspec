@@ -190,8 +190,11 @@ def iter_package_files(
         if not parent_dir.is_dir():
             continue
         for item in recurse_directory(parent_dir):
-            if item.suffix == ".py":
-                parts = item.with_suffix("").relative_to(parent_dir).parts
+            if item.suffix in (".py", ".pyi"):
+                # Use item.stem to correctly strip both .py and .pyi suffixes.
+                # item.with_suffix("") would turn foo.pyi into foo.py, not foo.
+                stem_path = item.parent / item.stem
+                parts = stem_path.relative_to(parent_dir).parts
                 if parts[-1] == "__init__":
                     parts = parts[:-1]
                 module_name = ".".join((package_name,) + parts)
@@ -235,11 +238,13 @@ def discover(directory: t.Union[str, Path]) -> t.Iterable[DiscoveryResult]:
     #   if we're looking at a namespace package. If we do, continue recursively.
 
     for name in os.listdir(directory):
-        if name.endswith(".py") and name.count(".") == 1:
-            yield DiscoveryResult.Module(name[:-3], os.path.join(directory, name))
+        if (name.endswith(".py") or name.endswith(".pyi")) and name.count(".") == 1:
+            stem = name[:-4] if name.endswith(".pyi") else name[:-3]
+            yield DiscoveryResult.Module(stem, os.path.join(directory, name))
         else:
             full_path = os.path.join(directory, name, "__init__.py")
-            if os.path.isfile(full_path):
+            full_path_pyi = os.path.join(directory, name, "__init__.pyi")
+            if os.path.isfile(full_path) or os.path.isfile(full_path_pyi):
                 yield DiscoveryResult.Package(name, os.path.join(directory, name))
 
 
